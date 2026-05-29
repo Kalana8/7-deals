@@ -4355,46 +4355,49 @@ export default function App() {
               const commentsList = matchingCommunityPost ? matchingCommunityPost.comments : [];
 
               return (
-                <div className="space-y-8 animate-in fade-in duration-300 max-w-5xl mx-auto">
-                  <div className="flex items-center gap-2 text-sm text-slate-500 font-semibold overflow-hidden max-w-full whitespace-nowrap">
+                <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-300 max-w-5xl mx-auto">
+                  {/* Breadcrumbs */}
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 font-bold overflow-hidden max-w-full whitespace-nowrap select-none">
                     <a href="#home" className="hover:text-slate-800 shrink-0">Home</a>
                     <span className="shrink-0">/</span>
                     <a href="#deals" className="hover:text-slate-800 shrink-0">Deals</a>
                     <span className="shrink-0">/</span>
-                    <span className="text-slate-800 font-extrabold truncate">{deal.title}</span>
+                    <span className="text-slate-700 font-extrabold truncate">{deal.title}</span>
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
 
                     {/* Detail block */}
                     <div className="lg:col-span-2 space-y-6">
-                      <div className="bg-white rounded-[8px] border border-[#e8e8e8] p-6 sm:p-8 space-y-6 shadow-sm">
+                      <div className="bg-white rounded-2xl border border-slate-200/70 p-4 sm:p-8 space-y-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
 
-                        <div className="flex flex-wrap items-center justify-between gap-4">
+                        {/* Logo, Brand, and Category row */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
                           <div className="flex items-center gap-3">
-                            <div className={`w-12 h-12 rounded-xl ${deal.logoBg} text-white flex items-center justify-center font-bold text-lg shadow-sm border border-[#e8e8e8]/10`}>
+                            <div className={`w-14 h-14 rounded-2xl ${deal.logoBg} text-white flex items-center justify-center font-black text-xl shadow-sm border border-[#e8e8e8]/10`}>
                               {deal.logo}
                             </div>
                             <div>
-                              <h3 className="font-bold text-slate-900 text-lg leading-tight">{deal.brand}</h3>
-                              <span className="text-xs text-[#047c1f] font-bold flex items-center gap-1">
+                              <h3 className="font-extrabold text-slate-900 text-lg sm:text-xl leading-tight">{deal.brand}</h3>
+                              <span className="text-[11px] text-[#047c1f] font-extrabold flex items-center gap-1 mt-0.5">
                                 <Check className="w-3.5 h-3.5" /> Verified partner store
                               </span>
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#e6f2e8] text-[#047c1f] border border-[#047c1f]/10">
                               {deal.category}
                             </span>
-                            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#fff9e6] text-[#b38600] border border-[#fdc800]/20 flex items-center gap-1">
+                            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#fff9e6] text-amber-800 border border-amber-200/40 flex items-center gap-1">
                               <Calendar className="w-3.5 h-3.5" /> {deal.state} Region
                             </span>
                           </div>
                         </div>
 
-                        <div className="space-y-2">
-                          <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-[#0d0d0d] leading-snug">
+                        {/* Title & Description */}
+                        <div className="space-y-2.5">
+                          <h1 className="text-xl sm:text-3xl font-display font-extrabold text-[#0d0d0d] leading-snug">
                             {deal.title}
                           </h1>
                           <p className="text-sm text-slate-500 font-medium leading-relaxed">
@@ -4403,18 +4406,18 @@ export default function App() {
                         </div>
 
                         {/* Prices Voucher strip */}
-                        <div className="p-6 bg-slate-50 rounded-[8px] border border-dashed border-[#e8e8e8] flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="p-4 sm:p-6 bg-gradient-to-r from-slate-50 to-slate-100/50 rounded-xl sm:rounded-2xl border border-dashed border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
                           <div className="text-center sm:text-left">
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Sale Price (AUD)</p>
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Sale Price (AUD)</p>
                             <div className="flex items-baseline gap-2 mt-1 justify-center sm:justify-start">
-                              <span className="text-3xl font-display font-extrabold text-[#047c1f]">${deal.salePrice.toFixed(2)} AUD</span>
+                              <span className="text-2xl sm:text-3xl font-display font-black text-[#047c1f]">${deal.salePrice.toFixed(2)} AUD</span>
                               <span className="text-sm text-slate-400 line-through font-semibold">${deal.originalPrice.toFixed(2)}</span>
                             </div>
                           </div>
 
                           <button
                             onClick={(e) => handleCopyCode(deal.code, e)}
-                            className="w-full sm:w-auto px-6 py-3.5 rounded-[8px] bg-[#fdc800] hover:bg-[#e6b800] text-[#0d0d0d] font-mono font-bold text-lg flex items-center justify-center gap-2.5 transition-colors cursor-pointer shadow-md shadow-[#fdc800]/10 border border-[#e6b800]/30"
+                            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#fdc800] hover:bg-[#e6b800] active:scale-98 text-[#0d0d0d] font-mono font-black text-lg flex items-center justify-center gap-2.5 transition-all cursor-pointer shadow-md shadow-[#fdc800]/10 border border-[#e6b800]/30"
                           >
                             {deal.code} <Copy className="w-5 h-5" />
                           </button>
@@ -4423,11 +4426,11 @@ export default function App() {
                         <DetailCountdown expiryDays={deal.expiry} isProduct={deal.isProduct} />
 
                         {/* Australian Terms and conditions */}
-                        <div className="space-y-3 bg-slate-50/50 p-4.5 rounded-[8px] border border-[#e8e8e8]">
-                          <h4 className="font-bold text-slate-800 text-sm flex items-center gap-1.5">
-                            <Info className="w-4 h-4 text-slate-400" /> Voucher Information
+                        <div className="space-y-3 bg-slate-50/70 p-4 sm:p-5 rounded-xl border border-slate-200/50">
+                          <h4 className="font-extrabold text-slate-800 text-sm flex items-center gap-1.5">
+                            <Info className="w-4 h-4 text-slate-450" /> Voucher Information
                           </h4>
-                          <ul className="list-disc pl-5 text-xs text-slate-500 space-y-1.5 font-semibold">
+                          <ul className="list-disc pl-5 text-xs text-slate-500 space-y-2 font-medium">
                             <li>Valid at all official {deal.brand} outlets in Australia and web checkouts.</li>
                             <li>Terms & conditions of the merchant apply at points of sale.</li>
                             <li>Pricing structured in Australian Dollars (AUD).</li>
@@ -4435,17 +4438,18 @@ export default function App() {
                           </ul>
                         </div>
 
-                        <div className="flex gap-3 pt-4 border-t border-[#e8e8e8]">
+                        {/* Save & Grab actions */}
+                        <div className="flex gap-3 pt-5 border-t border-slate-100">
                           <button
                             onClick={(e) => handleSaveDeal(deal.id, e)}
-                            className={`px-5 py-3.5 rounded-[8px] border text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer ${savedDeals.has(deal.id) ? 'bg-[#e6f2e8] border-[#047c1f]/30 text-[#047c1f]' : 'bg-white hover:bg-slate-50 border-[#e8e8e8] text-slate-700'}`}
+                            className={`px-5 py-3.5 rounded-xl border text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer ${savedDeals.has(deal.id) ? 'bg-[#e6f2e8] border-[#047c1f]/30 text-[#047c1f]' : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'}`}
                           >
                             <Tag className="w-4 h-4" /> {savedDeals.has(deal.id) ? 'Saved' : 'Save Deal'}
                           </button>
 
                           <button
                             onClick={() => handleGrabDeal(deal)}
-                            className="flex-1 px-6 py-3.5 rounded-[8px] bg-[#047c1f] hover:bg-[#035a16] text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-lg shadow-[#047c1f]/10"
+                            className="flex-1 px-6 py-3.5 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-extrabold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-lg shadow-[#047c1f]/10"
                           >
                             Grab Deal & Check Out <ArrowRight className="w-4 h-4" />
                           </button>
@@ -4454,28 +4458,28 @@ export default function App() {
                       </div>
 
                       {/* Comments section */}
-                      <div className="bg-white rounded-[8px] border border-[#e8e8e8] p-6 sm:p-8 space-y-6 shadow-sm">
-                        <h3 className="text-xl font-display font-extrabold text-slate-900">Community Comments ({commentsList.length})</h3>
+                      <div className="bg-white rounded-2xl border border-slate-200/70 p-4 sm:p-8 space-y-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                        <h3 className="text-lg sm:text-xl font-display font-extrabold text-slate-900">Community Comments ({commentsList.length})</h3>
 
                         {commentsList.length === 0 ? (
                           <div className="py-8 text-center text-slate-400 space-y-2">
                             <MessageSquare className="w-8 h-8 mx-auto stroke-1" />
-                            <p className="text-sm font-bold">No discussions yet</p>
+                            <p className="text-sm font-bold text-slate-700">No discussions yet</p>
                             <p className="text-xs text-slate-400">Be the first to share your verification experience, mate!</p>
                           </div>
                         ) : (
                           <div className="space-y-4">
                             {commentsList.map((c, i) => (
-                              <div key={i} className="p-4 rounded-[8px] bg-slate-50 border border-[#e8e8e8] flex gap-3">
-                                <div className="w-8 h-8 rounded-full bg-[#047c1f] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                              <div key={i} className="p-3.5 rounded-xl bg-slate-50/70 border border-slate-200/40 flex gap-3">
+                                <div className="w-8 h-8 rounded-full bg-[#047c1f]/10 text-[#047c1f] border border-[#047c1f]/20 flex items-center justify-center font-extrabold text-xs shrink-0">
                                   {c.user.substring(0, 2).toUpperCase()}
                                 </div>
                                 <div className="space-y-1">
                                   <div className="flex items-center gap-2">
                                     <span className="text-xs font-bold text-slate-800">{c.user}</span>
-                                    <span className="text-[10px] text-slate-400 font-semibold">Verified Buyer</span>
+                                    <span className="text-[9px] bg-slate-200/50 text-slate-500 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider scale-90">Buyer</span>
                                   </div>
-                                  <p className="text-sm text-slate-600 font-medium">{c.comment}</p>
+                                  <p className="text-sm text-slate-655 font-medium leading-relaxed">{c.comment}</p>
                                 </div>
                               </div>
                             ))}
@@ -4503,18 +4507,18 @@ export default function App() {
                               <textarea
                                 name="commentText"
                                 placeholder="Comment on this deal... (Is it working? Store stock level?)"
-                                className="w-full p-3 bg-slate-50 hover:bg-slate-100/50 focus:bg-white text-base border border-[#e8e8e8] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#047c1f]/20 font-medium"
+                                className="w-full p-3.5 bg-slate-50 hover:bg-slate-100/50 focus:bg-white text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#047c1f]/20 font-medium"
                                 rows="3"
                               ></textarea>
                               <button
                                 type="submit"
-                                className="px-4 py-2 rounded-[8px] bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer"
+                                className="px-4.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-[11px] sm:text-xs transition-colors cursor-pointer"
                               >
                                 Post Comment
                               </button>
                             </form>
                           ) : (
-                            <div className="p-4 rounded-[8px] bg-slate-50 border border-[#e8e8e8] text-center">
+                            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/60 text-center">
                               <p className="text-sm text-slate-500 font-bold">Want to join the discussion?</p>
                               <button
                                 onClick={() => { setAuthTab('login'); setLoginModalOpen(true); }}
@@ -4531,7 +4535,7 @@ export default function App() {
 
                     {/* Related deals sidebar */}
                     <div className="space-y-6">
-                      <div className="bg-white rounded-[8px] border border-[#e8e8e8] p-6 shadow-sm space-y-4">
+                      <div className="bg-white rounded-2xl border border-slate-200/70 p-5 sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)] space-y-4">
                         <h3 className="font-display font-extrabold text-[#0d0d0d] text-lg">Related Vouchers</h3>
 
                         <div className="flex flex-col gap-3">
@@ -4539,7 +4543,7 @@ export default function App() {
                             <div
                               key={rel.id}
                               onClick={() => window.location.hash = `#deal/${rel.id}`}
-                              className="p-3.5 rounded-[8px] border border-[#e8e8e8] hover:border-[#047c1f]/35 bg-slate-50/50 hover:bg-white transition-all cursor-pointer flex gap-3 items-center"
+                              className="p-3 rounded-xl border border-slate-150 hover:border-[#047c1f]/30 hover:shadow-sm bg-slate-50/40 hover:bg-white transition-all cursor-pointer flex gap-3 items-center"
                             >
                               <div className={`w-9 h-9 rounded-lg ${rel.logoBg} text-white font-bold text-xs flex items-center justify-center shrink-0`}>
                                 {rel.logo}
