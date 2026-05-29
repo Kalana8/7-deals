@@ -2668,14 +2668,8 @@ export default function App() {
       {/* Mobile Navbar (visible only below sm:) */}
       {!isConsumerDashboard && !isAdminDashboard && !isModeratorDashboard && (
         <header className={`fixed left-0 right-0 top-0 h-[56px] z-[1000] bg-white border-b border-slate-200 shadow-sm flex sm:hidden items-center justify-between px-3 gap-2 select-none ${communityPanelOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-200`}>
-          {/* Left: Hamburger & Logo */}
+          {/* Left: Logo */}
           <div className="flex items-center gap-1.5 shrink-0">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="w-9 h-9 flex items-center justify-center text-slate-650 hover:text-slate-900 rounded-lg hover:bg-slate-100 cursor-pointer border-none bg-transparent"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
             <a href="#home" className="flex items-center gap-1 shrink-0">
               <div className="w-7 h-7 rounded-lg bg-[#047c1f] flex items-center justify-center text-white font-display font-extrabold text-sm shadow shadow-[#047c1f]/20">
                 <Tag className="w-3.5 h-3.5 text-[#fdc800]" />
