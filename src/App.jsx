@@ -1498,6 +1498,7 @@ export default function App() {
   // Mobile Menu state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileDashboardMenuOpen, setMobileDashboardMenuOpen] = useState(false);
+  const [mobileAdminMenuOpen, setMobileAdminMenuOpen] = useState(false);
 
   // Selected deal for detail modal
   const [selectedDeal, setSelectedDeal] = useState(null);
@@ -2169,6 +2170,7 @@ export default function App() {
       setCurrentUser(DEMO_USERS.admin);
       triggerToast('Administrator auth granted! Control panel unlocked.');
       setLoginModalOpen(false);
+      window.location.hash = '#admin';
     } else if (authEmail === 'mod@demo.com') {
       setCurrentUser(DEMO_USERS.moderator);
       triggerToast('🛡️ Moderator auth granted! Control console unlocked.');
@@ -7567,58 +7569,172 @@ export default function App() {
                     </div>
                   </aside>
 
+                  {/* Mobile Admin Navigation Sidebar Drawer (visible only on mobile) */}
+                  {mobileAdminMenuOpen && (
+                    <div className="fixed inset-0 z-[1100] flex sm:hidden">
+                      {/* Backdrop */}
+                      <div
+                        onClick={() => setMobileAdminMenuOpen(false)}
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+                      />
+                      
+                      {/* Drawer Content */}
+                      <div className="relative flex w-full max-w-[280px] flex-col bg-surface-container py-6 px-4 shadow-2xl z-10 animate-in slide-in-from-left duration-300">
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-8 pb-4 border-b border-outline-variant/10">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
+                              <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+                            </div>
+                            <div>
+                              <h2 className="text-base font-bold text-on-surface leading-tight">7deals</h2>
+                              <p className="text-[9px] text-on-surface-variant uppercase tracking-wider font-semibold">Admin Console</p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => setMobileAdminMenuOpen(false)}
+                            className="p-1 rounded-full text-on-surface-variant hover:bg-surface-variant/40 transition-colors border-none bg-transparent cursor-pointer"
+                          >
+                            <span className="material-symbols-outlined text-[20px]">close</span>
+                          </button>
+                        </div>
+
+                        {/* Navigation links */}
+                        <nav className="flex-1 space-y-1 overflow-y-auto no-scrollbar">
+                          {[
+                            { key: 'overview', label: 'Overview', icon: 'dashboard' },
+                            { key: 'users', label: 'Partner Accounts', icon: 'store' },
+                            { key: 'moderators', label: 'Moderators', icon: 'shield' },
+                            { key: 'banner', label: 'Top Banner', icon: 'campaign' },
+                            { key: 'featured', label: 'Featured Cards', icon: 'star' },
+                            { key: 'categories', label: 'Categories', icon: 'sell' },
+                            { key: 'deals', label: 'All Deals', icon: 'payments' },
+                            { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
+                            { key: 'notifications', label: 'Notifications', icon: 'notifications' },
+                          ].map((tab) => (
+                            <button
+                              key={tab.key}
+                              onClick={() => {
+                                setAdminTab(tab.key);
+                                setMobileAdminMenuOpen(false);
+                              }}
+                              className={`w-full rounded-xl px-4 py-3 flex items-center justify-between transition-all active:scale-98 text-left font-bold text-sm cursor-pointer border-none ${
+                                adminTab === tab.key
+                                  ? 'bg-[#047c1f] text-white shadow-sm shadow-[#047c1f]/20'
+                                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
+                              }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-lg leading-none">{tab.icon}</span>
+                                <span>{tab.label}</span>
+                              </div>
+                              {tab.key === 'users' && (
+                                <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${adminTab === tab.key ? 'bg-white text-[#047c1f]' : 'bg-primary-container text-on-primary-container'}`}>
+                                  {adminUsers.length}
+                                </span>
+                              )}
+                              {tab.key === 'moderators' && (
+                                <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${adminTab === tab.key ? 'bg-white text-[#047c1f]' : 'bg-surface-container-high text-on-surface-variant'}`}>
+                                  {adminModerators.length}
+                                </span>
+                              )}
+                            </button>
+                          ))}
+                        </nav>
+
+                        {/* Bottom Actions */}
+                        <div className="mt-auto space-y-2 pt-4 border-t border-outline-variant/10">
+                          <a
+                            href="#home"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setCurrentRoute('#home');
+                              setMobileAdminMenuOpen(false);
+                            }}
+                            className="w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 rounded-xl px-4 py-2.5 flex items-center gap-3 transition-all text-left font-bold text-sm cursor-pointer border-none bg-transparent decoration-none"
+                          >
+                            <span className="material-symbols-outlined text-lg leading-none">home</span>
+                            <span>Back to Site</span>
+                          </a>
+                          
+                          <button
+                            onClick={() => {
+                              handleLogout();
+                              setMobileAdminMenuOpen(false);
+                            }}
+                            className="w-full text-error hover:bg-error/10 rounded-xl px-4 py-2.5 flex items-center gap-3 transition-all text-left font-bold text-sm cursor-pointer border-none bg-transparent"
+                          >
+                            <span className="material-symbols-outlined text-lg leading-none">logout</span>
+                            <span>Log Out</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <main className="w-full sm:ml-64 flex-1 min-h-screen flex flex-col bg-background overflow-y-auto pb-16 lg:pb-0">
                     
                     {/* TopNavBar */}
-                    <header className="w-full sticky top-0 z-40 bg-surface flex justify-between items-center px-4 sm:px-8 py-3 sm:py-4 border-b border-outline-variant/30 shadow-sm">
-                      <div className="text-left">
-                        <h1 className="text-xl font-headline font-bold text-primary flex items-center gap-2">
-                          <span className="material-symbols-outlined">admin_panel_settings</span>
-                          {adminTab === 'overview' ? 'Dashboard Overview' :
-                           adminTab === 'users' ? 'Partner Accounts' :
-                           adminTab === 'moderators' ? 'Moderator Management' :
-                           adminTab === 'banner' ? 'Top Banner Manager' :
-                           adminTab === 'featured' ? 'Featured Placements' :
-                           adminTab === 'categories' ? 'Category Manager' :
-                           adminTab === 'deals' ? 'All Deals' :
-                           adminTab === 'stock' ? 'Stock Manager' :
-                           'System Notifications'}
-                        </h1>
-                        <p className="text-xs text-on-surface-variant mt-1 font-semibold">
-                          7deals Admin Control Console · Active Administrator: {currentUser.name}
-                        </p>
+                    <header className="w-full sticky top-0 z-40 bg-surface flex justify-between items-center px-3 sm:px-8 py-3 sm:py-4 border-b border-outline-variant/30 shadow-sm">
+                      <div className="flex items-center gap-2 text-left">
+                        {/* Hamburger menu for mobile drawer */}
+                        <button
+                          onClick={() => setMobileAdminMenuOpen(true)}
+                          className="flex sm:hidden items-center justify-center p-1.5 text-on-surface-variant hover:bg-surface-variant/20 rounded-lg transition-colors border-none bg-transparent cursor-pointer"
+                        >
+                          <span className="material-symbols-outlined text-[22px]">menu</span>
+                        </button>
+                        <div>
+                          <h1 className="text-sm sm:text-xl font-headline font-bold text-primary flex items-center gap-1 sm:gap-2 truncate max-w-[150px] sm:max-w-none">
+                            <span className="material-symbols-outlined text-base sm:text-2xl shrink-0">admin_panel_settings</span>
+                            <span className="truncate">
+                              {adminTab === 'overview' ? 'Overview' :
+                               adminTab === 'users' ? 'Partners' :
+                               adminTab === 'moderators' ? 'Mods' :
+                               adminTab === 'banner' ? 'Banner' :
+                               adminTab === 'featured' ? 'Featured' :
+                               adminTab === 'categories' ? 'Categories' :
+                               adminTab === 'deals' ? 'All Deals' :
+                               adminTab === 'stock' ? 'Stock' :
+                               'Notifications'}
+                            </span>
+                          </h1>
+                          <p className="hidden sm:block text-xs text-on-surface-variant mt-1 font-semibold">
+                            7deals Admin Control Console · Active Administrator: {currentUser.name}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-4">
-                        <span className="inline-flex items-center gap-1 bg-[#fdc800] text-black px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider select-none">
-                          🔑 ADMIN ACCESS
+                      <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                        <span className="inline-flex items-center gap-1 bg-[#fdc800] text-black px-2 py-0.5 sm:px-3 sm:py-1 rounded-full font-bold text-[9px] sm:text-[10px] uppercase tracking-wider select-none">
+                          🔑 ADMIN
                         </span>
-                        <div className="w-10 h-10 rounded-full bg-primary text-white font-extrabold text-sm flex items-center justify-center border-2 border-primary-container uppercase select-none">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary text-white font-extrabold text-xs sm:text-sm flex items-center justify-center border-2 border-primary-container uppercase select-none shadow-sm">
                           {currentUser.avatar}
                         </div>
                       </div>
                     </header>
 
                     {/* Content canvas */}
-                    <section className="p-8 flex-1 space-y-6 max-w-7xl w-full mx-auto pb-24">
+                    <section className="p-4 sm:p-8 flex-1 space-y-6 max-w-7xl w-full mx-auto pb-24">
 
                       {/* 📊 OVERVIEW TAB */}
                       {adminTab === 'overview' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
                           
                           {/* Page Header */}
-                          <div className="flex justify-between items-end flex-wrap gap-4 text-left border-b border-outline-variant/10 pb-4">
+                          <div className="flex justify-between items-start sm:items-end flex-col sm:flex-row gap-4 text-left border-b border-outline-variant/10 pb-4">
                             <div>
-                              <h2 className="text-2xl font-headline font-bold text-on-surface">Overview Metrics</h2>
-                              <p className="text-on-surface-variant mt-1 text-sm font-semibold">
+                              <h2 className="text-xl sm:text-2xl font-headline font-bold text-on-surface">Overview Metrics</h2>
+                              <p className="text-xs sm:text-sm text-on-surface-variant mt-1 font-semibold">
                                 Platform-wide performance statistics and quick action console.
                               </p>
                             </div>
-                            <div className="flex gap-3 shrink-0">
-                              <div className="relative">
+                            <div className="flex gap-3 w-full sm:w-auto shrink-0 select-none">
+                              <div className="relative flex-1 sm:flex-initial">
                                 <button
                                   ref={adminTimeframeRef}
                                   onClick={() => setOpenDropdown(openDropdown === 'adminTimeframe' ? null : 'adminTimeframe')}
-                                  className="bg-surface-container-high px-4 py-2 rounded-lg text-sm font-semibold text-on-surface-variant flex items-center gap-2 hover:bg-surface-variant transition-colors active:scale-95 cursor-pointer border-none"
+                                  className="w-full sm:w-auto bg-surface-container-high px-4 py-2 rounded-lg text-sm font-semibold text-on-surface-variant flex items-center justify-between sm:justify-start gap-2 hover:bg-surface-variant transition-colors active:scale-95 cursor-pointer border-none"
                                 >
                                   <span className="material-symbols-outlined text-sm">calendar_today</span>
                                   {adminTimeframe}
@@ -7768,6 +7884,17 @@ export default function App() {
                             const paddingRight = 20;
                             const paddingTop = 25;
                             const paddingBottom = 35;
+                            
+                            // Mobile chart config dimensions
+                            const mSvgWidth = 320;
+                            const mSvgHeight = 150;
+                            const mPaddingLeft = 25;
+                            const mPaddingRight = 10;
+                            const mPaddingTop = 15;
+                            const mPaddingBottom = 20;
+                            const mChartWidth = mSvgWidth - mPaddingLeft - mPaddingRight;
+                            const mChartHeight = mSvgHeight - mPaddingTop - mPaddingBottom;
+                            const mXStep = mChartWidth / (pointsCount - 1 || 1);
                             
                             const chartWidth = svgWidth - paddingLeft - paddingRight;
                             const chartHeight = svgHeight - paddingTop - paddingBottom;
