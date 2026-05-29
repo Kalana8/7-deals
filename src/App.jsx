@@ -2827,12 +2827,8 @@ export default function App() {
       )}
 
       {/* Desktop Header & Navbar (visible starting from sm: breakpoint) */}
-      <header className={`fixed left-0 right-0 top-10 h-16 
-        z-[1000] bg-white border-b-2 border-[#047c1f] 
-        shadow-sm hidden sm:block ${(isConsumerDashboard || isAdminDashboard || isModeratorDashboard) 
-        ? 'hidden' : (communityPanelOpen 
-        ? 'opacity-0 pointer-events-none' 
-        : 'opacity-100')} transition-opacity duration-200`}>
+      {!isConsumerDashboard && !isAdminDashboard && !isModeratorDashboard && (
+        <header className={`fixed left-0 right-0 top-10 h-16 z-[1000] bg-white border-b-2 border-[#047c1f] shadow-sm hidden sm:block ${communityPanelOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-200`}>
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-12 sm:h-16 flex items-center justify-between gap-3">
 
           {/* 1. Logo */}
@@ -3211,6 +3207,7 @@ export default function App() {
 
         </div>
       </header>
+      )}
 
       {/* ==========================================
           FIXED CATEGORY BAR
