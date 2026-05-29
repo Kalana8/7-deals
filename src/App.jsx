@@ -1497,6 +1497,7 @@ export default function App() {
 
   // Mobile Menu state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileDashboardMenuOpen, setMobileDashboardMenuOpen] = useState(false);
 
   // Selected deal for detail modal
   const [selectedDeal, setSelectedDeal] = useState(null);
@@ -5696,12 +5697,117 @@ export default function App() {
                     </div>
                   </aside>
 
+                  {/* Mobile Navigation Sidebar Drawer (visible only on mobile) */}
+                  {mobileDashboardMenuOpen && (
+                    <div className="fixed inset-0 z-[1100] flex sm:hidden">
+                      {/* Backdrop */}
+                      <div
+                        onClick={() => setMobileDashboardMenuOpen(false)}
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+                      />
+                      
+                      {/* Drawer Content */}
+                      <div className="relative flex w-full max-w-[280px] flex-col bg-surface-container py-6 px-4 shadow-2xl z-10 animate-in slide-in-from-left duration-300">
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-8 pb-4 border-b border-outline-variant/10">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
+                              <span className="material-symbols-outlined">eco</span>
+                            </div>
+                            <div>
+                              <h2 className="text-base font-bold text-on-surface leading-tight">Admin Central</h2>
+                              <p className="text-[9px] text-on-surface-variant uppercase tracking-wider font-semibold">Organic Retailer</p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => setMobileDashboardMenuOpen(false)}
+                            className="p-1 rounded-full text-on-surface-variant hover:bg-surface-variant/40 transition-colors border-none bg-transparent cursor-pointer"
+                          >
+                            <span className="material-symbols-outlined text-[20px]">close</span>
+                          </button>
+                        </div>
+
+                        {/* Navigation links */}
+                        <nav className="flex-1 space-y-1 overflow-y-auto no-scrollbar">
+                          {[
+                            { key: 'overview', label: 'Overview', icon: 'dashboard' },
+                            { key: 'profile', label: 'Store Profile', icon: 'storefront' },
+                            { key: 'products', label: 'Products', icon: 'inventory_2' },
+                            { key: 'stock', label: 'Stock Monitor', icon: 'monitoring' },
+                            { key: 'deals', label: 'Deals & Coupons', icon: 'local_offer' },
+                            { key: 'featured', label: 'Featured Requests', icon: 'campaign' },
+                          ].map((tab) => (
+                            <button
+                              key={tab.key}
+                              onClick={() => {
+                                setRetailerTab(tab.key);
+                                setMobileDashboardMenuOpen(false);
+                              }}
+                              className={`w-full rounded-xl px-4 py-3 flex items-center gap-3 transition-all active:scale-98 text-left font-bold text-sm cursor-pointer border-none ${
+                                retailerTab === tab.key
+                                  ? 'bg-[#047c1f] text-white shadow-sm shadow-[#047c1f]/20'
+                                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
+                              }`}
+                            >
+                              <span className="material-symbols-outlined text-lg leading-none">{tab.icon}</span>
+                              <span>{tab.label}</span>
+                            </button>
+                          ))}
+                        </nav>
+
+                        {/* Bottom Actions */}
+                        <div className="mt-auto space-y-4 pt-4 border-t border-outline-variant/10">
+                          <button
+                            onClick={() => {
+                              setRetailerTab('products');
+                              setShowAddProduct(true);
+                              setMobileDashboardMenuOpen(false);
+                            }}
+                            className="w-full bg-[#047c1f] hover:bg-[#036318] text-white font-extrabold py-3 rounded-xl flex items-center justify-center gap-2 hover:opacity-95 transition-all shadow-sm active:scale-95 cursor-pointer border-none"
+                          >
+                            <span className="material-symbols-outlined text-lg">add</span>
+                            <span>Add New Product</span>
+                          </button>
+                          
+                          <button
+                            onClick={() => {
+                              triggerToast('Opening partner help center...', 'info');
+                              setMobileDashboardMenuOpen(false);
+                            }}
+                            className="w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 rounded-xl px-4 py-2.5 flex items-center gap-3 transition-all text-left font-bold text-sm cursor-pointer border-none bg-transparent"
+                          >
+                            <span className="material-symbols-outlined text-lg leading-none">help_outline</span>
+                            <span>Help Center</span>
+                          </button>
+                          
+                          <button
+                            onClick={() => {
+                              handleLogout();
+                              setMobileDashboardMenuOpen(false);
+                            }}
+                            className="w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 rounded-xl px-4 py-2.5 flex items-center gap-3 transition-all text-left font-bold text-sm cursor-pointer border-none bg-transparent"
+                          >
+                            <span className="material-symbols-outlined text-lg leading-none">logout</span>
+                            <span>Log Out</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Main Content Area */}
                   <main className="w-full sm:ml-64 flex-1 min-h-screen flex flex-col bg-background pb-16 lg:pb-0">
                     
                     {/* TopNavBar */}
                     <header className="w-full sticky top-0 z-40 bg-surface dark:bg-surface-dim flex justify-between items-center px-3 sm:px-8 py-3 sm:py-4 border-b border-outline-variant/30 shadow-sm">
-                      <div className="flex items-center gap-4 sm:gap-8">
+                      <div className="flex items-center gap-2 sm:gap-8">
+                        {/* Hamburger menu for mobile drawer */}
+                        <button
+                          onClick={() => setMobileDashboardMenuOpen(true)}
+                          className="flex sm:hidden items-center justify-center p-1.5 text-on-surface-variant hover:bg-surface-variant/20 rounded-lg transition-colors border-none bg-transparent cursor-pointer"
+                        >
+                          <span className="material-symbols-outlined text-[22px]">menu</span>
+                        </button>
                         <h1 className="text-lg sm:text-xl font-headline font-bold text-primary truncate max-w-[120px] sm:max-w-none">{retailerProfile.storeName || 'Terra Retail'}</h1>
                         <div className="hidden sm:block relative w-80 group">
                           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
