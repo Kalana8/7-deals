@@ -5847,46 +5847,6 @@ export default function App() {
                       </div>
                     </header>
 
-                    {/* Mobile Navigation Tabs (visible only on mobile) */}
-                    <div className="flex sm:hidden overflow-x-auto no-scrollbar flex-nowrap border-b border-outline-variant/10 bg-white/80 backdrop-blur-md sticky top-[56px] z-30 px-3 py-2.5 gap-2 select-none">
-                      {[
-                        { key: 'overview', label: 'Overview', icon: 'dashboard' },
-                        { key: 'profile', label: 'Store', icon: 'storefront' },
-                        { key: 'products', label: 'Products', icon: 'inventory_2' },
-                        { key: 'stock', label: 'Stock', icon: 'monitoring' },
-                        { key: 'deals', label: 'Deals', icon: 'local_offer' },
-                        { key: 'featured', label: 'Featured', icon: 'campaign' },
-                        { key: 'help', label: 'Help Center', icon: 'help_outline' },
-                        { key: 'logout', label: 'Log Out', icon: 'logout' },
-                      ].map((tab) => {
-                        const isActive = retailerTab === tab.key;
-                        const isAction = tab.key === 'help' || tab.key === 'logout';
-                        return (
-                          <button
-                            key={tab.key}
-                            onClick={() => {
-                              if (tab.key === 'logout') {
-                                handleLogout();
-                              } else if (tab.key === 'help') {
-                                triggerToast('Opening partner help center...', 'info');
-                              } else {
-                                setRetailerTab(tab.key);
-                              }
-                            }}
-                            className={`px-3 py-1.5 rounded-full text-[11px] font-black whitespace-nowrap flex items-center gap-1 cursor-pointer transition-all active:scale-95 border ${
-                              isActive
-                                ? 'bg-[#047c1f] text-white border-[#047c1f] shadow-sm shadow-[#047c1f]/20'
-                                : isAction
-                                  ? 'bg-slate-50 border-slate-200 text-slate-500 hover:text-red-500 hover:border-red-200'
-                                  : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'
-                            }`}
-                          >
-                            <span className="material-symbols-outlined text-xs leading-none">{tab.icon}</span>
-                            <span>{tab.label}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
 
                     {/* Content Canvas */}
                     <section className="p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-6 sm:space-y-8 flex-1">
