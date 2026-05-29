@@ -12334,20 +12334,22 @@ export default function App() {
       )}
 
       {/* Floating Action Button: Aussie Community */}
-      <button
-        onClick={() => setCommunityPanelOpen(true)}
-        className="fixed bottom-20 sm:bottom-6 right-6 z-[996] bg-[#047c1f] hover:bg-[#035a16] text-white pl-4 pr-5 py-3 rounded-full flex items-center gap-2.5 shadow-xl border-2 border-[#fdc800] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer font-bold text-sm"
-      >
-        <span className="relative flex items-center justify-center">
-          <MessageSquare className="w-4.5 h-4.5 text-[#fdc800]" />
-          {communityDeals.length > 0 && (
-            <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-[#fdc800] text-[#0d0d0d] text-[9px] font-black flex items-center justify-center leading-none">
-              {communityDeals.length}
-            </span>
-          )}
-        </span>
-        Community
-      </button>
+      {currentUser && currentRoute === '#home' && (
+        <button
+          onClick={() => setCommunityPanelOpen(true)}
+          className="fixed bottom-20 sm:bottom-6 right-6 z-[996] bg-[#047c1f] hover:bg-[#035a16] text-white pl-4 pr-5 py-3 rounded-full flex items-center gap-2.5 shadow-xl border-2 border-[#fdc800] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer font-bold text-sm"
+        >
+          <span className="relative flex items-center justify-center">
+            <MessageSquare className="w-4.5 h-4.5 text-[#fdc800]" />
+            {communityDeals.length > 0 && (
+              <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-[#fdc800] text-[#0d0d0d] text-[9px] font-black flex items-center justify-center leading-none">
+                {communityDeals.length}
+              </span>
+            )}
+          </span>
+          Community
+        </button>
+      )}
 
       {/* Toast alert overlay */}
       <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full select-none pointer-events-none">
