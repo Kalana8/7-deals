@@ -5703,9 +5703,9 @@ export default function App() {
                   <main className="w-full sm:ml-64 flex-1 min-h-screen flex flex-col bg-background pb-16 lg:pb-0">
                     
                     {/* TopNavBar */}
-                    <header className="w-full sticky top-0 z-40 bg-surface dark:bg-surface-dim flex justify-between items-center px-4 sm:px-8 py-3 sm:py-4 border-b border-outline-variant/30 shadow-sm">
-                      <div className="flex items-center gap-8">
-                        <h1 className="text-xl font-headline font-bold text-primary">{retailerProfile.storeName || 'Terra Retail'}</h1>
+                    <header className="w-full sticky top-0 z-40 bg-surface dark:bg-surface-dim flex justify-between items-center px-3 sm:px-8 py-3 sm:py-4 border-b border-outline-variant/30 shadow-sm">
+                      <div className="flex items-center gap-4 sm:gap-8">
+                        <h1 className="text-lg sm:text-xl font-headline font-bold text-primary truncate max-w-[120px] sm:max-w-none">{retailerProfile.storeName || 'Terra Retail'}</h1>
                         <div className="hidden sm:block relative w-80 group">
                           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
                           <input
@@ -5716,41 +5716,82 @@ export default function App() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2 sm:gap-4">
                         <button
                           onClick={() => triggerToast('You have 3 new notifications', 'info')}
-                          className="p-2 text-on-surface-variant hover:bg-surface-variant/50 rounded-full transition-colors cursor-pointer relative border-none bg-transparent"
+                          className="p-1.5 sm:p-2 text-on-surface-variant hover:bg-surface-variant/50 rounded-full transition-colors cursor-pointer relative border-none bg-transparent"
                         >
-                          <span className="material-symbols-outlined">notifications</span>
-                          <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+                          <span className="material-symbols-outlined text-[20px] sm:text-[24px]">notifications</span>
+                          <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
                         </button>
                         <button
                           onClick={() => setRetailerTab('profile')}
-                          className="p-2 text-on-surface-variant hover:bg-surface-variant/50 rounded-full transition-colors cursor-pointer border-none bg-transparent"
+                          className="p-1.5 sm:p-2 text-on-surface-variant hover:bg-surface-variant/50 rounded-full transition-colors cursor-pointer border-none bg-transparent"
                         >
-                          <span className="material-symbols-outlined">settings</span>
+                          <span className="material-symbols-outlined text-[20px] sm:text-[24px]">settings</span>
                         </button>
-                        <div className="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
+                        <div className="h-6 sm:h-8 w-[1px] bg-outline-variant/30 mx-1 sm:mx-2"></div>
                         
-                        <div className="flex items-center gap-3 cursor-pointer hover:bg-surface-variant/30 p-1.5 rounded-lg transition-colors" onClick={() => setRetailerTab('profile')}>
-                          <div className="text-right">
+                        <div className="flex items-center gap-2 sm:gap-3 cursor-pointer hover:bg-surface-variant/30 p-1 sm:p-1.5 rounded-lg transition-colors" onClick={() => setRetailerTab('profile')}>
+                          <div className="hidden sm:block text-right">
                             <p className="text-sm font-bold leading-none text-on-surface">{currentUser?.name || 'Matilda W.'}</p>
                             <p className="text-xs text-on-surface-variant">Store Owner</p>
                           </div>
-                          <div className="w-10 h-10 rounded-full bg-primary text-white font-extrabold text-sm flex items-center justify-center border-2 border-primary-container uppercase select-none">
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary text-white font-black text-xs sm:text-sm flex items-center justify-center border-2 border-primary-container uppercase select-none shadow-sm">
                             {currentUser?.avatar || 'OT'}
                           </div>
                         </div>
                       </div>
                     </header>
 
+                    {/* Mobile Navigation Tabs (visible only on mobile) */}
+                    <div className="flex sm:hidden overflow-x-auto no-scrollbar flex-nowrap border-b border-outline-variant/10 bg-white/80 backdrop-blur-md sticky top-[56px] z-30 px-3 py-2.5 gap-2 select-none">
+                      {[
+                        { key: 'overview', label: 'Overview', icon: 'dashboard' },
+                        { key: 'profile', label: 'Store', icon: 'storefront' },
+                        { key: 'products', label: 'Products', icon: 'inventory_2' },
+                        { key: 'stock', label: 'Stock', icon: 'monitoring' },
+                        { key: 'deals', label: 'Deals', icon: 'local_offer' },
+                        { key: 'featured', label: 'Featured', icon: 'campaign' },
+                        { key: 'help', label: 'Help Center', icon: 'help_outline' },
+                        { key: 'logout', label: 'Log Out', icon: 'logout' },
+                      ].map((tab) => {
+                        const isActive = retailerTab === tab.key;
+                        const isAction = tab.key === 'help' || tab.key === 'logout';
+                        return (
+                          <button
+                            key={tab.key}
+                            onClick={() => {
+                              if (tab.key === 'logout') {
+                                handleLogout();
+                              } else if (tab.key === 'help') {
+                                triggerToast('Opening partner help center...', 'info');
+                              } else {
+                                setRetailerTab(tab.key);
+                              }
+                            }}
+                            className={`px-3 py-1.5 rounded-full text-[11px] font-black whitespace-nowrap flex items-center gap-1 cursor-pointer transition-all active:scale-95 border ${
+                              isActive
+                                ? 'bg-[#047c1f] text-white border-[#047c1f] shadow-sm shadow-[#047c1f]/20'
+                                : isAction
+                                  ? 'bg-slate-50 border-slate-200 text-slate-500 hover:text-red-500 hover:border-red-200'
+                                  : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-xs leading-none">{tab.icon}</span>
+                            <span>{tab.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
                     {/* Content Canvas */}
-                    <section className="p-8 max-w-7xl w-full mx-auto space-y-8 flex-1">
+                    <section className="p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-6 sm:space-y-8 flex-1">
                       
                       {/* Page Header */}
-                      <div className="flex justify-between items-end flex-wrap gap-4 text-left">
+                      <div className="flex justify-between items-start sm:items-end flex-col sm:flex-row gap-4 text-left">
                         <div>
-                          <h2 className="text-3xl font-headline font-bold text-on-surface">
+                          <h2 className="text-xl sm:text-3xl font-headline font-bold text-on-surface">
                             {retailerTab === 'overview' ? 'Dashboard Overview' : 
                              retailerTab === 'profile' ? 'Store Profile' : 
                              retailerTab === 'products' ? 'Product Catalogue' : 
@@ -5758,7 +5799,7 @@ export default function App() {
                              retailerTab === 'deals' ? 'Campaign Manager' : 
                              'Featured Requests'}
                           </h2>
-                          <p className="text-on-surface-variant mt-1">
+                          <p className="text-xs sm:text-sm text-on-surface-variant mt-1 max-w-xl">
                             {retailerTab === 'overview' ? 'Real-time performance metrics for your organic marketplace.' : 
                              retailerTab === 'profile' ? 'Manage your storefront brand settings, locations, and details.' : 
                              retailerTab === 'products' ? 'Add, activate, and manage your inventory and items.' : 
@@ -5767,12 +5808,12 @@ export default function App() {
                              'Promote your listings by requesting premium dashboard real estate.'}
                           </p>
                         </div>
-                        <div className="flex gap-3 shrink-0">
-                          <div className="relative">
+                        <div className="flex gap-2 sm:gap-3 w-full sm:w-auto shrink-0 select-none">
+                          <div className="relative flex-1 sm:flex-initial">
                             <button
                               ref={merchantTimeframeRef}
                               onClick={() => setOpenDropdown(openDropdown === 'merchantTimeframe' ? null : 'merchantTimeframe')}
-                              className="bg-surface-container-high px-4 py-2 rounded-lg text-sm font-semibold text-on-surface-variant flex items-center gap-2 hover:bg-surface-variant transition-colors active:scale-95 cursor-pointer border-none"
+                              className="w-full bg-surface-container-high px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold text-on-surface-variant flex items-center justify-center gap-1.5 hover:bg-surface-variant transition-all active:scale-95 cursor-pointer border border-slate-200/50"
                             >
                               <span className="material-symbols-outlined text-sm">calendar_today</span>
                               {merchantTimeframe}
@@ -5803,7 +5844,7 @@ export default function App() {
                           </div>
                           <button
                             onClick={() => triggerToast('Exporting dashboard report as PDF...', 'success')}
-                            className="bg-primary px-4 py-2 rounded-lg text-sm font-semibold text-white flex items-center gap-2 hover:opacity-90 transition-opacity active:scale-95 cursor-pointer border-none"
+                            className="flex-1 sm:flex-initial bg-primary px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold text-white flex items-center justify-center gap-1.5 hover:opacity-90 transition-opacity active:scale-95 cursor-pointer border-none"
                           >
                             <span className="material-symbols-outlined text-sm">download</span>
                             Export PDF
