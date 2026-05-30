@@ -35,51 +35,51 @@ import {
   Rocket
 } from 'lucide-react';
 
-  const PortalDropdown = ({ 
-    anchorRef, isOpen, children, alignRight = false 
-  }) => {
-    const [coords, setCoords] = React.useState({ 
-      top: 0, left: 0, right: 0, width: 0 
-    });
+const PortalDropdown = ({
+  anchorRef, isOpen, children, alignRight = false
+}) => {
+  const [coords, setCoords] = React.useState({
+    top: 0, left: 0, right: 0, width: 0
+  });
 
-    React.useEffect(() => {
-      if (isOpen && anchorRef?.current) {
-        const rect = anchorRef.current.getBoundingClientRect();
-        setCoords({
-          top: rect.bottom + window.scrollY + 6,
-          left: rect.left + window.scrollX,
-          right: window.innerWidth - rect.right + window.scrollX,
-          width: rect.width
-        });
-      }
-    }, [isOpen, anchorRef]);
+  React.useEffect(() => {
+    if (isOpen && anchorRef?.current) {
+      const rect = anchorRef.current.getBoundingClientRect();
+      setCoords({
+        top: rect.bottom + window.scrollY + 6,
+        left: rect.left + window.scrollX,
+        right: window.innerWidth - rect.right + window.scrollX,
+        width: rect.width
+      });
+    }
+  }, [isOpen, anchorRef]);
 
-    if (!isOpen) return null;
+  if (!isOpen) return null;
 
-    return ReactDOM.createPortal(
-      <div
-        data-portal-dropdown="true"
-        style={{
-          position: 'absolute',
-          top: coords.top,
-          ...(alignRight 
-            ? { right: coords.right } 
-            : { left: coords.left }
-          ),
-          minWidth: Math.max(coords.width, 240),
-          zIndex: 99999,
-        }}
-        className="bg-white border border-[#e8e8e8] 
+  return ReactDOM.createPortal(
+    <div
+      data-portal-dropdown="true"
+      style={{
+        position: 'absolute',
+        top: coords.top,
+        ...(alignRight
+          ? { right: coords.right }
+          : { left: coords.left }
+        ),
+        minWidth: Math.max(coords.width, 240),
+        zIndex: 99999,
+      }}
+      className="bg-white border border-[#e8e8e8] 
           rounded-[10px] 
           shadow-[0_8px_24px_rgba(0,0,0,0.15)] p-1.5 
           text-left"
-        onMouseDown={(e) => e.stopPropagation()}
-      >
-        {children}
-      </div>,
-      document.body
-    );
-  };
+      onMouseDown={(e) => e.stopPropagation()}
+    >
+      {children}
+    </div>,
+    document.body
+  );
+};
 
 // ==========================================
 // DUMMY DATA DEFINITIONS (AUSTRALIAN MARKET)
@@ -265,7 +265,7 @@ const HERO_DEALS = [
   { id: 'd10', brand: 'Dyson', logo: 'DY', logoBg: 'bg-purple-900 text-white', title: 'Dyson V15 Detect Vacuum — $200 OFF', code: 'DYSON200', originalPrice: 999.00, salePrice: 799.00, discount: '$200 OFF', saving: "Save $200", expiry: 2, expiryDays: 2, category: 'Home', state: 'National', image: 'https://picsum.photos/seed/vacuum/800/500', description: 'Upgrade to laser-guided Dyson V15. Absolute powerhouse suction.', featured: true, brandColor: "#1A237E", peopleGrabbed: 524, freeShipping: true },
   { id: 'd11', brand: 'Kmart', logo: 'KM', logoBg: 'bg-[#E31837] text-white', title: 'Retro Kettle & Toaster Appliance Bundle', code: 'KMART15', originalPrice: 45.00, salePrice: 30.00, discount: '$15 OFF', expiry: 6, category: 'Home & Garden', state: 'National', image: 'https://picsum.photos/seed/shopping/400/200', description: 'Stylish matching kitchen appliances. Give your kitchen counter a fresh retro look on the cheap.' },
   { id: 'd12', brand: 'Cotton On', logo: 'CO', logoBg: 'bg-[#3b2d2f] text-white', title: 'Buy 1 Get 1 50% Off Selected Knitwear', code: 'COTTON50', originalPrice: 80.00, salePrice: 60.00, discount: '25% OFF', expiry: 4, category: 'Fashion', state: 'VIC', image: 'https://picsum.photos/seed/clothing/400/200', description: 'Winter knitwear promo across jumpers, cardigans, and beanies. Mix and match styles.' },
- 
+
   // ROW 2: Retailers & Outdoors
   { id: 'd13', brand: 'OzTech Deals', logo: 'OT', logoBg: 'bg-slate-900 text-white', title: 'Sony WH-1000XM5 headphones discount', code: 'OZTECH15', originalPrice: 399.00, salePrice: 339.15, discount: '15% OFF', expiry: 3, category: 'Tech', state: 'NSW', image: 'https://picsum.photos/seed/electronics/400/200', description: "G'day from OzTech! Crackin' 15% discount on top-tier Sony ANC headphones." },
   { id: 'd14', brand: 'Aussie Bites Bakery', logo: 'AB', logoBg: 'bg-amber-600 text-white', title: 'Fresh Gourmet Meat Pies (Dozen Pack)', code: 'AUSSIEBITES', originalPrice: 45.00, salePrice: 36.00, discount: '20% OFF', expiry: 1, category: 'F&D', state: 'VIC', image: 'https://picsum.photos/seed/fooddelivery/400/200', description: 'A dozen traditional meat pies, slow-cooked beef chuck filling. Perfect for family gatherings!' },
@@ -373,8 +373,8 @@ const TICKER_BRAND_COLORS = {
 };
 
 const CATEGORY_NAMES = [
-  'Tech', 'Auto', 'Fashion', 'F&D', 'Groceries', 
-  'Health & Beauty', 'Home & Garden', 'Outdoors', 'Pets', 
+  'Tech', 'Auto', 'Fashion', 'F&D', 'Groceries',
+  'Health & Beauty', 'Home & Garden', 'Outdoors', 'Pets',
   'Travel', 'Insurance', 'Finance', 'Rental', 'Sports'
 ];
 
@@ -384,14 +384,14 @@ const TIMEFRAME_OPTIONS = [
   'Last 7 Days',
   'Last 14 Days',
   'Last 21 Days',
-  'Last 30 Days'
+  'Last 28 Days'
 ];
 
 const FIXED_CATEGORIES = [
   { label: '💻 Tech', value: 'Tech' },
   { label: '🚗 Auto', value: 'Auto' },
   { label: '👗 Fashion', value: 'Fashion' },
-  { label: '🍔 F&D', value: 'F&D' },
+  { label: '🍔 F&B', value: 'F&B' },
   { label: '🛒 Groceries', value: 'Groceries' },
   { label: '💊 Health & Beauty', value: 'Health & Beauty' },
   { label: '🏠 Home & Garden', value: 'Home & Garden' },
@@ -574,76 +574,78 @@ const DealCard = ({
           window.location.hash = `#deal/${deal.id}`;
         }
       }}
-      className={`bg-white rounded-2xl sm:rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_30px_-4px_rgba(4,124,31,0.15)] transition-all duration-300 border border-slate-200/50 flex flex-col justify-between group cursor-pointer ${isExpired ? 'opacity-50 pointer-events-none' : ''}`}
+      className={`bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(4,124,31,0.12)] transition-all duration-300 border border-slate-200/50 flex flex-col justify-between group cursor-pointer ${isExpired ? 'opacity-50 pointer-events-none' : ''}`}
     >
       {/* Card Top Block / Image Container */}
-      <div className="relative aspect-[16/10] sm:aspect-[4/3] overflow-hidden bg-slate-100">
+      <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
         {isExpired ? (
-          <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 bg-slate-600 text-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-bold flex items-center gap-1 shadow-md uppercase tracking-wider">
-            <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> EXPIRED
+          <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 bg-slate-600 text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-[8.5px] sm:text-[9px] font-bold flex items-center gap-1 shadow-md uppercase tracking-wider">
+            <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> EXPIRED
           </div>
         ) : deal.isProduct ? (
-          <div className={`absolute top-3 left-3 sm:top-4 sm:left-4 z-10 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-bold flex items-center gap-1.5 shadow-md uppercase tracking-wider ${
-            deal.status === 'In stock' 
-              ? 'bg-emerald-600 text-white' 
-              : deal.status === 'Low stock' 
-                ? 'bg-amber-500 text-white' 
+          <div className={`absolute top-2 left-2 sm:top-3 sm:left-3 z-10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-[8.5px] sm:text-[9px] font-bold flex items-center gap-1.5 shadow-md uppercase tracking-wider ${deal.status === 'In stock'
+              ? 'bg-emerald-600 text-white'
+              : deal.status === 'Low stock'
+                ? 'bg-amber-500 text-white'
                 : 'bg-rose-600 text-white'
-          }`}>
-            <ShoppingBag className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#fdc800]" /> {deal.status || 'IN STOCK'}
+            }`}>
+            <ShoppingBag className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#fdc800]" /> {deal.status || 'IN STOCK'}
           </div>
         ) : (
           deal.expiry <= 2 && (
-            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 bg-red-600 text-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-bold flex items-center gap-1 shadow-md uppercase tracking-wider animate-pulse">
-              <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> EXPIRING SOON
+            <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 bg-red-600 text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-[8.5px] sm:text-[9px] font-bold flex items-center gap-1 shadow-md uppercase tracking-wider animate-pulse">
+              <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> EXPIRING SOON
             </div>
           )
         )}
-        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 bg-[#047c1f] text-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-[13px] font-black shadow-lg">
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 bg-[#047c1f] text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-[11.5px] font-black shadow-lg">
           {deal.discount}
         </div>
         <img
           src={deal.image}
           alt={deal.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
       </div>
 
       {/* Card Body / Details */}
-      <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between">
+      <div className="p-2.5 sm:p-3.5 flex-1 flex flex-col justify-between">
         <div>
           {/* Brand & Category Row */}
-          <div className="flex items-center gap-2 mb-2 sm:mb-3.5">
-            <div className={`w-6.5 h-6.5 sm:w-8 sm:h-8 rounded-lg ${deal.logoBg || 'bg-[#047c1f] text-white'} text-white flex items-center justify-center font-extrabold text-[10px] sm:text-[12px] shadow-sm shrink-0`}>
+          <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
+            <div className={`w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 rounded-[6px] ${deal.logoBg || 'bg-[#047c1f] text-white'} text-white flex items-center justify-center font-extrabold text-[9px] sm:text-[11px] shadow-sm shrink-0`}>
               {deal.logo}
             </div>
             <div className="text-left min-w-0">
-              <p className="text-[10px] sm:text-[11px] text-slate-500 font-bold uppercase tracking-wider leading-none m-0 truncate">{deal.brand}</p>
-              <p className="text-[8.5px] sm:text-[9.5px] text-slate-400 font-bold mt-0.5 sm:mt-1 leading-none m-0 truncate">{deal.category} • {deal.state}</p>
+              <p className="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase tracking-wider leading-none m-0 truncate">{deal.brand}</p>
+              <p className="text-[7.5px] sm:text-[8.5px] text-slate-400 font-bold mt-0.5 leading-none m-0 truncate">{deal.category} • {deal.state}</p>
             </div>
           </div>
 
           {/* Deal Title */}
-          <h4 className="font-display text-[12.5px] sm:text-[14px] font-extrabold text-[#0d0d0d] leading-[1.3] group-hover:text-[#047c1f] transition-colors line-clamp-2 text-left mb-1.5 sm:mb-2">
+          <h4 className="font-display text-[11px] sm:text-[12.5px] font-extrabold text-[#0d0d0d] leading-[1.3] group-hover:text-[#047c1f] transition-colors line-clamp-2 text-left mb-1 sm:mb-1.5">
             {deal.title}
           </h4>
 
-          {/* Description */}
+          {/* Description & Terms */}
           {deal.description && (
-            <p className="hidden sm:block text-slate-500 text-[11.5px] line-clamp-2 text-left leading-relaxed mb-4 font-medium">
+            <p className="text-slate-500 text-[9.5px] sm:text-[10px] line-clamp-1 text-left leading-relaxed mb-0.5 font-medium">
               {deal.description}
             </p>
           )}
+          <p className="text-[8px] sm:text-[8.5px] text-[#888] font-bold text-left mb-1.5 select-none leading-none">
+            *T&Cs apply. Subject to availability.
+          </p>
         </div>
 
         {/* Action Blocks */}
-        <div className="space-y-3 pt-2 sm:pt-3.5 border-t border-slate-100 mt-auto">
+        <div className="space-y-2 pt-1.5 sm:pt-2.5 border-t border-slate-100 mt-auto">
           {/* Price & Code copy */}
           <div className="flex justify-between items-center gap-2">
             <div className="text-left">
-              <span className="text-[10px] sm:text-[11px] text-slate-400 line-through block font-semibold leading-none">${deal.originalPrice.toFixed(2)}</span>
-              <span className="font-display text-[15px] sm:text-[17px] font-extrabold text-[#047c1f] leading-none mt-1 block">
-                ${deal.salePrice.toFixed(2)} <span className="text-[9px] sm:text-[10px] font-bold text-slate-500">AUD</span>
+              <span className="text-[9px] sm:text-[10px] text-slate-400 line-through block font-semibold leading-none">${deal.originalPrice.toFixed(2)}</span>
+              <span className="font-display text-[13px] sm:text-[15px] font-extrabold text-[#047c1f] leading-none mt-1 block">
+                ${deal.salePrice.toFixed(2)} <span className="text-[8px] sm:text-[9px] font-bold text-slate-500">AUD</span>
               </span>
             </div>
 
@@ -653,10 +655,10 @@ const DealCard = ({
                   e.stopPropagation();
                   handleCopyCode(deal.code, e);
                 }}
-                className="bg-[#fdc800] hover:bg-[#e0b000] text-[#0d0d0d] font-bold font-mono text-[9.5px] sm:text-[10.5px] rounded-lg flex items-center gap-1 px-2 py-1.5 sm:px-3 sm:py-1.5 transition-colors cursor-pointer border-none shadow-sm font-sans"
+                className="bg-[#fdc800] hover:bg-[#e0b000] text-[#0d0d0d] font-bold font-mono text-[8.5px] sm:text-[9.5px] rounded-[6px] flex items-center gap-1 px-1.5 py-1 sm:px-2.5 sm:py-1 transition-colors cursor-pointer border-none shadow-sm font-sans"
                 disabled={isExpired}
               >
-                <span className="font-mono">{deal.code}</span> <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#0d0d0d]" />
+                <span className="font-mono">{deal.code}</span> <Copy className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#0d0d0d]" />
               </button>
             )}
           </div>
@@ -668,11 +670,11 @@ const DealCard = ({
                 e.stopPropagation();
                 handleSaveDeal(deal.id, e);
               }}
-              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl border flex items-center justify-center transition-colors cursor-pointer shrink-0 ${savedDeals.has(deal.id) ? 'bg-[#e6f2e8] border-[#047c1f]/30 text-[#047c1f]' : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-400 hover:text-slate-700'}`}
+              className={`w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-lg border flex items-center justify-center transition-colors cursor-pointer shrink-0 ${savedDeals.has(deal.id) ? 'bg-[#e6f2e8] border-[#047c1f]/30 text-[#047c1f]' : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-400 hover:text-slate-700'}`}
               title="Save deal"
               disabled={isExpired}
             >
-              <Tag className="w-3.5 h-3.5" />
+              <Tag className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             </button>
 
             <button
@@ -681,21 +683,21 @@ const DealCard = ({
                 handleGrabDeal(deal, e);
               }}
               disabled={isExpired}
-              className="flex-grow h-9 sm:h-10 font-extrabold text-[11px] sm:text-[12px] rounded-xl flex items-center justify-center gap-0.5 sm:gap-1 shadow-md shadow-[#047c1f]/10 transition-colors cursor-pointer bg-[#047c1f] hover:bg-[#036318] text-white"
+              className="flex-grow h-7.5 sm:h-8.5 font-extrabold text-[10px] sm:text-[11.5px] rounded-lg flex items-center justify-center gap-0.5 sm:gap-1 shadow-md shadow-[#047c1f]/10 transition-colors cursor-pointer bg-[#047c1f] hover:bg-[#036318] text-white"
             >
               Grab Deal <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             </button>
           </div>
 
           {/* Expiry display */}
-          <div className="flex items-center justify-center bg-slate-50 border border-slate-100/50 rounded-lg py-1 px-2 gap-1 text-[9px] font-semibold text-slate-400">
+          <div className="flex items-center justify-center bg-slate-50 border border-slate-100/50 rounded-[6px] py-0.5 px-1.5 gap-1 text-[8px] sm:text-[8.5px] font-semibold text-slate-400">
             {deal.isProduct ? (
               <span className="text-[#047c1f] font-bold flex items-center gap-1">
-                <Check className="w-3 h-3 text-[#047c1f]" /> Verified Partner Product
+                <Check className="w-2.5 h-2.5 text-[#047c1f]" /> Verified Partner Product
               </span>
             ) : (
               <>
-                <span>⏱ Expires in:</span>
+                <span>⏱ Expires:</span>
                 <span className={`font-mono font-bold ${timerColorClass} ${isUrgent ? 'animate-pulse' : ''}`}>
                   {isExpired ? 'Expired' : `${days}d ${hours}h ${minutes}m ${seconds}s`}
                 </span>
@@ -1015,8 +1017,8 @@ const COMMUNITY_POST_IMAGES = {
 };
 
 const getCommunityPostImage = (post) => {
-  return COMMUNITY_POST_IMAGES[post.id] 
-    || `https://picsum.photos/seed/${post.store?.replace(/\s+/g,'-').toLowerCase() || post.id}/120/90`;
+  return COMMUNITY_POST_IMAGES[post.id]
+    || `https://picsum.photos/seed/${post.store?.replace(/\s+/g, '-').toLowerCase() || post.id}/120/90`;
 };
 
 const mapProductToDeal = (p) => {
@@ -1108,24 +1110,24 @@ export default function App() {
   const [upvotedPosts, setUpvotedPosts] = useState(new Set());
   const [savedDeals, setSavedDeals] = useState(new Set());
 
-  const [communityPanelOpen, setCommunityPanelOpen] = 
+  const [communityPanelOpen, setCommunityPanelOpen] =
     useState(false);
-  const [communitySort, setCommunitySort] = 
+  const [communitySort, setCommunitySort] =
     useState('hot');
-  const [communityPostText, setCommunityPostText] = 
+  const [communityPostText, setCommunityPostText] =
     useState('');
-  const [communityPostTitle, setCommunityPostTitle] = 
+  const [communityPostTitle, setCommunityPostTitle] =
     useState('');
-  const [communityPostStore, setCommunityPostStore] = 
+  const [communityPostStore, setCommunityPostStore] =
     useState('');
-  const [communityPostCategory, setCommunityPostCategory] = 
+  const [communityPostCategory, setCommunityPostCategory] =
     useState('Tech');
-  const [communityPostLink, setCommunityPostLink] = 
+  const [communityPostLink, setCommunityPostLink] =
     useState('');
   const [expandedPost, setExpandedPost] = useState(null);
   const [commentInputs, setCommentInputs] = useState({});
   const [showCreatePost, setShowCreatePost] = useState(false);
-  const [communityView, setCommunityView] = 
+  const [communityView, setCommunityView] =
     useState('feed');
   const [communityCategoryFilter, setCommunityCategoryFilter] = useState('All');
   const [communitySearchQuery, setCommunitySearchQuery] = useState('');
@@ -1168,13 +1170,13 @@ export default function App() {
 
   const filteredStockProducts = useMemo(() => {
     return retailerProducts.filter(p => {
-      const matchesSearch = p.name.toLowerCase().includes(stockSearchQuery.toLowerCase()) || 
-                            p.category.toLowerCase().includes(stockSearchQuery.toLowerCase());
-      
+      const matchesSearch = p.name.toLowerCase().includes(stockSearchQuery.toLowerCase()) ||
+        p.category.toLowerCase().includes(stockSearchQuery.toLowerCase());
+
       const threshold = p.reorderThreshold || 5;
       const isOutOfStock = p.stock === 0;
       const isLowStock = p.stock > 0 && p.stock <= threshold;
-      
+
       if (stockFilter === 'In Stock') {
         return matchesSearch && p.stock > threshold;
       }
@@ -1525,20 +1527,19 @@ export default function App() {
   }, []);
 
   const [visibleDealsCount, setVisibleDealsCount] = useState(() => {
-    return typeof window !== 'undefined' && window.innerWidth < 768 ? 20 : 10;
+    return typeof window !== 'undefined' && window.innerWidth < 768 ? 20 : 15;
   });
 
   const [activeMetric, setActiveMetric] = useState('deals'); // deals, retailers, moderators, spotlight
-  const [chartType, setChartType] = useState('bar'); // bar, line
 
   // Timeframe states and refs for dashboard filters
   const merchantTimeframeRef = useRef(null);
   const adminTimeframeRef = useRef(null);
   const moderatorTimeframeRef = useRef(null);
 
-  const [merchantTimeframe, setMerchantTimeframe] = useState('Last 30 Days');
-  const [adminTimeframe, setAdminTimeframe] = useState('Last 30 Days');
-  const [moderatorTimeframe, setModeratorTimeframe] = useState('Last 30 Days');
+  const [merchantTimeframe, setMerchantTimeframe] = useState('Last 28 Days');
+  const [adminTimeframe, setAdminTimeframe] = useState('Last 28 Days');
+  const [moderatorTimeframe, setModeratorTimeframe] = useState('Last 28 Days');
 
   // Shopping Cart & Checkout states
   const [cart, setCart] = useState([]);
@@ -1564,6 +1565,15 @@ export default function App() {
       status: 'Delivered',
       carrier: 'Australia Post',
       trackingNumber: 'AP-502938173',
+      shipping: {
+        fullName: 'Bruce Wayne',
+        email: 'bruce@waynecorp.com.au',
+        phone: '0412 345 678',
+        address: '100 Batman Rd',
+        suburb: 'Gotham',
+        state: 'VIC',
+        postcode: '3000'
+      },
       timeline: [
         { title: 'Order Placed', desc: 'Order received and payment approved', time: '25 May, 09:12 AM', done: true },
         { title: 'Processing', desc: 'Packed and prepared at merchant warehouse', time: '25 May, 11:30 AM', done: true },
@@ -1572,6 +1582,24 @@ export default function App() {
       ]
     }
   ]); // past orders list
+  const [shippingForm, setShippingForm] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    suburb: '',
+    state: 'NSW',
+    postcode: ''
+  });
+  const [checkoutStep, setCheckoutStep] = useState('shipping');
+  const [shipToDifferent, setShipToDifferent] = useState(false);
+  const [diffShippingForm, setDiffShippingForm] = useState({
+    fullName: '',
+    address: '',
+    suburb: '',
+    state: 'NSW',
+    postcode: ''
+  });
   const [paymentForm, setPaymentForm] = useState({
     cardholderName: '',
     cardNumber: '',
@@ -1613,7 +1641,7 @@ export default function App() {
       triggerToast('Please sign in to buy this product', 'warning');
       return;
     }
-    
+
     // Add to cart if it isn't in cart yet
     setCart((prevCart) => {
       const exists = prevCart.some(item => item.product.id === product.id && item.store.id === store.id);
@@ -1622,7 +1650,7 @@ export default function App() {
       }
       return prevCart;
     });
-    
+
     // Open checkout modal
     setCheckoutModalOpen(true);
     triggerToast(`Proceeding to checkout for ${product.name}!`, 'info');
@@ -1639,7 +1667,7 @@ export default function App() {
       const existing = prevCart.find(item => item.product.id === product.id && item.store.id === store.id);
       if (existing) {
         triggerToast(`Increased quantity of ${product.name} in cart!`, 'success');
-        return prevCart.map(item => 
+        return prevCart.map(item =>
           (item.product.id === product.id && item.store.id === store.id)
             ? { ...item, quantity: item.quantity + 1 }
             : item
@@ -1700,7 +1728,7 @@ export default function App() {
     Object.keys(groups).forEach(storeId => {
       const group = groups[storeId];
       const appliedCode = appliedCoupons[storeId];
-      
+
       let discountRate = 0;
       if (storeId === 'oztech-deals' && appliedCode === 'OZTECH15') {
         discountRate = 0.15;
@@ -1788,7 +1816,7 @@ export default function App() {
           growthSales: '+7.1%',
           grabsStatus: 'Growing'
         };
-      case 'Last 30 Days':
+      case 'Last 28 Days':
       default:
         return {
           views: baseViews.toLocaleString(),
@@ -1844,7 +1872,7 @@ export default function App() {
           coupons: Math.max(2, Math.round(baseCoupons * 0.9)),
           notices: baseNotices
         };
-      case 'Last 30 Days':
+      case 'Last 28 Days':
       default:
         return {
           flags: baseFlags,
@@ -1897,7 +1925,7 @@ export default function App() {
           moderators: baseModerators,
           spotlight: Math.max(0, Math.round(baseSpotlight * 0.9))
         };
-      case 'Last 30 Days':
+      case 'Last 28 Days':
       default:
         return {
           deals: baseDeals,
@@ -1927,48 +1955,48 @@ export default function App() {
       case 'Last 21 Days':
         labels = ['21d ago', '18d ago', '15d ago', '12d ago', '9d ago', '6d ago', '3d ago', 'Now'];
         break;
-      case 'Last 30 Days':
+      case 'Last 28 Days':
       default:
-        labels = ['30d ago', '25d ago', '20d ago', '15d ago', '10d ago', '5d ago', 'Now'];
+        labels = Array.from({ length: 28 }, (_, i) => String(i + 1));
         break;
     }
-    
+
     const pointsCount = labels.length;
     const dMax = adminMetrics.deals;
     const rMax = adminMetrics.retailers;
     const mMax = adminMetrics.moderators;
     const sMax = adminMetrics.spotlight;
-    
+
     const deals = Array.from({ length: pointsCount }, (_, i) => {
       const factor = (i + 1) / pointsCount;
       return Math.round(dMax * (0.4 + factor * 0.55 + Math.sin(i * 1.2) * 0.05));
     });
-    
+
     const retailers = Array.from({ length: pointsCount }, (_, i) => {
       const factor = (i + 1) / pointsCount;
       return Math.round(rMax * (0.7 + factor * 0.28 + Math.cos(i * 0.8) * 0.02));
     });
-    
+
     const moderators = Array.from({ length: pointsCount }, (_, i) => {
       const factor = (i + 1) / pointsCount;
       return Math.round(mMax * (0.8 + factor * 0.19 + Math.sin(i * 1.5) * 0.01));
     });
-    
+
     const spotlights = Array.from({ length: pointsCount }, (_, i) => {
       const factor = (i + 1) / pointsCount;
       return Math.max(0, Math.round(sMax * (0.2 + factor * 0.75 + Math.sin(i * 2) * 0.05)));
     });
-    
+
     deals[pointsCount - 1] = dMax;
     retailers[pointsCount - 1] = rMax;
     moderators[pointsCount - 1] = mMax;
     spotlights[pointsCount - 1] = sMax;
-    
+
     return { labels, deals, retailers, moderators, spotlights };
   }, [adminTimeframe, adminMetrics]);
 
   useEffect(() => {
-    setVisibleDealsCount(isMobile ? 20 : 10);
+    setVisibleDealsCount(isMobile ? 20 : 15);
   }, [isMobile, activeFilter, stateFilter, searchQuery, activeSort, selectedState, selectedCity, selectedCategory, selectedDiscount, selectedExpiry, sortBy]);
 
   useEffect(() => {
@@ -1976,7 +2004,8 @@ export default function App() {
       const isInsideFilterBar = e.target.closest('.filter-dropdown-container');
       const isInsidePortal = e.target.closest('[data-portal-dropdown]');
       const isInsideMobileSearch = mobileSuburbSearchRef.current?.contains(e.target);
-      if (!isInsideFilterBar && !isInsidePortal && !isInsideMobileSearch) {
+      const isInsideLocationNav = locationNavRef.current?.contains(e.target);
+      if (!isInsideFilterBar && !isInsidePortal && !isInsideMobileSearch && !isInsideLocationNav) {
         setOpenDropdown(null);
         setLocationDropOpen(false);
         setMobileLocationDropOpen(false);
@@ -2311,7 +2340,7 @@ export default function App() {
       let dealName = dealOrName;
       if (dealOrName && typeof dealOrName === 'object') {
         dealName = dealOrName.brand;
-        
+
         if (dealOrName.isProduct) {
           addToCart(dealOrName.rawProduct, dealOrName.rawProduct.store);
           setCurrentRoute('#profile');
@@ -2319,7 +2348,7 @@ export default function App() {
           triggerToast(`Added ${dealOrName.title} to cart!`, 'success');
           return;
         }
-        
+
         // Add to cart
         const storeId = dealOrName.brand.toLowerCase().replace(/[^a-z0-9]/g, '-');
         const store = STORES[storeId] || {
@@ -2332,7 +2361,7 @@ export default function App() {
           discountText: dealOrName.discount,
           products: []
         };
-        
+
         const product = {
           id: dealOrName.id,
           name: dealOrName.title,
@@ -2342,9 +2371,9 @@ export default function App() {
           status: 'In stock',
           image: dealOrName.image
         };
-        
+
         addToCart(product, store);
-        
+
         // Directly navigate to cart
         setCurrentRoute('#profile');
         setProfileTab('cart');
@@ -2403,28 +2432,28 @@ export default function App() {
 
       // 2. Location Filter (State, City, AND Suburb/Postcode)
       let matchesLocation = true;
-      
+
       if (selectedSuburb) {
         // Suburb-level filter: match by state only 
         // (postcode-level product data not available, 
         // so filter to state and show all state deals)
         matchesLocation = deal.regions && (
-          deal.regions.includes(selectedSuburb.state) || 
+          deal.regions.includes(selectedSuburb.state) ||
           deal.regions.includes('All Australia')
         );
       } else {
-        const cityState = selectedCity && 
-          selectedCity !== 'All Cities' 
-            ? selectedCity.split(', ')[1] 
-            : null;
+        const cityState = selectedCity &&
+          selectedCity !== 'All Cities'
+          ? selectedCity.split(', ')[1]
+          : null;
         const targetState = cityState || (
-          selectedState !== 'All Australia' 
-            ? selectedState 
+          selectedState !== 'All Australia'
+            ? selectedState
             : null
         );
         if (targetState) {
           matchesLocation = deal.regions && (
-            deal.regions.includes(targetState) || 
+            deal.regions.includes(targetState) ||
             deal.regions.includes('All Australia')
           );
         }
@@ -2435,7 +2464,7 @@ export default function App() {
       if (selectedDiscount !== 'Any Discount') {
         const discountPct = deal.originalPrice ? Math.round(((deal.originalPrice - deal.salePrice) / deal.originalPrice) * 100) : 0;
         const savingAmount = deal.originalPrice - deal.salePrice;
-        
+
         if (selectedDiscount === '10%+ OFF') matchesDiscount = discountPct >= 10;
         else if (selectedDiscount === '20%+ OFF') matchesDiscount = discountPct >= 20;
         else if (selectedDiscount === '30%+ OFF') matchesDiscount = discountPct >= 30;
@@ -2450,7 +2479,7 @@ export default function App() {
       let matchesExpiry = true;
       if (selectedExpiry !== 'Any Time') {
         const expDays = deal.expiryDays !== undefined ? deal.expiryDays : (deal.expiry !== undefined ? deal.expiry : 999);
-        
+
         if (selectedExpiry === 'Expiring Today') matchesExpiry = expDays === 0;
         else if (selectedExpiry === 'Ends in 2 days') matchesExpiry = expDays <= 2;
         else if (selectedExpiry === 'This Week') matchesExpiry = expDays <= 7;
@@ -2512,8 +2541,8 @@ export default function App() {
     // Filter by Search Query
     if (communitySearchQuery.trim()) {
       const q = communitySearchQuery.toLowerCase();
-      result = result.filter(post => 
-        (post.title && post.title.toLowerCase().includes(q)) || 
+      result = result.filter(post =>
+        (post.title && post.title.toLowerCase().includes(q)) ||
         (post.body && post.body.toLowerCase().includes(q)) ||
         (post.store && post.store.toLowerCase().includes(q)) ||
         (post.user && post.user.toLowerCase().includes(q))
@@ -2632,9 +2661,8 @@ export default function App() {
   const isModeratorDashboard = currentRoute === '#moderator' && currentUser?.role === 'moderator';
 
   return (
-    <div className={`min-h-screen ${
-      (isConsumerDashboard || isAdminDashboard || isModeratorDashboard)
-        ? 'bg-[#f5f5f5] font-sans text-[#0d0d0d] pt-0' 
+    <div className={`min-h-screen ${(isConsumerDashboard || isAdminDashboard || isModeratorDashboard)
+        ? 'bg-[#f5f5f5] font-sans text-[#0d0d0d] pt-0'
         : 'bg-[#f5f5f5] font-sans text-[#0d0d0d] pt-[104px] sm:pt-[152px]'
       } flex flex-col relative overflow-x-hidden 
       selection:bg-[#e6f2e8] selection:text-[#047c1f]`}>
@@ -2738,13 +2766,13 @@ export default function App() {
                     s.postcode.startsWith(q) ||
                     s.suburb.toLowerCase().includes(q)
                   ).slice(0, 5);
-                  
+
                   if (matches.length === 0) return (
                     <div className="px-3 py-2 text-[10px] text-slate-400 font-medium select-none text-left">
                       No suburbs found
                     </div>
                   );
-                  
+
                   return matches.map(s => (
                     <div
                       key={s.postcode}
@@ -2764,7 +2792,7 @@ export default function App() {
                         <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
                         <div>
                           <span className="text-xs text-slate-700">{s.suburb}</span>
-                          <span className="text-[10px] text-slate-400 ml-1">{s.state}</span>
+                          <span className="text-[10px] text-slate-400 ml-1">{s.state}, Australia</span>
                         </div>
                       </div>
                       <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1 rounded">{s.postcode}</span>
@@ -2832,397 +2860,396 @@ export default function App() {
       {/* Desktop Header & Navbar (visible starting from sm: breakpoint) */}
       {!isConsumerDashboard && !isAdminDashboard && !isModeratorDashboard && (
         <header className={`fixed left-0 right-0 top-10 h-16 z-[1000] bg-white border-b-2 border-[#047c1f] shadow-sm hidden sm:block ${communityPanelOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-200`}>
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-12 sm:h-16 flex items-center justify-between gap-3">
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-12 sm:h-16 flex items-center justify-between gap-3">
 
-          {/* 1. Logo */}
-          <a href="#home" className="flex items-center gap-2 group shrink-0">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#047c1f] flex items-center justify-center text-white font-display font-extrabold text-lg sm:text-xl shadow-md shadow-[#047c1f]/20 group-hover:scale-105 transition-transform duration-200">
-              <Tag className="w-4 h-4 sm:w-5 sm:h-5 text-[#fdc800]" />
-            </div>
-            <span className="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-[#0d0d0d] group-hover:opacity-90">
-              7<span className="text-[#047c1f]">deals</span>
-            </span>
-          </a>
+            {/* 1. Logo */}
+            <a href="#home" className="flex items-center gap-2 group shrink-0">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#047c1f] flex items-center justify-center text-white font-display font-extrabold text-lg sm:text-xl shadow-md shadow-[#047c1f]/20 group-hover:scale-105 transition-transform duration-200">
+                <Tag className="w-4 h-4 sm:w-5 sm:h-5 text-[#fdc800]" />
+              </div>
+              <span className="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-[#0d0d0d] group-hover:opacity-90">
+                7<span className="text-[#047c1f]">deals</span>
+              </span>
+            </a>
 
 
 
-          {/* 2. Location filter — desktop only */}
-          <div 
-            ref={locationNavRef}
-            className="relative hidden md:flex items-center w-[200px] shrink-0"
-          >
-            <div className="relative w-full">
-              <MapPin className="w-3.5 h-3.5 text-[#047c1f] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="text"
-                placeholder={selectedSuburb ? `${selectedSuburb.suburb} (${selectedSuburb.postcode})` : "Postcode or suburb..."}
-                value={postcodeInput}
-                onChange={(e) => {
-                  setPostcodeInput(e.target.value);
-                  if (e.target.value.length >= 2) {
-                    setLocationDropOpen(true);
-                  } else {
-                    setLocationDropOpen(false);
-                  }
-                }}
-                onFocus={() => {
-                  if (postcodeInput.length >= 2) setLocationDropOpen(true);
-                }}
-                className={`w-full bg-white hover:bg-slate-50/50 pl-8 pr-8 py-1.5 text-xs border border-[#e8e8e8] hover:border-[#047c1f] focus:border-[#047c1f] rounded-full focus:outline-none focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold ${selectedSuburb && !postcodeInput ? 'text-[#047c1f] placeholder-[#047c1f]' : 'text-slate-700 placeholder-slate-400'}`}
-              />
-              {(postcodeInput || selectedSuburb) && (
-                <button
-                  onClick={() => {
-                    setPostcodeInput('');
-                    setSelectedSuburb(null);
-                    setSelectedState('All Australia');
-                    setStateFilter('All Australia');
-                    setSelectedCity('All Cities');
-                    setDetectedLocation('Australia');
-                    setLocationDropOpen(false);
-                    triggerToast('Location filter cleared', 'info');
-                  }}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-slate-200 text-slate-450 hover:text-red-500 cursor-pointer"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-
-            {/* Portal dropdown showing suburb suggestions */}
-            <PortalDropdown
-              anchorRef={locationNavRef}
-              isOpen={locationDropOpen && postcodeInput.length >= 2}
+            {/* 2. Location filter — desktop only */}
+            <div
+              ref={locationNavRef}
+              className="relative hidden md:flex items-center w-[200px] shrink-0"
             >
-              <div className="py-1 min-w-[200px]">
-                {(() => {
-                  const q = postcodeInput.toLowerCase();
-                  const matches = AUSTRALIAN_SUBURBS.filter(s =>
-                    s.postcode.startsWith(q) ||
-                    s.suburb.toLowerCase().includes(q)
-                  ).slice(0, 6);
-                  
-                  if (matches.length === 0) return (
-                    <div className="px-3 py-2 text-[11px] text-slate-400 font-medium select-none">
-                      No suburbs found
-                    </div>
-                  );
-                  
-                  return matches.map(s => (
-                    <div
-                      key={s.postcode}
-                      onClick={() => {
-                        setSelectedSuburb(s);
-                        setSelectedState(s.state);
-                        setStateFilter(s.state);
-                        setSelectedCity(`${s.suburb}, ${s.state}`);
-                        setDetectedLocation(`${s.suburb} ${s.postcode}`);
-                        setPostcodeInput('');
-                        setLocationDropOpen(false);
-                        triggerToast(`📍 Location: ${s.suburb} (${s.postcode})`);
-                      }}
-                      className="flex items-center justify-between px-2.5 py-2 
+              <div className="relative w-full">
+                <MapPin className="w-3.5 h-3.5 text-[#047c1f] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder={selectedSuburb ? `${selectedSuburb.suburb} (${selectedSuburb.postcode})` : "Postcode or suburb..."}
+                  value={postcodeInput}
+                  onChange={(e) => {
+                    setPostcodeInput(e.target.value);
+                    if (e.target.value.length >= 2) {
+                      setLocationDropOpen(true);
+                    } else {
+                      setLocationDropOpen(false);
+                    }
+                  }}
+                  onFocus={() => {
+                    if (postcodeInput.length >= 2) setLocationDropOpen(true);
+                  }}
+                  className={`w-full bg-white hover:bg-slate-50/50 pl-8 pr-8 py-1.5 text-xs border border-[#e8e8e8] hover:border-[#047c1f] focus:border-[#047c1f] rounded-full focus:outline-none focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold ${selectedSuburb && !postcodeInput ? 'text-[#047c1f] placeholder-[#047c1f]' : 'text-slate-700 placeholder-slate-400'}`}
+                />
+                {(postcodeInput || selectedSuburb) && (
+                  <button
+                    onClick={() => {
+                      setPostcodeInput('');
+                      setSelectedSuburb(null);
+                      setSelectedState('All Australia');
+                      setStateFilter('All Australia');
+                      setSelectedCity('All Cities');
+                      setDetectedLocation('Australia');
+                      setLocationDropOpen(false);
+                      triggerToast('Location filter cleared', 'info');
+                    }}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-slate-200 text-slate-450 hover:text-red-500 cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+
+              {/* Portal dropdown showing suburb suggestions */}
+              <PortalDropdown
+                anchorRef={locationNavRef}
+                isOpen={locationDropOpen && postcodeInput.length >= 2}
+              >
+                <div className="py-1 min-w-[200px]">
+                  {(() => {
+                    const q = postcodeInput.toLowerCase();
+                    const matches = AUSTRALIAN_SUBURBS.filter(s =>
+                      s.postcode.startsWith(q) ||
+                      s.suburb.toLowerCase().includes(q)
+                    ).slice(0, 6);
+
+                    if (matches.length === 0) return (
+                      <div className="px-3 py-2 text-[11px] text-slate-400 font-medium select-none">
+                        No suburbs found
+                      </div>
+                    );
+
+                    return matches.map(s => (
+                      <div
+                        key={s.postcode}
+                        onClick={() => {
+                          setSelectedSuburb(s);
+                          setSelectedState(s.state);
+                          setStateFilter(s.state);
+                          setSelectedCity(`${s.suburb}, ${s.state}`);
+                          setDetectedLocation(`${s.suburb} ${s.postcode}`);
+                          setPostcodeInput('');
+                          setLocationDropOpen(false);
+                          triggerToast(`📍 Location: ${s.suburb} (${s.postcode})`);
+                        }}
+                        className="flex items-center justify-between px-2.5 py-2 
                         rounded-[6px] cursor-pointer hover:bg-[#f0faf2] 
                         hover:text-[#047c1f] transition-colors font-semibold"
-                    >
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
-                        <div>
-                          <span className="text-[13px] text-slate-700">{s.suburb}</span>
-                          <span className="text-[11px] text-slate-450 ml-1.5">{s.state}</span>
-                        </div>
-                      </div>
-                      <span className="text-[11px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
-                        {s.postcode}
-                      </span>
-                    </div>
-                  ));
-                })()}
-              </div>
-            </PortalDropdown>
-          </div>
-
-          {/* 3. Search bar — desktop, flex-1 */}
-          <div className="hidden md:flex flex-1 max-w-sm relative group">
-            <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-slate-400 group-focus-within:text-[#047c1f] transition-colors" />
-            <input
-              type="text"
-              placeholder="Search Aussie deals..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-100 hover:bg-slate-200/60 focus:bg-white text-sm text-slate-900 pl-10 pr-4 py-2 rounded-full border border-transparent focus:border-[#047c1f] focus:outline-none focus:ring-2 focus:ring-[#047c1f]/25 transition-all duration-200"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-
-          {/* 4. Right side group */}
-          <div className="flex items-center gap-2 shrink-0">
-            
-            {/* Shopping Cart Icon */}
-            <div className="relative">
-              <button
-                onClick={() => {
-                  if (!currentUser) {
-                    setLoginModalOpen(true);
-                    triggerToast('Sign in to view your shopping cart', 'warning');
-                    return;
-                  }
-                  setCurrentRoute('#profile');
-                  setProfileTab('cart');
-                  triggerToast('Opening shopping cart in your profile...', 'info');
-                }}
-                className="relative p-2 rounded-full border border-[#e8e8e8] bg-white hover:border-[#047c1f] transition-colors cursor-pointer flex items-center justify-center"
-                title="Shopping Cart"
-              >
-                <span className="material-symbols-outlined text-[18px] text-slate-600 hover:text-[#047c1f] transition-colors leading-none">shopping_cart</span>
-                {cart.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#047c1f] text-white text-[9px] font-bold flex items-center justify-center leading-none">
-                    {cart.reduce((acc, item) => acc + item.quantity, 0)}
-                  </span>
-                )}
-              </button>
-            </div>
-
-            {/* Saved items icon */}
-            <div ref={savedNavRef} className="relative hidden sm:block">
-              <button
-                onClick={() => {
-                  if (!currentUser) {
-                    setLoginModalOpen(true);
-                    triggerToast(
-                      'Sign in to view saved deals', 'warning'
-                    );
-                    return;
-                  }
-                  setShowSavedPanel(!showSavedPanel);
-                }}
-                className="relative p-2 rounded-full border border-[#e8e8e8] bg-white hover:border-[#047c1f] transition-colors cursor-pointer flex items-center justify-center"
-                title="Saved deals"
-              >
-                <Bookmark className="w-4.5 h-4.5 text-slate-600 hover:text-[#047c1f] transition-colors" />
-                
-                {/* Count badge */}
-                {savedDeals.size > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#047c1f] text-white text-[9px] font-bold flex items-center justify-center leading-none">
-                    {savedDeals.size}
-                  </span>
-                )}
-              </button>
-
-              {/* Saved deals mini panel */}
-              <PortalDropdown
-                anchorRef={savedNavRef}
-                isOpen={showSavedPanel && currentUser !== null}
-              >
-                <div className="w-[300px]">
-                  
-                  {/* Header */}
-                  <div className="flex items-center justify-between px-3 py-2 border-b border-slate-100">
-                    <span className="text-[13px] font-bold text-slate-800">
-                      Saved Deals
-                    </span>
-                    <span className="text-[11px] font-bold text-[#047c1f]">
-                      {savedDeals.size} saved
-                    </span>
-                  </div>
-
-                  {/* Saved deals list */}
-                  {savedDeals.size === 0 ? (
-                    <div className="px-3 py-6 text-center">
-                      <span className="text-[13px] text-slate-400 font-medium">
-                        No saved deals yet
-                      </span>
-                      <p className="text-[11px] text-slate-400 mt-1">
-                        Tap the tag icon on any deal to save it
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="max-h-[300px] overflow-y-auto no-scrollbar">
-                      {Array.from(savedDeals).map((dealId) => {
-                        const deal = allDeals.find(
-                          d => d.id === dealId
-                        );
-                        if (!deal) return null;
-                        return (
-                          <div
-                            key={dealId}
-                            className="flex items-center justify-between gap-2 px-3 py-2.5 hover:bg-slate-50 border-b border-slate-50 cursor-pointer"
-                            onClick={() => {
-                              window.location.hash = 
-                                `#deal/${deal.id}`;
-                              setShowSavedPanel(false);
-                            }}
-                          >
-                            <div className="flex items-center gap-2 min-w-0">
-                              <div className={`w-7 h-7 rounded-lg ${deal.logoBg} text-white font-bold text-[10px] flex items-center justify-center shrink-0`}>
-                                {deal.logo}
-                              </div>
-                              <div className="min-w-0">
-                                <p className="text-[12px] font-bold text-slate-800 truncate">
-                                  {deal.title}
-                                </p>
-                                <p className="text-[11px] text-[#047c1f] font-bold">
-                                  ${deal.salePrice.toFixed(2)} AUD
-                                </p>
-                              </div>
-                            </div>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleSaveDeal(deal.id, e);
-                              }}
-                              className="p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors shrink-0 cursor-pointer"
-                            >
-                              <X className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {/* Footer link */}
-                  {savedDeals.size > 0 && (
-                    <div className="px-3 py-2 border-t border-slate-100">
-                      <a
-                        href="#profile"
-                        onClick={() => setShowSavedPanel(false)}
-                        className="text-[12px] font-bold text-[#047c1f] hover:underline"
                       >
-                        View all saved deals →
-                      </a>
-                    </div>
-                  )}
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                          <div>
+                            <span className="text-[13px] text-slate-700">{s.suburb}</span>
+                            <span className="text-[11px] text-slate-450 ml-1.5">{s.state}, Australia</span>
+                          </div>
+                        </div>
+                        <span className="text-[11px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+                          {s.postcode}
+                        </span>
+                      </div>
+                    ));
+                  })()}
                 </div>
               </PortalDropdown>
             </div>
 
-            {/* Existing auth section — no changes */}
-            {currentUser ? (
-              <div className="hidden sm:flex items-center gap-2">
+            {/* 3. Search bar — desktop, flex-1 */}
+            <div className="hidden md:flex flex-1 max-w-sm relative group">
+              <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-slate-400 group-focus-within:text-[#047c1f] transition-colors" />
+              <input
+                type="text"
+                placeholder="Search Aussie deals..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-slate-100 hover:bg-slate-200/60 focus:bg-white text-sm text-slate-900 pl-10 pr-4 py-2 rounded-full border border-transparent focus:border-[#047c1f] focus:outline-none focus:ring-2 focus:ring-[#047c1f]/25 transition-all duration-200"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
 
-                {/* Admin button if admin */}
-                {currentUser.role === 'admin' && (
-                  <a
-                    href="#admin"
-                    className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#fff9e6] text-[#b38600] border border-[#fdc800]/40 hover:bg-[#fdc800]/10 transition-colors"
-                  >
-                    <Shield className="w-3.5 h-3.5" /> Admin Console
-                  </a>
-                )}
+            {/* 4. Right side group */}
+            <div className="flex items-center gap-2 shrink-0">
 
-                {/* Consumer dashboard button if consumer */}
-                {currentUser.role === 'consumer' && (
-                  <a
-                    href="#dashboard"
-                    className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#e6f2e8] text-[#047c1f] border border-[#047c1f]/20 hover:bg-[#047c1f]/10 transition-colors"
-                  >
-                    <ShoppingBag className="w-3.5 h-3.5" /> Merchant Hub
-                  </a>
-                )}
+              {/* Shopping Cart Icon */}
+              <div className="relative">
+                <button
+                  onClick={() => {
+                    if (!currentUser) {
+                      setLoginModalOpen(true);
+                      triggerToast('Sign in to view your shopping cart', 'warning');
+                      return;
+                    }
+                    setCurrentRoute('#profile');
+                    setProfileTab('cart');
+                    triggerToast('Opening shopping cart in your profile...', 'info');
+                  }}
+                  className="relative p-2 rounded-full border border-[#e8e8e8] bg-white hover:border-[#047c1f] transition-colors cursor-pointer flex items-center justify-center"
+                  title="Shopping Cart"
+                >
+                  <span className="material-symbols-outlined text-[18px] text-slate-600 hover:text-[#047c1f] transition-colors leading-none">shopping_cart</span>
+                  {cart.length > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#047c1f] text-white text-[9px] font-bold flex items-center justify-center leading-none">
+                      {cart.reduce((acc, item) => acc + item.quantity, 0)}
+                    </span>
+                  )}
+                </button>
+              </div>
 
-                {/* Moderator button if moderator */}
-                {currentUser.role === 'moderator' && (
-                  <a
-                    href="#moderator"
-                    className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition-colors"
-                  >
-                    <Shield className="w-3.5 h-3.5" /> Moderator Console
-                  </a>
-                )}
+              {/* Saved items icon */}
+              <div ref={savedNavRef} className="relative hidden sm:block">
+                <button
+                  onClick={() => {
+                    if (!currentUser) {
+                      setLoginModalOpen(true);
+                      triggerToast(
+                        'Sign in to view saved deals', 'warning'
+                      );
+                      return;
+                    }
+                    setShowSavedPanel(!showSavedPanel);
+                  }}
+                  className="relative p-2 rounded-full border border-[#e8e8e8] bg-white hover:border-[#047c1f] transition-colors cursor-pointer flex items-center justify-center"
+                  title="Saved deals"
+                >
+                  <Bookmark className="w-4.5 h-4.5 text-slate-600 hover:text-[#047c1f] transition-colors" />
 
-                {/* Profile menu dropdown */}
-                <div className="relative group/profile">
-                  <button className="flex items-center gap-2 p-1 rounded-full border border-[#e8e8e8] bg-white hover:border-[#047c1f]/50 transition-colors cursor-pointer">
-                    <div className={`w-8 h-8 rounded-full ${currentUser.color || 'bg-[#047c1f]'} text-white flex items-center justify-center font-bold text-sm`}>
-                      {currentUser.avatar}
+                  {/* Count badge */}
+                  {savedDeals.size > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#047c1f] text-white text-[9px] font-bold flex items-center justify-center leading-none">
+                      {savedDeals.size}
+                    </span>
+                  )}
+                </button>
+
+                {/* Saved deals mini panel */}
+                <PortalDropdown
+                  anchorRef={savedNavRef}
+                  isOpen={showSavedPanel && currentUser !== null}
+                >
+                  <div className="w-[300px]">
+
+                    {/* Header */}
+                    <div className="flex items-center justify-between px-3 py-2 border-b border-slate-100">
+                      <span className="text-[13px] font-bold text-slate-800">
+                        Saved Deals
+                      </span>
+                      <span className="text-[11px] font-bold text-[#047c1f]">
+                        {savedDeals.size} saved
+                      </span>
                     </div>
-                    <span className="hidden md:inline text-sm font-semibold pr-2 text-slate-700">{currentUser.name}</span>
-                  </button>
 
-                  <div className="absolute right-0 top-full pt-2 hidden group-hover/profile:block w-56 bg-white border border-[#e8e8e8] rounded-2xl shadow-xl overflow-hidden z-50">
-                    <div className="p-3 border-b border-[#e8e8e8] bg-slate-50/50">
-                      <p className="text-[10px] text-slate-400 font-bold uppercase">Logged in as</p>
-                      <p className="text-sm font-bold text-slate-800 truncate">{currentUser.name}</p>
-                      <p className="text-xs text-slate-500 truncate">{currentUser.email}</p>
-                    </div>
-                    <div className="p-2 flex flex-col gap-1 font-semibold">
-                      <a href="#profile" className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-xl text-slate-700 text-sm transition-colors">
-                        <User className="w-4 h-4 text-[#047c1f]" /> My Profile
-                      </a>
-                      {currentUser.role === 'consumer' && (
-                        <a href="#dashboard" className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-xl text-slate-700 text-sm transition-colors">
-                          <ShoppingBag className="w-4 h-4 text-[#047c1f]" /> Store Dashboard
+                    {/* Saved deals list */}
+                    {savedDeals.size === 0 ? (
+                      <div className="px-3 py-6 text-center">
+                        <span className="text-[13px] text-slate-400 font-medium">
+                          No saved deals yet
+                        </span>
+                        <p className="text-[11px] text-slate-400 mt-1">
+                          Tap the tag icon on any deal to save it
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="max-h-[300px] overflow-y-auto no-scrollbar">
+                        {Array.from(savedDeals).map((dealId) => {
+                          const deal = allDeals.find(
+                            d => d.id === dealId
+                          );
+                          if (!deal) return null;
+                          return (
+                            <div
+                              key={dealId}
+                              className="flex items-center justify-between gap-2 px-3 py-2.5 hover:bg-slate-50 border-b border-slate-50 cursor-pointer"
+                              onClick={() => {
+                                window.location.hash =
+                                  `#deal/${deal.id}`;
+                                setShowSavedPanel(false);
+                              }}
+                            >
+                              <div className="flex items-center gap-2 min-w-0">
+                                <div className={`w-7 h-7 rounded-lg ${deal.logoBg} text-white font-bold text-[10px] flex items-center justify-center shrink-0`}>
+                                  {deal.logo}
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="text-[12px] font-bold text-slate-800 truncate">
+                                    {deal.title}
+                                  </p>
+                                  <p className="text-[11px] text-[#047c1f] font-bold">
+                                    ${deal.salePrice.toFixed(2)} AUD
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleSaveDeal(deal.id, e);
+                                }}
+                                className="p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors shrink-0 cursor-pointer"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {/* Footer link */}
+                    {savedDeals.size > 0 && (
+                      <div className="px-3 py-2 border-t border-slate-100">
+                        <a
+                          href="#profile"
+                          onClick={() => setShowSavedPanel(false)}
+                          className="text-[12px] font-bold text-[#047c1f] hover:underline"
+                        >
+                          View all saved deals →
                         </a>
-                      )}
-                      {currentUser.role === 'admin' && (
-                        <a href="#admin" className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-xl text-slate-700 text-sm transition-colors">
-                          <Shield className="w-4 h-4 text-[#047c1f]" /> Control Panel
+                      </div>
+                    )}
+                  </div>
+                </PortalDropdown>
+              </div>
+
+              {/* Existing auth section — no changes */}
+              {currentUser ? (
+                <div className="hidden sm:flex items-center gap-2">
+
+                  {/* Admin button if admin */}
+                  {currentUser.role === 'admin' && (
+                    <a
+                      href="#admin"
+                      className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#fff9e6] text-[#b38600] border border-[#fdc800]/40 hover:bg-[#fdc800]/10 transition-colors"
+                    >
+                      <Shield className="w-3.5 h-3.5" /> Admin Console
+                    </a>
+                  )}
+
+                  {/* Consumer dashboard button if consumer */}
+                  {currentUser.role === 'consumer' && (
+                    <a
+                      href="#dashboard"
+                      className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#e6f2e8] text-[#047c1f] border border-[#047c1f]/20 hover:bg-[#047c1f]/10 transition-colors"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5" /> Merchant Hub
+                    </a>
+                  )}
+
+                  {/* Moderator button if moderator */}
+                  {currentUser.role === 'moderator' && (
+                    <a
+                      href="#moderator"
+                      className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition-colors"
+                    >
+                      <Shield className="w-3.5 h-3.5" /> Moderator Console
+                    </a>
+                  )}
+
+                  {/* Profile menu dropdown */}
+                  <div className="relative group/profile">
+                    <button className="flex items-center gap-2 p-1 rounded-full border border-[#e8e8e8] bg-white hover:border-[#047c1f]/50 transition-colors cursor-pointer">
+                      <div className={`w-8 h-8 rounded-full ${currentUser.color || 'bg-[#047c1f]'} text-white flex items-center justify-center font-bold text-sm`}>
+                        {currentUser.avatar}
+                      </div>
+                      <span className="hidden md:inline text-sm font-semibold pr-2 text-slate-700">{currentUser.name}</span>
+                    </button>
+
+                    <div className="absolute right-0 top-full pt-2 hidden group-hover/profile:block w-56 bg-white border border-[#e8e8e8] rounded-2xl shadow-xl overflow-hidden z-50">
+                      <div className="p-3 border-b border-[#e8e8e8] bg-slate-50/50">
+                        <p className="text-[10px] text-slate-400 font-bold uppercase">Logged in as</p>
+                        <p className="text-sm font-bold text-slate-800 truncate">{currentUser.name}</p>
+                        <p className="text-xs text-slate-500 truncate">{currentUser.email}</p>
+                      </div>
+                      <div className="p-2 flex flex-col gap-1 font-semibold">
+                        <a href="#profile" className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-xl text-slate-700 text-sm transition-colors">
+                          <User className="w-4 h-4 text-[#047c1f]" /> My Profile
                         </a>
-                      )}
-                      {currentUser.role === 'moderator' && (
-                        <a href="#moderator" className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-xl text-slate-700 text-sm transition-colors">
-                          <Shield className="w-4 h-4 text-[#047c1f]" /> Mod Dashboard
-                        </a>
-                      )}
-                      <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center gap-2 p-2 hover:bg-red-50 text-red-600 hover:text-red-700 rounded-xl text-sm text-left transition-colors cursor-pointer font-bold"
-                      >
-                        <LogOut className="w-4 h-4" /> Log Out
-                      </button>
+                        {currentUser.role === 'consumer' && (
+                          <a href="#dashboard" className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-xl text-slate-700 text-sm transition-colors">
+                            <ShoppingBag className="w-4 h-4 text-[#047c1f]" /> Store Dashboard
+                          </a>
+                        )}
+                        {currentUser.role === 'admin' && (
+                          <a href="#admin" className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-xl text-slate-700 text-sm transition-colors">
+                            <Shield className="w-4 h-4 text-[#047c1f]" /> Control Panel
+                          </a>
+                        )}
+                        {currentUser.role === 'moderator' && (
+                          <a href="#moderator" className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-xl text-slate-700 text-sm transition-colors">
+                            <Shield className="w-4 h-4 text-[#047c1f]" /> Mod Dashboard
+                          </a>
+                        )}
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center gap-2 p-2 hover:bg-red-50 text-red-600 hover:text-red-700 rounded-xl text-sm text-left transition-colors cursor-pointer font-bold"
+                        >
+                          <LogOut className="w-4 h-4" /> Log Out
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div className="hidden sm:flex items-center gap-2">
-                <button
-                  onClick={() => { setAuthTab('login'); setLoginModalOpen(true); }}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-[#047c1f] hover:bg-slate-50 text-[#047c1f] font-bold text-sm transition-all duration-150 cursor-pointer"
-                >
-                  <User className="w-4 h-4 text-[#047c1f]" /> Sign In
-                </button>
-                <button
-                  onClick={() => { setAuthTab('register'); setLoginModalOpen(true); }}
-                  className="flex items-center gap-1.5 px-4.5 py-2 rounded-full bg-[#047c1f] hover:bg-[#035a16] text-white font-bold text-sm shadow-md shadow-[#047c1f]/10 transition-all duration-150 cursor-pointer"
-                >
-                  Sign Up
-                </button>
-              </div>
-            )}
+              ) : (
+                <div className="hidden sm:flex items-center gap-2">
+                  <button
+                    onClick={() => { setAuthTab('login'); setLoginModalOpen(true); }}
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-[#047c1f] hover:bg-slate-50 text-[#047c1f] font-bold text-sm transition-all duration-150 cursor-pointer"
+                  >
+                    <User className="w-4 h-4 text-[#047c1f]" /> Sign In
+                  </button>
+                  <button
+                    onClick={() => { setAuthTab('register'); setLoginModalOpen(true); }}
+                    className="flex items-center gap-1.5 px-4.5 py-2 rounded-full bg-[#047c1f] hover:bg-[#035a16] text-white font-bold text-sm shadow-md shadow-[#047c1f]/10 transition-all duration-150 cursor-pointer"
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              )}
 
-            {/* Mobile hamburger menu */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden w-11 h-11 flex items-center justify-center text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer border-none bg-transparent"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+              {/* Mobile hamburger menu */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="lg:hidden w-11 h-11 flex items-center justify-center text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer border-none bg-transparent"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+
           </div>
-
-        </div>
-      </header>
+        </header>
       )}
 
       {/* ==========================================
           FIXED CATEGORY BAR
       ========================================== */}
-      <div 
+      <div
         className={`fixed top-[56px] sm:top-[104px] left-0 right-0 
           h-12 z-[999] bg-white border-b border-[#e8e8e8] 
           px-4 flex items-center justify-start lg:justify-center gap-1.5 overflow-x-auto 
-          no-scrollbar flex-nowrap scroll-smooth ${
-          (isConsumerDashboard || isAdminDashboard || isModeratorDashboard) 
-          ? 'hidden' : (communityPanelOpen ? 
-          'opacity-0 pointer-events-none' : 'opacity-100')} 
+          no-scrollbar flex-nowrap scroll-smooth ${(isConsumerDashboard || isAdminDashboard || isModeratorDashboard)
+            ? 'hidden' : (communityPanelOpen ?
+              'opacity-0 pointer-events-none' : 'opacity-100')} 
           transition-opacity duration-200`}
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
@@ -3242,8 +3269,8 @@ export default function App() {
 
       {/* Mobile nav drawer Backdrop */}
       {mobileMenuOpen && (
-        <div 
-          className="lg:hidden fixed inset-0 bg-slate-900/60 z-[996] transition-opacity duration-200" 
+        <div
+          className="lg:hidden fixed inset-0 bg-slate-900/60 z-[996] transition-opacity duration-200"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
@@ -3251,7 +3278,7 @@ export default function App() {
       {/* Mobile nav drawer */}
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-x-0 top-0 bg-white border-b border-[#e8e8e8] z-[997] p-4 pt-16 shadow-xl flex flex-col gap-4 animate-in slide-in-from-top duration-300 max-h-[85vh] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
-          
+
           {/* 1. Search Bar */}
           <div className="relative w-full">
             <Search className="absolute left-3.5 top-3 w-4.5 h-4.5 text-slate-400" />
@@ -3307,7 +3334,7 @@ export default function App() {
                     >
                       <div className="flex items-center gap-2">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="text-sm text-slate-700">{s.suburb}, {s.state}</span>
+                        <span className="text-sm text-slate-700">{s.suburb}, {s.state}, Australia</span>
                       </div>
                       <span className="text-xs font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">{s.postcode}</span>
                     </div>
@@ -3399,23 +3426,21 @@ export default function App() {
               { href: '#community', label: 'Aussie Community', Icon: MessageSquare },
               { href: '#profile', label: 'My Profile & Cart', Icon: User }
             ].map(link => {
-              const isActive = currentRoute === link.href || 
-                               (link.href === '#home' && (currentRoute === '' || currentRoute === '#home' || !currentRoute));
+              const isActive = currentRoute === link.href ||
+                (link.href === '#home' && (currentRoute === '' || currentRoute === '#home' || !currentRoute));
               const LinkIcon = link.Icon;
               return (
                 <a
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2.5 text-sm font-bold rounded-xl transition-all cursor-pointer ${
-                    isActive
+                  className={`flex items-center gap-3 px-3 py-2.5 text-sm font-bold rounded-xl transition-all cursor-pointer ${isActive
                       ? 'bg-[#047c1f]/8 text-[#047c1f]'
                       : 'text-slate-700 hover:bg-slate-50 hover:text-[#047c1f]'
-                  }`}
+                    }`}
                 >
-                  <LinkIcon className={`w-5 h-5 shrink-0 transition-colors ${
-                    isActive ? 'text-[#047c1f]' : 'text-slate-400'
-                  }`} />
+                  <LinkIcon className={`w-5 h-5 shrink-0 transition-colors ${isActive ? 'text-[#047c1f]' : 'text-slate-400'
+                    }`} />
                   <span>{link.label}</span>
                 </a>
               );
@@ -3428,7 +3453,7 @@ export default function App() {
       {/* Main page content area */}
       <main className={
         (isConsumerDashboard || isAdminDashboard || isModeratorDashboard)
-          ? "flex-1 w-full" 
+          ? "flex-1 w-full"
           : "flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20 sm:pb-6"}>
 
         {/* Skeleton route loaders */}
@@ -3548,93 +3573,149 @@ export default function App() {
 
                 {/* Redesigned Premium High-Impact Full-Width Featured Hero Card */}
                 <div className="w-full flex flex-col justify-between mb-8">
-                  <div className="flex flex-col sm:relative w-full sm:aspect-[21/9] md:aspect-[3/1] rounded-[2rem] overflow-hidden shadow-2xl group bg-slate-950">
-                    
-                    {/* 1. Image Container */}
-                    <div className="relative w-full aspect-[4/3] sm:aspect-auto sm:absolute sm:inset-0 sm:h-full">
+                  <div className="relative w-full rounded-[2rem] overflow-hidden shadow-2xl group bg-slate-950 min-h-[380px] sm:min-h-[440px] flex flex-col justify-end">
+
+                    {/* 1. Image Container (Absolute Full Background) */}
+                    <div className="absolute inset-0 w-full h-full z-0">
                       <img
                         src={activeFeatured.image}
                         alt={activeFeatured.title}
-                        className="w-full h-full object-cover opacity-80 transition-transform duration-1000 group-hover:scale-105"
+                        className="w-full h-full object-cover opacity-60 transition-transform duration-1000 group-hover:scale-105"
                       />
-                      {/* In-image prev/next controls - 44x44px tap targets */}
-                      <div className="absolute top-[16px] right-[16px] flex gap-1 bg-black/45 backdrop-blur-md rounded-full p-1 shadow-lg border border-white/10 z-20">
-                        <button
-                          onClick={prevFeatured}
-                          className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer border-none bg-transparent"
-                        >
-                          <ChevronLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                          onClick={nextFeatured}
-                          className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer border-none bg-transparent"
-                        >
-                          <ChevronRight className="w-5 h-5" />
-                        </button>
-                      </div>
+                      {/* Dark gradient overlay for text contrast */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
                     </div>
 
-                    {/* 2. Content & Control Overlay (Below image on mobile, overlaid on desktop) */}
-                    <div className="relative sm:absolute sm:inset-0 bg-slate-950 sm:bg-gradient-to-t sm:from-black sm:via-black/35 sm:to-transparent p-5 sm:p-12 flex flex-col justify-end text-left">
+                    {/* In-image prev/next controls */}
+                    <div className="absolute top-[16px] right-[16px] flex gap-1 bg-black/45 backdrop-blur-md rounded-full p-1 shadow-lg border border-white/10 z-20">
+                      <button
+                        onClick={prevFeatured}
+                        className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer border-none bg-transparent"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                      <button
+                        onClick={nextFeatured}
+                        className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer border-none bg-transparent"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+
+                    {/* 2. Content Overlay with Blur Bar */}
+                    <div className="relative z-10 p-4 sm:p-8 md:p-10 w-full">
                       
-                      {/* Top Row: Badges & Expiry countdown (vertically stacked on mobile) */}
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4 select-none">
-                        <span className="bg-[#eb9d00] text-[#291800] px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest self-start">
-                          ★ Featured {activeFeatured.category} Deal
-                        </span>
-                        <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-[10px] font-bold self-start">
-                          <Clock className="w-3.5 h-3.5 text-white" />
-                          <span>Ends in {String(featuredTimeLeft.d).padStart(2, '0')}d : {String(featuredTimeLeft.h).padStart(2, '0')}h : {String(featuredTimeLeft.m).padStart(2, '0')}m</span>
-                        </div>
-                      </div>
-
-                      {/* Content Block */}
-                      <div className="max-w-3xl">
-                        <h2 className="text-white font-black text-lg sm:text-2xl md:text-[34px] mb-3 leading-tight tracking-tight drop-shadow-md">
-                          {activeFeatured.title}
-                        </h2>
-                        <p className="text-white/80 text-xs sm:text-sm md:text-base mb-5 sm:mb-6 max-w-xl font-medium drop-shadow leading-relaxed">
-                          {activeFeatured.description}
-                        </p>
-
-                        {/* Interactive Pricing, Vouchers & CTAs */}
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+                      {/* Glassmorphic Blur Bar wrapper */}
+                      <div className="w-full backdrop-blur-md bg-white/10 border border-white/20 rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-7 shadow-2xl relative">
+                        
+                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center">
                           
-                          {/* Price metrics */}
-                          <div className="flex items-center justify-between sm:justify-start sm:flex-col text-left gap-4">
-                            <span className="text-white/50 text-[10px] line-through font-bold leading-none block sm:hidden">Was ${activeFeatured.originalPrice.toFixed(2)}</span>
-                            <div className="text-left">
-                              <span className="hidden sm:block text-white/50 text-[10px] line-through font-bold leading-none">${activeFeatured.originalPrice.toFixed(2)}</span>
-                              <span className="text-[#00c853] font-black text-2xl sm:text-3xl leading-none mt-1">
-                                ${activeFeatured.salePrice.toFixed(2)} <span className="text-xs font-bold text-white/70">AUD</span>
+                          {/* Left Column (3/4 width on desktop): Main Text & CTAs */}
+                          <div className="lg:col-span-3 space-y-3 sm:space-y-4">
+                            
+                            {/* Top Row: Badges & Expiry countdown */}
+                            <div className="flex flex-wrap items-center gap-2 select-none">
+                              <span className="bg-[#eb9d00] text-[#291800] px-3.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-wider">
+                                ★ Featured {activeFeatured.category} Deal
                               </span>
+                              <div className="flex items-center gap-1.5 bg-white/20 text-white px-3.5 py-1 rounded-full text-[9px] sm:text-[10px] font-bold">
+                                <Clock className="w-3 h-3 text-white" />
+                                <span>Ends in {String(featuredTimeLeft.d).padStart(2, '0')}d : {String(featuredTimeLeft.h).padStart(2, '0')}h : {String(featuredTimeLeft.m).padStart(2, '0')}m</span>
+                              </div>
                             </div>
+
+                            {/* Title & Description */}
+                            <div>
+                              <h2 className="text-white font-black text-lg sm:text-xl md:text-2xl lg:text-[28px] mb-2 leading-tight tracking-tight drop-shadow-md">
+                                {activeFeatured.title}
+                              </h2>
+                              <p className="text-white/80 text-xs sm:text-sm mb-4 max-w-2xl font-medium drop-shadow leading-relaxed">
+                                {activeFeatured.description}
+                              </p>
+                            </div>
+
+                            {/* Interactive Pricing, Vouchers & CTAs */}
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                              
+                              {/* Price metrics */}
+                              <div className="flex items-center justify-between sm:justify-start sm:flex-col text-left gap-2 sm:gap-0 shrink-0">
+                                <span className="text-white/50 text-[9px] line-through font-bold leading-none block sm:hidden">Was ${activeFeatured.originalPrice.toFixed(2)}</span>
+                                <div className="text-left">
+                                  <span className="hidden sm:block text-white/50 text-[9px] line-through font-bold leading-none">${activeFeatured.originalPrice.toFixed(2)}</span>
+                                  <span className="text-[#00c853] font-black text-xl sm:text-2xl leading-none mt-0.5 block">
+                                    ${activeFeatured.salePrice.toFixed(2)} <span className="text-[10px] font-bold text-white/70">AUD</span>
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
+                                {/* Code Copying Pill */}
+                                <div
+                                  onClick={handleFeaturedCopy}
+                                  className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl px-4 py-2 cursor-pointer transition-colors shadow-sm select-none min-h-[38px] sm:min-h-0"
+                                >
+                                  <span className="text-[9px] text-white/60 font-black uppercase">Voucher:</span>
+                                  <span className="font-mono font-black text-xs sm:text-sm text-[#fdc800] tracking-wider">{activeFeatured.code}</span>
+                                  <span className="text-[9px] text-[#00c853] font-bold ml-1 bg-[#00c853]/15 px-1.5 py-0.5 rounded-full">
+                                    {featuredCopied ? "✓ Copied!" : "Copy"}
+                                  </span>
+                                </div>
+
+                                {/* Grab Deal button */}
+                                <button
+                                  onClick={() => handleGrabDeal(activeFeatured)}
+                                  className="bg-[#006e2a] hover:bg-[#00c853] text-white px-6 py-2 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all transform hover:-translate-y-0.5 active:translate-y-0 shadow-md shadow-[#006e2a]/30 cursor-pointer border-none min-h-[38px] sm:min-h-0"
+                                >
+                                  <span>Grab Deal Now</span>
+                                  <Rocket className="w-3.5 h-3.5 text-white" />
+                                </button>
+                              </div>
+                            </div>
+
                           </div>
 
-                          <div className="grid grid-cols-1 gap-3 w-full sm:flex sm:items-center sm:w-auto">
-                            {/* Code Copying Pill - 44px min height on mobile */}
-                            <div
-                              onClick={handleFeaturedCopy}
-                              className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl sm:rounded-full px-4 py-3 sm:py-2 cursor-pointer transition-colors shadow-sm select-none w-full sm:w-auto min-h-[44px]"
-                            >
-                              <span className="text-[10px] text-white/60 font-black uppercase">Voucher:</span>
-                              <span className="font-mono font-black text-sm text-[#fdc800] tracking-wider">{activeFeatured.code}</span>
-                              <span className="text-[10px] text-[#00c853] font-bold ml-1.5 bg-[#00c853]/15 px-2 py-0.5 rounded-full">
-                                {featuredCopied ? "✓ Copied!" : "Copy"}
-                              </span>
+                          {/* Right Column (1/4 width on desktop): T&Cs Sidebar */}
+                          <div className="lg:col-span-1 border-t lg:border-t-0 lg:border-l border-white/15 pt-4 lg:pt-0 lg:pl-6 text-left self-stretch flex flex-col justify-center">
+                            <div className="space-y-2">
+                              <h5 className="text-[10px] sm:text-[11px] font-black uppercase text-[#fdc800] tracking-wider select-none">
+                                Terms & Conditions
+                              </h5>
+                              <ul className="list-none p-0 m-0 space-y-1.5 text-white/70 text-[9px] sm:text-[10px] leading-relaxed">
+                                {(() => {
+                                  const terms = activeFeatured.id === 'd2' ? [
+                                    'Clearance stock at JB Hi-Fi.',
+                                    'Limit 1 unit per customer.',
+                                    'Full brand warranty applies.',
+                                    'Offer valid while stocks last.'
+                                  ] : activeFeatured.id === 'd7' ? [
+                                    'Flights departing Sydney.',
+                                    'Travel dates: Oct-Nov 2026.',
+                                    'Subject to seat availability.',
+                                    '23kg checked bag included.'
+                                  ] : activeFeatured.id === 'd10' ? [
+                                    'Direct purchase from Dyson.',
+                                    '2-year local warranty.',
+                                    'Free standard AU delivery.',
+                                    'Excludes other discount codes.'
+                                  ] : [
+                                    'Terms & conditions apply.',
+                                    'Limited time discount promo.',
+                                    'Subject to stock availability.',
+                                    'See store link for full policy.'
+                                  ];
+                                  return terms.map((t, index) => (
+                                    <li key={index} className="flex items-start gap-1.5">
+                                      <span className="text-[#00c853] font-bold select-none">•</span>
+                                      <span>{t}</span>
+                                    </li>
+                                  ));
+                                })()}
+                              </ul>
                             </div>
-
-                            {/* Grab Deal button - 44px min height on mobile */}
-                            <button
-                              onClick={() => handleGrabDeal(activeFeatured)}
-                              className="bg-[#006e2a] hover:bg-[#00c853] text-white px-8 py-3 rounded-xl sm:rounded-full font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-[#006e2a]/30 cursor-pointer border-none w-full sm:w-auto min-h-[44px]"
-                            >
-                              <span>Grab Deal Now</span>
-                              <Rocket className="w-4.5 h-4.5 text-white" />
-                            </button>
                           </div>
 
                         </div>
+
                       </div>
 
                     </div>
@@ -3702,7 +3783,7 @@ export default function App() {
                     {/* Left & Right Fade Gradient Overlays */}
                     <div className="absolute top-0 left-0 bottom-0 w-8 sm:w-16 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
                     <div className="absolute top-0 right-0 bottom-0 w-8 sm:w-16 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
-                    <div ref={listRef2} className="animate-scroll-25s flex gap-4 hover:[animation-play-state:paused] pr-4">
+                    <div ref={listRef2} className="animate-scroll-55s flex gap-4 hover:[animation-play-state:paused] pr-4">
                       {/* Brand-colored cards ticker */}
                       {RETAILERS_LIST.map((retailer, idx) => {
                         const matchingDeal = allDeals.find(d => d.brand.toLowerCase() === retailer.name.toLowerCase()) || allDeals[idx % allDeals.length];
@@ -3745,7 +3826,7 @@ export default function App() {
                   {/* Header details */}
                   <div className="flex flex-col gap-3 border-b border-[#e8e8e8] 
                     pb-4" style={{ marginBottom: '12px' }}>
-                    
+
                     {/* Top row: title + count */}
                     <div className="flex items-center justify-between">
                       <h2 className="text-2xl font-display font-extrabold 
@@ -3757,7 +3838,7 @@ export default function App() {
 
                     {/* Bottom row: postcode/suburb search — right aligned */}
                     <div className="hidden sm:flex items-center justify-end gap-2">
-                      
+
                       {/* Active suburb badge */}
                       {selectedSuburb && (
                         <div className="flex items-center gap-1.5 bg-[#e6f2e8] 
@@ -3861,7 +3942,7 @@ export default function App() {
                                       </span>
                                       <span className="text-[11px] 
                                         text-slate-400 ml-1">
-                                        {s.state}
+                                        {s.state}, Australia
                                       </span>
                                     </div>
                                   </div>
@@ -3894,46 +3975,6 @@ export default function App() {
                           Filter Deals:
                         </span>
 
-                        {/* Dropdown 3: Category */}
-                        <div ref={categoryDropRef} className="relative filter-dropdown-container">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setOpenDropdown(openDropdown === 'category' ? null : 'category');
-                            }}
-                            className="flex items-center justify-between gap-1.5 bg-[#f5f5f5] border-[1.5px] rounded-[8px] px-2.5 py-1.5 md:px-3 md:py-2 text-[12px] md:text-[13px] font-medium text-[#0d0d0d] cursor-pointer transition-all duration-150 hover:border-[#047c1f] select-none min-w-[110px] md:min-w-[130px]"
-                            style={{
-                              boxShadow: openDropdown === 'category' ? '0 0 0 3px rgba(4,124,31,0.1)' : 'none'
-                            }}
-                          >
-                            <span>{CATEGORY_EMOJIS[selectedCategory] || '🏷️'}</span>
-                            <span className="truncate">{selectedCategory}</span>
-                            <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 ${openDropdown === 'category' ? 'rotate-180' : ''}`} />
-                          </button>
-
-                          <PortalDropdown anchorRef={categoryDropRef} isOpen={openDropdown === 'category'}>
-                            {categoryOptions.map((opt, oIdx) => {
-                              if (opt === 'divider') {
-                                return <div key={`cat-div-${oIdx}`} className="border-t border-[#e8e8e8] my-1" />;
-                              }
-                              const cleanVal = cleanOption(opt);
-                              const isSelected = selectedCategory === cleanVal;
-                              return (
-                                <div
-                                  key={opt}
-                                  onClick={() => {
-                                    setSelectedCategory(cleanVal);
-                                    setActiveFilter(cleanVal === 'All Categories' ? 'All' : cleanVal);
-                                    setOpenDropdown(null);
-                                  }}
-                                  className={`px-2.5 py-2 rounded-[6px] text-[13px] cursor-pointer transition-colors duration-150 ${isSelected ? 'bg-[#047c1f] text-white font-semibold' : 'text-slate-700 hover:bg-[#f0faf2] hover:text-[#047c1f]'}`}
-                                >
-                                  {opt}
-                                </div>
-                              );
-                            })}
-                          </PortalDropdown>
-                        </div>
 
                         {/* Dropdown 4: Discount */}
                         <div ref={discountDropRef} className="relative filter-dropdown-container">
@@ -3952,13 +3993,13 @@ export default function App() {
                             <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 ${openDropdown === 'discount' ? 'rotate-180' : ''}`} />
                           </button>
 
-                          <PortalDropdown 
-                            anchorRef={discountDropRef} 
+                          <PortalDropdown
+                            anchorRef={discountDropRef}
                             isOpen={openDropdown === 'discount'}
                           >
                             {discountOptions.map((opt, oIdx) => {
                               if (opt === 'divider') return (
-                                <div key={`disc-div-${oIdx}`} 
+                                <div key={`disc-div-${oIdx}`}
                                   className="border-t border-[#e8e8e8] my-1" />
                               );
                               const cleanVal = cleanOption(opt);
@@ -3996,13 +4037,13 @@ export default function App() {
                             <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 ${openDropdown === 'expiry' ? 'rotate-180' : ''}`} />
                           </button>
 
-                          <PortalDropdown 
-                            anchorRef={expiryDropRef} 
+                          <PortalDropdown
+                            anchorRef={expiryDropRef}
                             isOpen={openDropdown === 'expiry'}
                           >
                             {expiryOptions.map((opt, oIdx) => {
                               if (opt === 'divider') return (
-                                <div key={`exp-div-${oIdx}`} 
+                                <div key={`exp-div-${oIdx}`}
                                   className="border-t border-[#e8e8e8] my-1" />
                               );
                               const cleanVal = cleanOption(opt);
@@ -4037,8 +4078,8 @@ export default function App() {
                             <ChevronDown className="w-3.5 h-3.5 text-white/80 shrink-0" />
                           </button>
 
-                          <PortalDropdown 
-                            anchorRef={sortDropRef} 
+                          <PortalDropdown
+                            anchorRef={sortDropRef}
                             isOpen={openDropdown === 'sort'}
                           >
                             {sortOptions.map((opt) => {
@@ -4079,7 +4120,7 @@ export default function App() {
                   {isAnyFilterActive && (
                     <div className="active-chips-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-2 pb-1 border-b border-slate-100 relative z-40">
                       <div className="flex items-center gap-1.5 flex-wrap overflow-x-auto no-scrollbar pb-1 sm:pb-0 flex-nowrap sm:flex-wrap">
-                        
+
                         {/* Suburb/postcode chip */}
                         {selectedSuburb && (
                           <div className="flex items-center gap-1 bg-[#047c1f] 
@@ -4204,7 +4245,7 @@ export default function App() {
                             <div className="relative w-full rounded-[2rem] overflow-hidden shadow-xl bg-gradient-to-r from-slate-900 via-[#0c2214] to-slate-950 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-emerald-500/20 text-left">
                               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
                               <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none"></div>
-                              
+
                               <div className="space-y-3 z-10 flex-1">
                                 <div className="flex items-center gap-2 select-none">
                                   <span className="bg-[#fdc800] text-black font-extrabold px-2.5 py-0.5 rounded text-[9.5px] uppercase tracking-wider">
@@ -4222,7 +4263,7 @@ export default function App() {
                                   Get 6 months of ultra-fast 5G broadband for half the price. Stream, work, and game on Australia's premium network with no contract lock-in!
                                 </p>
                               </div>
-                              
+
                               <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0 z-10 w-full sm:w-auto">
                                 <div className="text-center sm:text-right select-none w-full sm:w-auto">
                                   <span className="text-white/50 text-[10px] line-through font-bold block leading-none">$85.00/mo</span>
@@ -4230,9 +4271,9 @@ export default function App() {
                                     $42.50<span className="text-xs font-bold text-white/70">/mo</span>
                                   </span>
                                 </div>
-                                <a 
-                                  href="https://www.telstra.com.au" 
-                                  target="_blank" 
+                                <a
+                                  href="https://www.telstra.com.au"
+                                  target="_blank"
                                   rel="noopener noreferrer"
                                   className="bg-[#047c1f] hover:bg-[#00c853] text-white px-6 py-3 rounded-xl font-extrabold text-sm flex items-center gap-1.5 transition-all shadow-lg hover:-translate-y-0.5 active:translate-y-0 cursor-pointer border-none text-center inline-flex items-center justify-center w-full sm:w-auto"
                                 >
@@ -4330,7 +4371,7 @@ export default function App() {
                 </div>
 
                 {/* Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
                   {filteredDeals.map((deal, idx) => (
                     <DealCard
                       key={deal.id}
@@ -4685,7 +4726,7 @@ export default function App() {
                           <span className="text-xs font-bold text-slate-800">{st.name}</span>
                         </div>
                         <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
-                          <span 
+                          <span
                             className="font-mono bg-[#fdc800] text-black px-2 py-0.5 rounded text-xs font-black select-all cursor-pointer hover:opacity-90"
                             onClick={(e) => handleCopyCode(st.couponCode, e)}
                             title="Click to copy coupon code"
@@ -4706,7 +4747,7 @@ export default function App() {
                     {/* Mobile Filter Toggle Button */}
                     <div className="lg:hidden flex items-center justify-between bg-white border border-[#e8e8e8] p-3 rounded-2xl shadow-sm mb-4">
                       <span className="text-sm font-bold text-slate-805">Filter Products</span>
-                      <button 
+                      <button
                         onClick={() => setShowMobileProductFilters(true)}
                         className="px-4 py-2 bg-[#047c1f] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer border-none shadow-sm hover:bg-[#036318] active:scale-95 transition-transform"
                       >
@@ -4721,9 +4762,9 @@ export default function App() {
                       transition-opacity duration-300
                       ${showMobileProductFilters ? 'opacity-100 visible' : 'opacity-0 invisible lg:visible lg:opacity-100'}
                     `}
-                    onClick={() => setShowMobileProductFilters(false)}
+                      onClick={() => setShowMobileProductFilters(false)}
                     >
-                      <div 
+                      <div
                         className={`
                           absolute bottom-0 left-0 right-0 bg-white rounded-t-[2.5rem] p-6 space-y-5 max-h-[85vh] overflow-y-auto z-[2001]
                           lg:static lg:rounded-3xl lg:border lg:border-[#e8e8e8] lg:p-5 lg:shadow-sm lg:max-h-none lg:overflow-visible
@@ -4734,17 +4775,17 @@ export default function App() {
                       >
                         {/* Drag Handle for Mobile Bottom Sheet */}
                         <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-2 lg:hidden" onClick={() => setShowMobileProductFilters(false)}></div>
-                        
+
                         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                           <h3 className="font-display font-extrabold text-slate-900 text-sm">Filter Products</h3>
-                          <button 
+                          <button
                             className="lg:hidden text-slate-405 hover:text-slate-605 font-black cursor-pointer text-sm"
                             onClick={() => setShowMobileProductFilters(false)}
                           >
                             ✕ Close
                           </button>
                         </div>
-                        
+
                         {/* Filter by Category */}
                         <div className="space-y-2 text-left">
                           <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Category</label>
@@ -4758,11 +4799,10 @@ export default function App() {
                                     setShowMobileProductFilters(false);
                                   }
                                 }}
-                                className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${
-                                  productCategoryFilter === cat 
-                                    ? 'bg-[#e6f2e8] text-[#047c1f]' 
+                                className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${productCategoryFilter === cat
+                                    ? 'bg-[#e6f2e8] text-[#047c1f]'
                                     : 'hover:bg-slate-50 text-slate-700'
-                                }`}
+                                  }`}
                               >
                                 <span>{cat}</span>
                                 {productCategoryFilter === cat && <span className="w-1.5 h-1.5 rounded-full bg-[#047c1f]"></span>}
@@ -4777,16 +4817,15 @@ export default function App() {
                           <div className="flex flex-col gap-1.5">
                             <button
                               onClick={() => {
-                                  setProductStoreFilter('All');
-                                  if (window.innerWidth < 1024) {
-                                    setShowMobileProductFilters(false);
-                                  }
+                                setProductStoreFilter('All');
+                                if (window.innerWidth < 1024) {
+                                  setShowMobileProductFilters(false);
+                                }
                               }}
-                              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${
-                                productStoreFilter === 'All' 
-                                  ? 'bg-[#e6f2e8] text-[#047c1f]' 
+                              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${productStoreFilter === 'All'
+                                  ? 'bg-[#e6f2e8] text-[#047c1f]'
                                   : 'hover:bg-slate-50 text-slate-700'
-                              }`}
+                                }`}
                             >
                               <span>All Stores</span>
                               {productStoreFilter === 'All' && <span className="w-1.5 h-1.5 rounded-full bg-[#047c1f]"></span>}
@@ -4800,11 +4839,10 @@ export default function App() {
                                     setShowMobileProductFilters(false);
                                   }
                                 }}
-                                className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${
-                                  productStoreFilter === st.id 
-                                    ? 'bg-[#e6f2e8] text-[#047c1f]' 
+                                className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${productStoreFilter === st.id
+                                    ? 'bg-[#e6f2e8] text-[#047c1f]'
                                     : 'hover:bg-slate-50 text-slate-700'
-                                }`}
+                                  }`}
                               >
                                 <div className="flex items-center gap-2">
                                   <span className={`w-4 h-4 rounded text-white font-black text-[8px] flex items-center justify-center ${st.logoBg}`}>
@@ -4843,14 +4881,14 @@ export default function App() {
                           </button>
                         )}
                       </div>
-                      
+
                       {/* Counter */}
                       {(() => {
                         const filtered = allProducts.filter(p => {
                           const matchesCat = productCategoryFilter === 'All' || p.category === productCategoryFilter;
                           const matchesStore = productStoreFilter === 'All' || p.store.id === productStoreFilter;
-                          const matchesSearch = !productSearchQuery || 
-                            p.name.toLowerCase().includes(productSearchQuery.toLowerCase()) || 
+                          const matchesSearch = !productSearchQuery ||
+                            p.name.toLowerCase().includes(productSearchQuery.toLowerCase()) ||
                             p.desc.toLowerCase().includes(productSearchQuery.toLowerCase());
                           return matchesCat && matchesStore && matchesSearch;
                         });
@@ -4868,8 +4906,8 @@ export default function App() {
                       const filtered = allProducts.filter(p => {
                         const matchesCat = productCategoryFilter === 'All' || p.category === productCategoryFilter;
                         const matchesStore = productStoreFilter === 'All' || p.store.id === productStoreFilter;
-                        const matchesSearch = !productSearchQuery || 
-                          p.name.toLowerCase().includes(productSearchQuery.toLowerCase()) || 
+                        const matchesSearch = !productSearchQuery ||
+                          p.name.toLowerCase().includes(productSearchQuery.toLowerCase()) ||
                           p.desc.toLowerCase().includes(productSearchQuery.toLowerCase());
                         return matchesCat && matchesStore && matchesSearch;
                       });
@@ -4911,8 +4949,8 @@ export default function App() {
                             }
 
                             return (
-                              <div 
-                                key={`prod-catalog-${p.store.id}-${p.id}`} 
+                              <div
+                                key={`prod-catalog-${p.store.id}-${p.id}`}
                                 className="bg-white border border-[#e8e8e8] hover:border-slate-350 rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200 group transform hover:-translate-y-0.5 text-left"
                               >
                                 {/* Header Image Area */}
@@ -4944,13 +4982,12 @@ export default function App() {
 
                                   {/* Stock Badge overlay */}
                                   <div className="absolute top-3 right-3">
-                                    <span className={`px-2.5 py-1 rounded-full text-[9px] font-extrabold shadow-sm ${
-                                      p.status === 'In stock' 
-                                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' 
-                                        : p.status === 'Low stock' 
-                                          ? 'bg-amber-50 text-amber-700 border border-amber-250/60' 
+                                    <span className={`px-2.5 py-1 rounded-full text-[9px] font-extrabold shadow-sm ${p.status === 'In stock'
+                                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
+                                        : p.status === 'Low stock'
+                                          ? 'bg-amber-50 text-amber-700 border border-amber-250/60'
                                           : 'bg-rose-50 text-rose-700 border border-rose-250/60'
-                                    }`}>
+                                      }`}>
                                       {p.status}
                                     </span>
                                   </div>
@@ -4974,11 +5011,10 @@ export default function App() {
                                       {/* Add to Cart */}
                                       <button
                                         onClick={() => addToCart(p, p.store)}
-                                        className={`w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer ${
-                                          p.stock > 0 
-                                            ? 'border border-[#e8e8e8] bg-white hover:border-[#047c1f] hover:text-[#047c1f] text-slate-700 shadow-sm' 
+                                        className={`w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer ${p.stock > 0
+                                            ? 'border border-[#e8e8e8] bg-white hover:border-[#047c1f] hover:text-[#047c1f] text-slate-700 shadow-sm'
                                             : 'bg-slate-100 text-slate-400 pointer-events-none'
-                                        }`}
+                                          }`}
                                       >
                                         <span className="material-symbols-outlined text-[16px]">add_shopping_cart</span>
                                         <span>Add</span>
@@ -4987,11 +5023,10 @@ export default function App() {
                                       {/* Buy Now */}
                                       <button
                                         onClick={() => handleBuyNow(p, p.store)}
-                                        className={`w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer border-none ${
-                                          p.stock > 0 
-                                            ? 'bg-[#047c1f] hover:bg-[#036318] text-white shadow-md shadow-[#047c1f]/10' 
+                                        className={`w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer border-none ${p.stock > 0
+                                            ? 'bg-[#047c1f] hover:bg-[#036318] text-white shadow-md shadow-[#047c1f]/10'
                                             : 'bg-slate-200 text-slate-400 pointer-events-none'
-                                        }`}
+                                          }`}
                                       >
                                         <span className="material-symbols-outlined text-[16px]">rocket_launch</span>
                                         <span>Buy Now</span>
@@ -5038,12 +5073,12 @@ export default function App() {
                         </div>
                         <p className="text-sm text-slate-500 font-medium">{store.tagline}</p>
                         <p className="text-xs text-slate-400 font-semibold">Store located in {store.location} · Joined {store.joined}</p>
-                        
+
                         {store.couponCode && (
                           <div className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#fff9e6] border border-[#fdc800]/30 text-xs font-bold text-[#0d0d0d]">
                             <span className="material-symbols-outlined text-[16px] text-amber-500">local_offer</span>
                             <span>Store Code:</span>
-                            <span 
+                            <span
                               className="font-mono bg-[#fdc800] text-black px-1.5 py-0.5 rounded text-[11px] select-all cursor-pointer font-extrabold"
                               onClick={(e) => handleCopyCode(store.couponCode, e)}
                               title="Click to copy promo code"
@@ -5197,14 +5232,14 @@ export default function App() {
             {currentRoute === '#profile' && (
               currentUser ? (
                 <div className={`space-y-8 animate-in fade-in duration-300 max-w-4xl mx-auto ${profileTab === 'cart' && cart.length > 0 ? 'pb-20 lg:pb-0' : ''}`}>
-                  <div className="bg-white border border-[#e8e8e8] rounded-3xl p-6 sm:p-8 shadow-sm flex items-center gap-4">
-                    <div className={`w-16 h-16 rounded-2xl ${currentUser.color || 'bg-[#047c1f]'} text-white flex items-center justify-center font-display font-bold text-2xl shadow-sm`}>
+                  <div className="bg-white border border-[#e8e8e8] rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row items-center gap-4">
+                    <div className={`w-16 h-16 rounded-2xl ${currentUser.color || 'bg-[#047c1f]'} text-white flex items-center justify-center font-display font-bold text-2xl shadow-sm shrink-0`}>
                       {currentUser.avatar}
                     </div>
-                    <div>
+                    <div className="text-center sm:text-left">
                       <h2 className="text-2xl font-display font-extrabold text-slate-900">{currentUser.name}</h2>
                       <p className="text-xs text-[#047c1f] font-bold mt-1">Platform Member · Joined {currentUser.joined}</p>
-                      <p className="text-[11px] text-slate-400 font-semibold">{currentUser.email}</p>
+                      <p className="text-[11px] text-slate-400 font-semibold mt-0.5">{currentUser.email}</p>
                     </div>
                   </div>
 
@@ -5298,12 +5333,12 @@ export default function App() {
                         </div>
                       ) : (
                         communityDeals.filter(p => p.user === currentUser.name).map((post) => (
-                          <div key={post.id} className="p-5 bg-white border border-[#e8e8e8] rounded-2xl shadow-sm flex items-center justify-between">
+                          <div key={post.id} className="p-5 bg-white border border-[#e8e8e8] rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-left">
                             <div>
-                               <h3 className="font-bold text-slate-900 text-base">{post.title}</h3>
-                               <p className="text-xs text-slate-400 mt-1 font-semibold">Spotted at {post.store} | Category: {post.category}</p>
+                              <h3 className="font-bold text-slate-900 text-base">{post.title}</h3>
+                              <p className="text-xs text-slate-400 mt-1 font-semibold">Spotted at {post.store} | Category: {post.category}</p>
                             </div>
-                            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#e6f2e8] text-[#047c1f] border border-[#047c1f]/20">
+                            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#e6f2e8] text-[#047c1f] border border-[#047c1f]/20 self-start sm:self-auto shrink-0">
                               {post.upvotes} Upvotes
                             </span>
                           </div>
@@ -5323,52 +5358,45 @@ export default function App() {
                         </div>
                       ) : (
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                          
+
                           {/* Left Panel: Store-wise Cart Items */}
                           <div className="lg:col-span-2 space-y-6">
                             {Object.keys(cartGroupedByStore).map((storeId) => {
                               const group = cartGroupedByStore[storeId];
                               return (
                                 <div key={storeId} className="bg-white border border-[#e8e8e8] rounded-3xl p-6 shadow-sm space-y-4 text-left">
-                                  {/* Store Header & Coupon Code Info */}
+                                  {/* Store Header Info */}
                                   <div className="flex justify-between items-center border-b border-slate-100 pb-3 flex-wrap gap-2">
                                     <div className="flex items-center gap-2">
                                       <span className="material-symbols-outlined text-[#047c1f] text-lg">store</span>
                                       <h4 className="font-extrabold text-slate-800 text-sm">{group.store.name}</h4>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-xs">
-                                      {appliedCoupons[storeId] ? (
-                                        <span className="bg-[#e6f2e8] text-[#047c1f] px-2 py-0.5 rounded-full font-bold uppercase text-[9px] border border-[#047c1f]/20">
-                                          ✓ Promo Applied: {appliedCoupons[storeId]}
-                                        </span>
-                                      ) : (
-                                        <span className="text-slate-400 font-semibold text-[11px] italic">No code applied</span>
-                                      )}
                                     </div>
                                   </div>
 
                                   {/* Store Items list */}
                                   <div className="space-y-4">
                                     {group.items.map((item) => (
-                                      <div key={item.product.id} className="flex items-center gap-4 py-3 border-b border-slate-100 last:border-none">
-                                        {/* Product Image */}
-                                        <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-50 border border-slate-150 shrink-0 shadow-sm flex items-center justify-center">
-                                          <img
-                                            src={item.product.image || `https://picsum.photos/seed/${item.product.id}/150/150`}
-                                            alt={item.product.name}
-                                            className="w-full h-full object-cover"
-                                          />
+                                      <div key={item.product.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 border-b border-slate-100 last:border-none">
+                                        <div className="flex items-center gap-3">
+                                          {/* Product Image */}
+                                          <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-50 border border-slate-150 shrink-0 shadow-sm flex items-center justify-center">
+                                            <img
+                                              src={item.product.image || `https://picsum.photos/seed/${item.product.id}/150/150`}
+                                              alt={item.product.name}
+                                              className="w-full h-full object-cover"
+                                            />
+                                          </div>
+
+                                          <div className="min-w-0 text-left">
+                                            <p className="font-bold text-sm text-slate-800 truncate sm:max-w-xs">{item.product.name}</p>
+                                            <p className="text-[11px] text-slate-400 font-semibold">{item.product.price} each</p>
+                                            <p className="text-[10px] text-slate-500 font-semibold mt-1 bg-slate-50 px-2 py-0.5 rounded border border-slate-100 inline-block">
+                                              Includes GST: ${(item.unitPrice * item.quantity / 11).toFixed(2)} AUD
+                                            </p>
+                                          </div>
                                         </div>
 
-                                        <div className="min-w-0 flex-1 text-left">
-                                          <p className="font-bold text-sm text-slate-800 truncate">{item.product.name}</p>
-                                          <p className="text-[11px] text-slate-400 font-semibold">{item.product.price} each</p>
-                                          <p className="text-[10px] text-slate-500 font-semibold mt-1 bg-slate-50 px-2 py-0.5 rounded border border-slate-100 inline-block">
-                                            Includes GST: ${(item.unitPrice * item.quantity / 11).toFixed(2)} AUD
-                                          </p>
-                                        </div>
-
-                                        <div className="flex items-center gap-3 shrink-0">
+                                        <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto mt-2 sm:mt-0 border-t border-slate-50 pt-2 sm:border-t-0 sm:pt-0">
                                           {/* Quantity Controls */}
                                           <div className="flex items-center border border-slate-200 rounded-lg bg-slate-50">
                                             <button
@@ -5390,7 +5418,7 @@ export default function App() {
                                           {/* Remove */}
                                           <button
                                             onClick={() => removeFromCart(item.product.id, storeId)}
-                                            className="p-1 rounded-full text-slate-400 hover:text-red-500 transition-colors border-none bg-transparent cursor-pointer flex items-center justify-center"
+                                            className="p-2 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors border border-slate-100 sm:border-none bg-transparent cursor-pointer flex items-center justify-center"
                                           >
                                             <X className="w-4 h-4" />
                                           </button>
@@ -5399,34 +5427,7 @@ export default function App() {
                                     ))}
                                   </div>
 
-                                  {/* Store coupon input */}
-                                  <div className="flex gap-2 pt-2 border-t border-slate-150">
-                                    <input
-                                      type="text"
-                                      placeholder="Enter Store Promo Code..."
-                                      value={couponInputs[storeId] || ''}
-                                      onChange={(e) => setCouponInputs(prev => ({ ...prev, [storeId]: e.target.value }))}
-                                      className="flex-1 bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-xs px-3.5 py-2 rounded-xl border border-slate-200 focus:border-[#047c1f] focus:outline-none transition-all"
-                                    />
-                                    <button
-                                      onClick={() => {
-                                        const code = (couponInputs[storeId] || '').trim().toUpperCase();
-                                        const expectedCode = storeId === 'oztech-deals' ? 'OZTECH15' 
-                                                            : storeId === 'aussie-bites' ? 'AUSSIEBITES' 
-                                                            : storeId === 'downunder-fashion' ? 'DOWNUNDER' : '';
-                                        
-                                        if (code === expectedCode) {
-                                          setAppliedCoupons(prev => ({ ...prev, [storeId]: code }));
-                                          triggerToast(`Promo code ${code} applied successfully!`, 'success');
-                                        } else {
-                                          triggerToast('Invalid promo code for this store!', 'error');
-                                        }
-                                      }}
-                                      className="px-4 py-2 rounded-xl bg-[#047c1f] hover:bg-[#036318] text-white text-xs font-bold transition-colors cursor-pointer border-none shadow-sm"
-                                    >
-                                      Apply
-                                    </button>
-                                  </div>
+
                                 </div>
                               );
                             })}
@@ -5439,7 +5440,7 @@ export default function App() {
                                 <span className="material-symbols-outlined text-[#047c1f]">receipt_long</span>
                                 Order Summary
                               </h4>
-                              
+
                               <div className="space-y-2 text-xs font-semibold text-slate-600">
                                 <div className="flex justify-between">
                                   <span>Subtotal</span>
@@ -5520,9 +5521,9 @@ export default function App() {
 
                               <div className="space-y-2">
                                 {order.items.map((item, idx) => (
-                                  <div key={idx} className="flex justify-between items-center text-xs font-semibold">
-                                    <span className="text-slate-700 truncate max-w-sm">{item.product.name} (x{item.quantity})</span>
-                                    <span className="text-slate-500 font-mono">{item.product.price}</span>
+                                  <div key={idx} className="flex justify-between items-center text-xs font-semibold gap-3">
+                                    <span className="text-slate-700 truncate min-w-0 flex-1">{item.product.name} (x{item.quantity})</span>
+                                    <span className="text-slate-500 font-mono shrink-0">{item.product.price}</span>
                                   </div>
                                 ))}
                               </div>
@@ -5542,11 +5543,10 @@ export default function App() {
                                 <div className="flex justify-end pt-1">
                                   <button
                                     onClick={() => setTrackingOrderId(trackingOrderId === order.id ? null : order.id)}
-                                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                                      trackingOrderId === order.id
+                                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${trackingOrderId === order.id
                                         ? 'bg-[#047c1f] text-white shadow-sm'
                                         : 'bg-slate-50 hover:bg-[#e6f2e8]/40 border border-[#e8e8e8] text-slate-700 hover:text-[#047c1f] hover:border-[#047c1f]'
-                                    }`}
+                                      }`}
                                   >
                                     <span className="material-symbols-outlined text-[16px]">local_shipping</span>
                                     <span>{trackingOrderId === order.id ? 'Hide Tracking' : 'Track Order'}</span>
@@ -5563,7 +5563,37 @@ export default function App() {
                                       </span>
                                       <span>Tracking ID: {order.trackingNumber || 'AP-Pending'}</span>
                                     </div>
-                                    
+
+                                    {order.shipping && (
+                                      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 space-y-2 text-xs font-semibold text-slate-700 text-left shadow-sm">
+                                        <p className="text-[10px] font-black text-[#047c1f] uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-100 pb-1.5">
+                                          <span className="material-symbols-outlined text-[15px]">local_shipping</span>
+                                          Delivery Address & Contact
+                                        </p>
+                                        <div className="space-y-1">
+                                          <p className="text-slate-800 font-bold flex items-center gap-1">
+                                            <span className="material-symbols-outlined text-[13px] text-slate-400">person</span>
+                                            {order.shipping.fullName}
+                                          </p>
+                                          <p className="text-slate-650 flex flex-wrap items-center gap-x-2 gap-y-1">
+                                            <span className="flex items-center gap-1">
+                                              <span className="material-symbols-outlined text-[13px] text-slate-400">mail</span>
+                                              {order.shipping.email}
+                                            </span>
+                                            <span className="text-slate-300 hidden sm:inline">·</span>
+                                            <span className="flex items-center gap-1">
+                                              <span className="material-symbols-outlined text-[13px] text-slate-400">call</span>
+                                              {order.shipping.phone}
+                                            </span>
+                                          </p>
+                                          <p className="text-slate-500 font-medium flex items-center gap-1">
+                                            <span className="material-symbols-outlined text-[13px] text-slate-400">home</span>
+                                            {order.shipping.address}, {order.shipping.suburb}, {order.shipping.state} {order.shipping.postcode}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    )}
+
                                     {/* Timeline steppers */}
                                     <div className="space-y-4 pl-4 relative before:absolute before:left-[22px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-200">
                                       {order.timeline && order.timeline.map((step, sIdx) => {
@@ -5572,19 +5602,17 @@ export default function App() {
                                         return (
                                           <div key={sIdx} className="flex gap-4 relative">
                                             {/* Step Circle indicator */}
-                                            <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center z-10 shrink-0 mt-1 transition-colors ${
-                                              isDone
+                                            <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center z-10 shrink-0 mt-1 transition-colors ${isDone
                                                 ? 'bg-[#047c1f] border-[#047c1f] text-white'
                                                 : 'bg-white border-slate-350 text-slate-350'
-                                            }`}>
+                                              }`}>
                                               {isDone && <span className="w-1 h-1 rounded-full bg-white"></span>}
                                             </div>
-                                            
+
                                             {/* Text Content */}
                                             <div className="space-y-0.5 text-left">
-                                              <p className={`text-xs font-extrabold transition-colors ${
-                                                isDone ? 'text-slate-800' : 'text-slate-400'
-                                              }`}>
+                                              <p className={`text-xs font-extrabold transition-colors ${isDone ? 'text-slate-800' : 'text-slate-400'
+                                                }`}>
                                                 {step.title}
                                                 {isActive && (
                                                   <span className="ml-2 px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider bg-[#047c1f]/10 text-[#047c1f] border border-[#047c1f]/20">
@@ -5592,9 +5620,8 @@ export default function App() {
                                                   </span>
                                                 )}
                                               </p>
-                                              <p className={`text-[11px] font-semibold ${
-                                                isDone ? 'text-slate-500' : 'text-slate-400'
-                                              }`}>{step.desc}</p>
+                                              <p className={`text-[11px] font-semibold ${isDone ? 'text-slate-500' : 'text-slate-400'
+                                                }`}>{step.desc}</p>
                                               <p className="text-[10px] text-slate-400 font-bold">{step.time}</p>
                                             </div>
                                           </div>
@@ -5625,13 +5652,13 @@ export default function App() {
               )
             )}
 
-{/* ================================================================= */}
+            {/* ================================================================= */}
             {/* PAGE 7: RETAILER DASHBOARD (#dashboard) */}
             {/* ================================================================= */}
             {currentRoute === '#dashboard' && (
               currentUser?.role === 'consumer' ? (
                 <div className="flex font-body bg-background text-on-surface min-h-screen relative w-full text-left">
-                  
+
                   {/* Sidebar Navigation */}
                   <aside className="hidden sm:flex h-screen w-64 fixed left-0 top-0 z-50 flex-col py-6 border-r border-outline-variant/20 bg-surface-container dark:bg-surface-container-low select-none">
                     <div className="px-6 mb-10 flex items-center gap-3">
@@ -5656,11 +5683,10 @@ export default function App() {
                         <button
                           key={tab.key}
                           onClick={() => setRetailerTab(tab.key)}
-                          className={`w-[calc(100%-1rem)] rounded-lg mx-2 my-1 px-4 py-2.5 flex items-center gap-3 transition-transform active:scale-95 text-left font-bold text-sm cursor-pointer border-none focus:outline-none focus:ring-0 ${
-                            retailerTab === tab.key
+                          className={`w-[calc(100%-1rem)] rounded-lg mx-2 my-1 px-4 py-2.5 flex items-center gap-3 transition-transform active:scale-95 text-left font-bold text-sm cursor-pointer border-none focus:outline-none focus:ring-0 ${retailerTab === tab.key
                               ? 'bg-primary text-white font-semibold shadow-sm'
                               : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
-                          }`}
+                            }`}
                         >
                           <span className="material-symbols-outlined">{tab.icon}</span>
                           <span>{tab.label}</span>
@@ -5707,7 +5733,7 @@ export default function App() {
                         onClick={() => setMobileDashboardMenuOpen(false)}
                         className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
                       />
-                      
+
                       {/* Drawer Content */}
                       <div className="relative flex w-full max-w-[280px] flex-col bg-surface-container py-6 px-4 shadow-2xl z-10 animate-in slide-in-from-left duration-300">
                         {/* Header */}
@@ -5745,11 +5771,10 @@ export default function App() {
                                 setRetailerTab(tab.key);
                                 setMobileDashboardMenuOpen(false);
                               }}
-                              className={`w-full rounded-xl px-4 py-3 flex items-center gap-3 transition-all active:scale-98 text-left font-bold text-sm cursor-pointer border-none ${
-                                retailerTab === tab.key
+                              className={`w-full rounded-xl px-4 py-3 flex items-center gap-3 transition-all active:scale-98 text-left font-bold text-sm cursor-pointer border-none ${retailerTab === tab.key
                                   ? 'bg-[#047c1f] text-white shadow-sm shadow-[#047c1f]/20'
                                   : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
-                              }`}
+                                }`}
                             >
                               <span className="material-symbols-outlined text-lg leading-none">{tab.icon}</span>
                               <span>{tab.label}</span>
@@ -5770,7 +5795,7 @@ export default function App() {
                             <span className="material-symbols-outlined text-lg">add</span>
                             <span>Add New Product</span>
                           </button>
-                          
+
                           <button
                             onClick={() => {
                               triggerToast('Opening partner help center...', 'info');
@@ -5781,7 +5806,7 @@ export default function App() {
                             <span className="material-symbols-outlined text-lg leading-none">help_outline</span>
                             <span>Help Center</span>
                           </button>
-                          
+
                           <button
                             onClick={() => {
                               handleLogout();
@@ -5799,7 +5824,7 @@ export default function App() {
 
                   {/* Main Content Area */}
                   <main className="w-full sm:ml-64 flex-1 min-h-screen flex flex-col bg-background pb-16 lg:pb-0">
-                    
+
                     {/* TopNavBar */}
                     <header className="w-full sticky top-0 z-40 bg-surface dark:bg-surface-dim flex justify-between items-center px-3 sm:px-8 py-3 sm:py-4 border-b border-outline-variant/30 shadow-sm">
                       <div className="flex items-center gap-2 sm:gap-8">
@@ -5836,7 +5861,7 @@ export default function App() {
                           <span className="material-symbols-outlined text-[20px] sm:text-[24px]">settings</span>
                         </button>
                         <div className="h-6 sm:h-8 w-[1px] bg-outline-variant/30 mx-1 sm:mx-2"></div>
-                        
+
                         <div className="flex items-center gap-2 sm:gap-3 cursor-pointer hover:bg-surface-variant/30 p-1 sm:p-1.5 rounded-lg transition-colors" onClick={() => setRetailerTab('profile')}>
                           <div className="hidden sm:block text-right">
                             <p className="text-sm font-bold leading-none text-on-surface">{currentUser?.name || 'Matilda W.'}</p>
@@ -5852,25 +5877,25 @@ export default function App() {
 
                     {/* Content Canvas */}
                     <section className="p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-6 sm:space-y-8 flex-1">
-                      
+
                       {/* Page Header */}
                       <div className="flex justify-between items-start sm:items-end flex-col sm:flex-row gap-4 text-left">
                         <div>
                           <h2 className="text-xl sm:text-3xl font-headline font-bold text-on-surface">
-                            {retailerTab === 'overview' ? 'Dashboard Overview' : 
-                             retailerTab === 'profile' ? 'Store Profile' : 
-                             retailerTab === 'products' ? 'Product Catalogue' : 
-                             retailerTab === 'stock' ? 'Stock Monitor' : 
-                             retailerTab === 'deals' ? 'Campaign Manager' : 
-                             'Featured Requests'}
+                            {retailerTab === 'overview' ? 'Dashboard Overview' :
+                              retailerTab === 'profile' ? 'Store Profile' :
+                                retailerTab === 'products' ? 'Product Catalogue' :
+                                  retailerTab === 'stock' ? 'Stock Monitor' :
+                                    retailerTab === 'deals' ? 'Campaign Manager' :
+                                      'Featured Requests'}
                           </h2>
                           <p className="text-xs sm:text-sm text-on-surface-variant mt-1 max-w-xl">
-                            {retailerTab === 'overview' ? 'Real-time performance metrics for your organic marketplace.' : 
-                             retailerTab === 'profile' ? 'Manage your storefront brand settings, locations, and details.' : 
-                             retailerTab === 'products' ? 'Add, activate, and manage your inventory and items.' : 
-                             retailerTab === 'stock' ? 'Monitor and manage stock levels, safety alerts, and reorder levels.' : 
-                             retailerTab === 'deals' ? 'Create new customer promotions, voucher codes, and coupons.' : 
-                             'Promote your listings by requesting premium dashboard real estate.'}
+                            {retailerTab === 'overview' ? 'Real-time performance metrics for your organic marketplace.' :
+                              retailerTab === 'profile' ? 'Manage your storefront brand settings, locations, and details.' :
+                                retailerTab === 'products' ? 'Add, activate, and manage your inventory and items.' :
+                                  retailerTab === 'stock' ? 'Monitor and manage stock levels, safety alerts, and reorder levels.' :
+                                    retailerTab === 'deals' ? 'Create new customer promotions, voucher codes, and coupons.' :
+                                      'Promote your listings by requesting premium dashboard real estate.'}
                           </p>
                         </div>
                         <div className="flex gap-2 sm:gap-3 w-full sm:w-auto shrink-0 select-none">
@@ -5922,7 +5947,7 @@ export default function App() {
                       ══════════════════════════════════════ */}
                       {retailerTab === 'overview' && (
                         <div className="space-y-8 animate-in fade-in duration-300">
-                          
+
                           {/* KPI Cards Grid */}
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                             {/* Store Views */}
@@ -5936,7 +5961,7 @@ export default function App() {
                               <h3 className="text-on-surface-variant text-sm font-semibold">Store Views</h3>
                               <p className="text-3xl font-headline font-bold text-on-surface mt-1">{merchantMetrics.views}</p>
                             </div>
-                            
+
                             {/* Active Deals */}
                             <div className="bg-surface-container-low p-6 rounded-xl custom-shadow group hover:bg-white border border-tertiary/30 hover:border-tertiary transition-all duration-200 hover:-translate-y-0.5 text-left">
                               <div className="flex justify-between items-start mb-4">
@@ -5980,7 +6005,7 @@ export default function App() {
 
                           {/* Bento Grid Analytics */}
                           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            
+
                             {/* Most Saved Items */}
                             <div className="bg-surface-container-low p-6 rounded-xl custom-shadow flex flex-col justify-between">
                               <div>
@@ -6051,9 +6076,9 @@ export default function App() {
                               <div>
                                 <h3 className="font-headline font-bold text-lg text-on-surface mb-4">Trending Wishlist</h3>
                                 <div className="flex -space-x-4 overflow-hidden mb-6">
-                                  <img alt="Eco Watch" className="inline-block h-16 w-16 rounded-full ring-4 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq9Wg_rtu0Ajs-9rFm1APjjXEzpy1aXDsF6ig2AXCwvcsoXKICmnZdHPZeV_XRT2a5mG19x2cwsrE9aNzob3QVkEdciLnwshi5WmwUaAP4oTxvtFbHLUrOyP4-_TtP5BHLxytD4trMTF2TPojba2GhLlfJHXwH2bcR-c1BFqc8gqpV8vPY-5cC5Wh06IVCM6kA-Vf4DRrgNQk1WVxLqHeH_P90sOYmjVTYV7PGq3Z9GD_uWM_oAFeW1CBI89Gljub77jxHByNyJ0g"/>
-                                  <img alt="Aura Headphones" className="inline-block h-16 w-16 rounded-full ring-4 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATLul632GnVMCBiVRaRFJLtrCT5UZciT_SfObixcpzhkHr6qkRatrOXqvd2CvKHNVhYxtXQB4KrvYp-4DYe7K0TvxXmzcSP3zNPQs3NnqmWMm6Rs3XBAY9E4F5IGHEHYHnTWY2PqhTtCYLipU5_UsQ1Z-v4N8uxRx1vpXQGtGcTh7-l9YGvuYPywMokmMJQW75AHnj9NMyB45jo2YffBTsdPeRYoPh164f7CKzWjNhg46zB6Y9gfO4eyaiWzzIXa7qNKEAAn0l-oQ"/>
-                                  <img alt="Leaf Sneaker" className="inline-block h-16 w-16 rounded-full ring-4 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPTfaLyqJPlIDNBU69uEKb6iVD3lkg8rW45UCOFVnzLILpnDuMhOYSRLxIv0dIrZDqLEzek1VESVWQ52uJJ6KZnltLzGIvftQkBGK4kY3X6m0ueDBssQ4BJ12MyrnLjMIidIp8NoyK9ROK8XwsJxCmuWThzwQCmmKhYKo9CFybZ5TrcAel6lAn6cM7Y5K5b64MMwJABxt8s45tvlDdwA7be-mjv4DAtevlHMJgUB541exWWFKK7uFM0HOVA_niR2zNP4ZvG6KeTIU"/>
+                                  <img alt="Eco Watch" className="inline-block h-16 w-16 rounded-full ring-4 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq9Wg_rtu0Ajs-9rFm1APjjXEzpy1aXDsF6ig2AXCwvcsoXKICmnZdHPZeV_XRT2a5mG19x2cwsrE9aNzob3QVkEdciLnwshi5WmwUaAP4oTxvtFbHLUrOyP4-_TtP5BHLxytD4trMTF2TPojba2GhLlfJHXwH2bcR-c1BFqc8gqpV8vPY-5cC5Wh06IVCM6kA-Vf4DRrgNQk1WVxLqHeH_P90sOYmjVTYV7PGq3Z9GD_uWM_oAFeW1CBI89Gljub77jxHByNyJ0g" />
+                                  <img alt="Aura Headphones" className="inline-block h-16 w-16 rounded-full ring-4 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATLul632GnVMCBiVRaRFJLtrCT5UZciT_SfObixcpzhkHr6qkRatrOXqvd2CvKHNVhYxtXQB4KrvYp-4DYe7K0TvxXmzcSP3zNPQs3NnqmWMm6Rs3XBAY9E4F5IGHEHYHnTWY2PqhTtCYLipU5_UsQ1Z-v4N8uxRx1vpXQGtGcTh7-l9YGvuYPywMokmMJQW75AHnj9NMyB45jo2YffBTsdPeRYoPh164f7CKzWjNhg46zB6Y9gfO4eyaiWzzIXa7qNKEAAn0l-oQ" />
+                                  <img alt="Leaf Sneaker" className="inline-block h-16 w-16 rounded-full ring-4 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPTfaLyqJPlIDNBU69uEKb6iVD3lkg8rW45UCOFVnzLILpnDuMhOYSRLxIv0dIrZDqLEzek1VESVWQ52uJJ6KZnltLzGIvftQkBGK4kY3X6m0ueDBssQ4BJ12MyrnLjMIidIp8NoyK9ROK8XwsJxCmuWThzwQCmmKhYKo9CFybZ5TrcAel6lAn6cM7Y5K5b64MMwJABxt8s45tvlDdwA7be-mjv4DAtevlHMJgUB541exWWFKK7uFM0HOVA_niR2zNP4ZvG6KeTIU" />
                                 </div>
                               </div>
                               <div className="flex flex-wrap gap-2 mt-auto">
@@ -6132,18 +6157,17 @@ export default function App() {
                       {retailerTab === 'profile' && (
                         <div className="max-w-3xl mx-auto space-y-6 animate-in fade-in duration-300 text-left">
                           <div className="bg-white border border-outline-variant/30 rounded-2xl p-6 shadow-sm">
-                            
+
                             <div className="flex items-center justify-between mb-6">
                               <h3 className="font-headline font-bold text-xl text-on-surface">
                                 🏪 Store Settings
                               </h3>
                               <button
                                 onClick={() => setEditingProfile(!editingProfile)}
-                                className={`px-5 py-2 rounded-full text-xs font-bold cursor-pointer transition-colors border-none ${
-                                  editingProfile 
-                                    ? 'bg-surface-container text-on-surface hover:bg-surface-variant' 
+                                className={`px-5 py-2 rounded-full text-xs font-bold cursor-pointer transition-colors border-none ${editingProfile
+                                    ? 'bg-surface-container text-on-surface hover:bg-surface-variant'
                                     : 'bg-primary text-white hover:opacity-90'
-                                }`}
+                                  }`}
                               >
                                 {editingProfile ? '✕ Cancel' : '✏️ Edit Profile'}
                               </button>
@@ -6259,7 +6283,7 @@ export default function App() {
                       ══════════════════════════════════════ */}
                       {retailerTab === 'products' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           {/* Top Actions panel */}
                           <div className="flex items-center justify-between flex-wrap gap-4">
                             <div>
@@ -6456,11 +6480,10 @@ export default function App() {
                                   <div className="relative h-40 bg-surface-container overflow-hidden">
                                     <img src={p.imagePreview} alt={p.name} className="w-full h-full object-cover" />
                                     <div className="absolute top-2.5 right-2.5">
-                                      <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full border shadow-sm ${
-                                        p.status === 'Active' 
-                                          ? 'bg-primary/10 text-primary border-primary/20' 
+                                      <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full border shadow-sm ${p.status === 'Active'
+                                          ? 'bg-primary/10 text-primary border-primary/20'
                                           : 'bg-surface-variant text-on-surface-variant border-outline-variant/30'
-                                      }`}>
+                                        }`}>
                                         {p.status}
                                       </span>
                                     </div>
@@ -6536,7 +6559,7 @@ export default function App() {
                       ══════════════════════════════════════ */}
                       {retailerTab === 'stock' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           {/* Top Actions Panel */}
                           <div className="flex items-center justify-between flex-wrap gap-4">
                             <div>
@@ -6635,28 +6658,26 @@ export default function App() {
                             </div>
                             <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
                               {['All', 'In Stock', 'Low Stock', 'Out of Stock'].map((filter) => {
-                                const count = filter === 'All' 
-                                  ? retailerProducts.length 
+                                const count = filter === 'All'
+                                  ? retailerProducts.length
                                   : filter === 'In Stock'
-                                  ? retailerProducts.filter(p => p.stock > (p.reorderThreshold || 5)).length
-                                  : filter === 'Low Stock'
-                                  ? retailerProducts.filter(p => p.stock > 0 && p.stock <= (p.reorderThreshold || 5)).length
-                                  : retailerProducts.filter(p => p.stock === 0).length;
+                                    ? retailerProducts.filter(p => p.stock > (p.reorderThreshold || 5)).length
+                                    : filter === 'Low Stock'
+                                      ? retailerProducts.filter(p => p.stock > 0 && p.stock <= (p.reorderThreshold || 5)).length
+                                      : retailerProducts.filter(p => p.stock === 0).length;
 
                                 return (
                                   <button
                                     key={filter}
                                     onClick={() => setStockFilter(filter)}
-                                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border-none cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-                                      stockFilter === filter
+                                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border-none cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${stockFilter === filter
                                         ? 'bg-primary text-white shadow-sm'
                                         : 'bg-surface-container text-on-surface-variant hover:bg-surface-variant/40'
-                                    }`}
+                                      }`}
                                   >
                                     <span>{filter}</span>
-                                    <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                                      stockFilter === filter ? 'bg-white/25 text-white' : 'bg-surface-variant text-on-surface-variant'
-                                    }`}>{count}</span>
+                                    <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${stockFilter === filter ? 'bg-white/25 text-white' : 'bg-surface-variant text-on-surface-variant'
+                                      }`}>{count}</span>
                                   </button>
                                 );
                               })}
@@ -6834,7 +6855,7 @@ export default function App() {
                                             {statusText}
                                           </span>
                                         </div>
-                                        
+
                                         <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 flex flex-col justify-between">
                                           <span className="text-[10px] text-slate-405 font-bold uppercase tracking-wider block">Quantity</span>
                                           <div className="flex items-center justify-center gap-2 mt-1">
@@ -7042,7 +7063,7 @@ export default function App() {
                                     }
                                     const original = parseFloat(newRetailerDeal.originalPrice) || 0;
                                     const sale = parseFloat(newRetailerDeal.salePrice) || 0;
-                                    
+
                                     if (sale >= original) {
                                       triggerToast('Sale price must be lower than original price.', 'error');
                                       return;
@@ -7116,21 +7137,20 @@ export default function App() {
                               <div key={d.id} className="bg-white border border-outline-variant/30 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between space-y-4 text-left relative overflow-hidden">
                                 {/* Elegant side slash in Brand Color */}
                                 <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
-                                
+
                                 <div className="space-y-3 pl-2">
                                   <div className="flex items-center justify-between gap-4">
                                     <span className="text-[10px] font-black uppercase tracking-wider bg-primary/10 text-primary px-2.5 py-0.5 rounded-full border border-primary/20">
                                       {d.category}
                                     </span>
-                                    <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border shadow-sm ${
-                                      d.status === 'Active' ? 'bg-primary/10 text-primary border-primary/20' : 'bg-surface-variant text-on-surface-variant border-outline-variant/30'
-                                    }`}>
+                                    <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border shadow-sm ${d.status === 'Active' ? 'bg-primary/10 text-primary border-primary/20' : 'bg-surface-variant text-on-surface-variant border-outline-variant/30'
+                                      }`}>
                                       {d.status}
                                     </span>
                                   </div>
 
                                   <h4 className="font-headline font-bold text-base text-on-surface leading-snug">{d.title}</h4>
-                                  
+
                                   {/* Pricing visual */}
                                   <div className="flex items-baseline gap-2 mt-1">
                                     <span className="text-xl font-black text-primary">${d.salePrice.toFixed(2)}</span>
@@ -7226,7 +7246,7 @@ export default function App() {
                       ══════════════════════════════════════ */}
                       {retailerTab === 'featured' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           {/* Top Actions Panel */}
                           <div className="flex items-center justify-between flex-wrap gap-4">
                             <div>
@@ -7325,7 +7345,7 @@ export default function App() {
                                     }
                                     const defaultDeal = retailerDeals[0]?.title || '';
                                     const selectedTitle = featuredRequestForm.dealTitle || defaultDeal;
-                                    
+
                                     const req = {
                                       id: 'fr' + Date.now(),
                                       dealTitle: selectedTitle,
@@ -7385,13 +7405,12 @@ export default function App() {
                                       <td className="py-4 px-4 font-bold">{fr.duration || '7 days'}</td>
                                       <td className="py-4 px-4 font-medium text-on-surface-variant/80">{fr.requestedDate}</td>
                                       <td className="py-4 px-4">
-                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase border tracking-wider shadow-sm ${
-                                          fr.status === 'Approved'
+                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase border tracking-wider shadow-sm ${fr.status === 'Approved'
                                             ? 'bg-primary/10 text-primary border-primary/20'
                                             : fr.status === 'Declined'
                                               ? 'bg-error/10 text-error border-error/20'
                                               : 'bg-surface-variant text-on-surface-variant border-outline-variant/30 animate-pulse'
-                                        }`}>
+                                          }`}>
                                           {fr.status === 'Approved' ? '✓ Approved' : fr.status === 'Declined' ? '✕ Declined' : '⏳ Pending'}
                                         </span>
                                       </td>
@@ -7424,17 +7443,16 @@ export default function App() {
                                   <div key={fr.id} className="p-4 space-y-3.5 text-left text-xs font-semibold">
                                     <div className="flex justify-between items-start gap-2">
                                       <h4 className="font-bold text-on-surface text-sm max-w-[200px]">{fr.dealTitle}</h4>
-                                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase border tracking-wider shadow-sm ${
-                                        fr.status === 'Approved'
+                                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase border tracking-wider shadow-sm ${fr.status === 'Approved'
                                           ? 'bg-primary/10 text-primary border-primary/20'
                                           : fr.status === 'Declined'
                                             ? 'bg-error/10 text-[#B71C1C] border-error/20'
                                             : 'bg-surface-variant text-on-surface-variant border-outline-variant/30 animate-pulse'
-                                      }`}>
+                                        }`}>
                                         {fr.status === 'Approved' ? '✓ Approved' : fr.status === 'Declined' ? '✕ Declined' : '⏳ Pending'}
                                       </span>
                                     </div>
-                                    
+
                                     <div className="grid grid-cols-3 gap-2 py-1 text-center font-bold text-[10px] text-slate-500">
                                       <div className="bg-slate-50 p-2 rounded-lg border border-slate-100">
                                         <p className="text-[9px] text-slate-400 font-bold uppercase">Budget</p>
@@ -7498,7 +7516,7 @@ export default function App() {
 
                   {/* ── SIDEBAR ── */}
                   <aside className="hidden sm:flex h-screen w-64 fixed left-0 top-0 z-50 flex-col py-6 border-r border-outline-variant/20 bg-surface-container select-none">
-                    
+
                     {/* Logo */}
                     <div className="px-6 mb-8 flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
@@ -7526,11 +7544,10 @@ export default function App() {
                         <button
                           key={tab.key}
                           onClick={() => setAdminTab(tab.key)}
-                          className={`w-[calc(100%-1rem)] rounded-lg mx-2 my-1 px-4 py-2.5 flex items-center gap-3 transition-transform active:scale-95 text-left font-bold text-sm cursor-pointer border-none focus:outline-none focus:ring-0 ${
-                            adminTab === tab.key
+                          className={`w-[calc(100%-1rem)] rounded-lg mx-2 my-1 px-4 py-2.5 flex items-center gap-3 transition-transform active:scale-95 text-left font-bold text-sm cursor-pointer border-none focus:outline-none focus:ring-0 ${adminTab === tab.key
                               ? 'bg-primary text-white font-semibold shadow-sm'
                               : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
-                          }`}
+                            }`}
                         >
                           <span className="material-symbols-outlined text-[18px]">{tab.icon}</span>
                           <span>{tab.label}</span>
@@ -7577,7 +7594,7 @@ export default function App() {
                         onClick={() => setMobileAdminMenuOpen(false)}
                         className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
                       />
-                      
+
                       {/* Drawer Content */}
                       <div className="relative flex w-full max-w-[280px] flex-col bg-surface-container py-6 px-4 shadow-2xl z-10 animate-in slide-in-from-left duration-300">
                         {/* Header */}
@@ -7618,11 +7635,10 @@ export default function App() {
                                 setAdminTab(tab.key);
                                 setMobileAdminMenuOpen(false);
                               }}
-                              className={`w-full rounded-xl px-4 py-3 flex items-center justify-between transition-all active:scale-98 text-left font-bold text-sm cursor-pointer border-none ${
-                                adminTab === tab.key
+                              className={`w-full rounded-xl px-4 py-3 flex items-center justify-between transition-all active:scale-98 text-left font-bold text-sm cursor-pointer border-none ${adminTab === tab.key
                                   ? 'bg-[#047c1f] text-white shadow-sm shadow-[#047c1f]/20'
                                   : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-lg leading-none">{tab.icon}</span>
@@ -7656,7 +7672,7 @@ export default function App() {
                             <span className="material-symbols-outlined text-lg leading-none">home</span>
                             <span>Back to Site</span>
                           </a>
-                          
+
                           <button
                             onClick={() => {
                               handleLogout();
@@ -7673,7 +7689,7 @@ export default function App() {
                   )}
 
                   <main className="w-full sm:ml-64 flex-1 min-h-screen flex flex-col bg-background overflow-y-auto pb-16 lg:pb-0">
-                    
+
                     {/* TopNavBar */}
                     <header className="w-full sticky top-0 z-40 bg-surface flex justify-between items-center px-3 sm:px-8 py-3 sm:py-4 border-b border-outline-variant/30 shadow-sm">
                       <div className="flex items-center gap-2 text-left">
@@ -7689,14 +7705,14 @@ export default function App() {
                             <span className="material-symbols-outlined text-base sm:text-2xl shrink-0">admin_panel_settings</span>
                             <span className="truncate">
                               {adminTab === 'overview' ? 'Overview' :
-                               adminTab === 'users' ? 'Partners' :
-                               adminTab === 'moderators' ? 'Mods' :
-                               adminTab === 'banner' ? 'Banner' :
-                               adminTab === 'featured' ? 'Featured' :
-                               adminTab === 'categories' ? 'Categories' :
-                               adminTab === 'deals' ? 'All Deals' :
-                               adminTab === 'stock' ? 'Stock' :
-                               'Notifications'}
+                                adminTab === 'users' ? 'Partners' :
+                                  adminTab === 'moderators' ? 'Mods' :
+                                    adminTab === 'banner' ? 'Banner' :
+                                      adminTab === 'featured' ? 'Featured' :
+                                        adminTab === 'categories' ? 'Categories' :
+                                          adminTab === 'deals' ? 'All Deals' :
+                                            adminTab === 'stock' ? 'Stock' :
+                                              'Notifications'}
                             </span>
                           </h1>
                           <p className="hidden sm:block text-xs text-on-surface-variant mt-1 font-semibold">
@@ -7720,7 +7736,7 @@ export default function App() {
                       {/* 📊 OVERVIEW TAB */}
                       {adminTab === 'overview' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           {/* Page Header */}
                           <div className="flex justify-between items-start sm:items-end flex-col sm:flex-row gap-4 text-left border-b border-outline-variant/10 pb-4">
                             <div>
@@ -7769,49 +7785,49 @@ export default function App() {
                           {/* KPI Cards Grid */}
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             {[
-                              { 
-                                metricId: 'deals', 
-                                label: 'Marketplace Deals', 
-                                value: adminMetrics.deals, 
-                                icon: 'payments', 
-                                activeColor: 'border-[#047c1f] bg-[#e6f2e8]/20 ring-2 ring-[#047c1f]/20 shadow-md shadow-[#047c1f]/10', 
-                                iconColor: 'text-[#047c1f]', 
+                              {
+                                metricId: 'deals',
+                                label: 'Marketplace Deals',
+                                value: adminMetrics.deals,
+                                icon: 'payments',
+                                activeColor: 'border-[#047c1f] bg-[#e6f2e8]/20 ring-2 ring-[#047c1f]/20 shadow-md shadow-[#047c1f]/10',
+                                iconColor: 'text-[#047c1f]',
                                 hoverColor: 'hover:border-[#047c1f]/40 hover:shadow-[#047c1f]/10 hover:shadow-lg',
                                 growth: '+12.4%',
                                 growthColor: 'text-[#047c1f] bg-[#e6f2e8]',
                                 sparkline: adminChartData.deals
                               },
-                              { 
-                                metricId: 'retailers', 
-                                label: 'Active Retailers', 
-                                value: adminMetrics.retailers, 
-                                icon: 'store', 
-                                activeColor: 'border-[#fdc800] bg-[#fff9e6]/20 ring-2 ring-[#fdc800]/20 shadow-md shadow-[#fdc800]/10', 
-                                iconColor: 'text-[#fdc800]', 
+                              {
+                                metricId: 'retailers',
+                                label: 'Active Retailers',
+                                value: adminMetrics.retailers,
+                                icon: 'store',
+                                activeColor: 'border-[#fdc800] bg-[#fff9e6]/20 ring-2 ring-[#fdc800]/20 shadow-md shadow-[#fdc800]/10',
+                                iconColor: 'text-[#fdc800]',
                                 hoverColor: 'hover:border-[#fdc800]/40 hover:shadow-[#fdc800]/10 hover:shadow-lg',
                                 growth: '+4.8%',
                                 growthColor: 'text-amber-700 bg-[#fff9e6]',
                                 sparkline: adminChartData.retailers
                               },
-                              { 
-                                metricId: 'moderators', 
-                                label: 'Active Moderators', 
-                                value: adminMetrics.moderators, 
-                                icon: 'shield', 
-                                activeColor: 'border-[#003b80] bg-blue-50/20 ring-2 ring-[#003b80]/20 shadow-md shadow-blue-500/10', 
-                                iconColor: 'text-[#003b80]', 
+                              {
+                                metricId: 'moderators',
+                                label: 'Active Moderators',
+                                value: adminMetrics.moderators,
+                                icon: 'shield',
+                                activeColor: 'border-[#003b80] bg-blue-50/20 ring-2 ring-[#003b80]/20 shadow-md shadow-blue-500/10',
+                                iconColor: 'text-[#003b80]',
                                 hoverColor: 'hover:border-[#003b80]/40 hover:shadow-blue-500/10 hover:shadow-lg',
                                 growth: 'Stable',
                                 growthColor: 'text-blue-700 bg-blue-50',
                                 sparkline: adminChartData.moderators
                               },
-                              { 
-                                metricId: 'spotlight', 
-                                label: 'Spotlight Requests', 
-                                value: adminMetrics.spotlight, 
-                                icon: 'star', 
-                                activeColor: 'border-[#8b5cf6] bg-purple-50/20 ring-2 ring-[#8b5cf6]/20 shadow-md shadow-purple-500/10', 
-                                iconColor: 'text-[#8b5cf6]', 
+                              {
+                                metricId: 'spotlight',
+                                label: 'Spotlight Requests',
+                                value: adminMetrics.spotlight,
+                                icon: 'star',
+                                activeColor: 'border-[#8b5cf6] bg-purple-50/20 ring-2 ring-[#8b5cf6]/20 shadow-md shadow-purple-500/10',
+                                iconColor: 'text-[#8b5cf6]',
                                 hoverColor: 'hover:border-[#8b5cf6]/40 hover:shadow-purple-500/10 hover:shadow-lg',
                                 growth: '+8.3%',
                                 growthColor: 'text-purple-700 bg-purple-50',
@@ -7819,7 +7835,7 @@ export default function App() {
                               },
                             ].map(stat => {
                               const isActive = activeMetric === stat.metricId;
-                              
+
                               // Compute normalized sparkline coordinates
                               const minVal = Math.min(...stat.sparkline);
                               const maxVal = Math.max(...stat.sparkline, minVal + 1);
@@ -7833,7 +7849,7 @@ export default function App() {
                               });
                               const pathD = `M ${points.join(' L ')}`;
                               const areaD = `${pathD} L ${(w - 2).toFixed(1)},${h.toFixed(1)} L 2,${h.toFixed(1)} Z`;
-                              
+
                               return (
                                 <div
                                   key={stat.label}
@@ -7841,9 +7857,8 @@ export default function App() {
                                     setActiveMetric(stat.metricId);
                                     triggerToast(`Switched chart view to ${stat.label}`, 'info');
                                   }}
-                                  className={`relative bg-surface-container-low p-4 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 text-left cursor-pointer select-none overflow-hidden ${
-                                    isActive ? stat.activeColor : `border-outline-variant/30 ${stat.hoverColor}`
-                                  }`}
+                                  className={`relative bg-surface-container-low p-4 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 text-left cursor-pointer select-none overflow-hidden ${isActive ? stat.activeColor : `border-outline-variant/30 ${stat.hoverColor}`
+                                    }`}
                                 >
                                   {/* Sparkline background decoration */}
                                   <div className="absolute bottom-2 right-2 opacity-60 pointer-events-none select-none">
@@ -7856,12 +7871,11 @@ export default function App() {
                                   <div className="flex justify-between items-center mb-1">
                                     <h3 className="text-on-surface-variant text-[10px] font-extrabold uppercase tracking-wider">{stat.label}</h3>
                                     <div className="p-1 bg-surface-container-high rounded-lg text-on-surface-variant transition-colors">
-                                      <span className={`material-symbols-outlined text-[15px] transition-colors ${
-                                        isActive ? stat.iconColor : 'text-on-surface-variant group-hover:text-primary'
-                                      }`}>{stat.icon}</span>
+                                      <span className={`material-symbols-outlined text-[15px] transition-colors ${isActive ? stat.iconColor : 'text-on-surface-variant group-hover:text-primary'
+                                        }`}>{stat.icon}</span>
                                     </div>
                                   </div>
-                                  
+
                                   <div className="flex items-baseline gap-2 mt-1">
                                     <p className="text-xl font-extrabold text-on-surface">
                                       {stat.value}
@@ -7884,7 +7898,7 @@ export default function App() {
                             const paddingRight = 20;
                             const paddingTop = 25;
                             const paddingBottom = 35;
-                            
+
                             // Mobile chart config dimensions
                             const mSvgWidth = 320;
                             const mSvgHeight = 150;
@@ -7895,19 +7909,19 @@ export default function App() {
                             const mChartWidth = mSvgWidth - mPaddingLeft - mPaddingRight;
                             const mChartHeight = mSvgHeight - mPaddingTop - mPaddingBottom;
                             const mXStep = mChartWidth / (pointsCount - 1 || 1);
-                            
+
                             const chartWidth = svgWidth - paddingLeft - paddingRight;
                             const chartHeight = svgHeight - paddingTop - paddingBottom;
-                            
+
                             const xStep = chartWidth / (pointsCount - 1 || 1);
-                            
+
                             // Select color theme and data series based on activeMetric
                             let metricColor = '#047c1f';
                             let metricGrad = 'grad-deals';
                             let metricLabel = 'Marketplace Deals';
                             let activeData = adminChartData.deals;
                             let rawMax = Math.max(...adminChartData.deals, 1);
-                            
+
                             switch (activeMetric) {
                               case 'retailers':
                                 metricColor = '#fdc800';
@@ -7939,27 +7953,27 @@ export default function App() {
                                 rawMax = Math.max(...adminChartData.deals, 1);
                                 break;
                             }
-                            
+
                             const chartMax = Math.max(rawMax, 4);
                             let activeGlowFilter = 'glow-deals';
                             if (activeMetric === 'retailers') activeGlowFilter = 'glow-retailers';
                             if (activeMetric === 'moderators') activeGlowFilter = 'glow-mods';
                             if (activeMetric === 'spotlight') activeGlowFilter = 'glow-spotlights';
-                            
+
                             // Compute coordinates
                             const coords = activeData.map((v, i) => ({
                               x: paddingLeft + i * xStep,
                               y: paddingTop + chartHeight - (v / chartMax) * chartHeight,
                               v
                             }));
-                            
+
                             // Compute mobile coordinates
                             const mCoords = activeData.map((v, i) => ({
                               x: mPaddingLeft + i * mXStep,
                               y: mPaddingTop + mChartHeight - (v / chartMax) * mChartHeight,
                               v
                             }));
-                            
+
                             // SVG line generation
                             const makePath = (coordsList) => coordsList.map((c, i) => `${i === 0 ? 'M' : 'L'} ${c.x.toFixed(1)} ${c.y.toFixed(1)}`).join(' ');
                             const makeAreaPath = (coordsList) => {
@@ -7969,13 +7983,13 @@ export default function App() {
                               const bottomLimit = isMobile ? (mPaddingTop + mChartHeight) : (paddingTop + chartHeight);
                               return `${linePath} L ${coordsList[coordsList.length - 1].x.toFixed(1)} ${bottomLimit.toFixed(1)} L ${coordsList[0].x.toFixed(1)} ${bottomLimit.toFixed(1)} Z`;
                             };
-                            
+
                             const linePath = makePath(coords);
                             const areaPath = makeAreaPath(coords);
-                            
+
                             const mLinePath = makePath(mCoords);
                             const mAreaPath = makeAreaPath(mCoords);
-                            
+
                             // Custom generator for rounded top bar chart paths
                             const makeBarPath = (x, y, w, r, bottomY) => {
                               const h = bottomY - y;
@@ -7991,7 +8005,7 @@ export default function App() {
                                 Z
                               `;
                             };
-                            
+
                             return (
                               <div className="bg-white rounded-xl border border-outline-variant/30 p-5 custom-shadow space-y-4 text-left">
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -8002,30 +8016,10 @@ export default function App() {
                                     </div>
                                     <p className="text-[11px] text-on-surface-variant font-medium">Real-time statistics trend for {metricLabel} over {adminTimeframe}</p>
                                   </div>
-                                  
-                                  <div className="flex items-center gap-4 shrink-0">
-                                    {/* Chart Type Switches */}
-                                    <div className="flex bg-slate-100/80 backdrop-blur-sm p-1 rounded-full border border-slate-200/50 select-none shadow-inner">
-                                      <button
-                                        onClick={() => setChartType('bar')}
-                                        className={`px-3 py-1 rounded-full text-xs transition-all cursor-pointer border-none flex items-center gap-1 ${
-                                          chartType === 'bar' ? 'bg-white text-slate-900 shadow-sm font-extrabold' : 'text-slate-500 hover:text-slate-800 bg-transparent font-semibold'
-                                        }`}
-                                      >
-                                        <span>📊 Bar</span>
-                                      </button>
-                                      <button
-                                        onClick={() => setChartType('line')}
-                                        className={`px-3 py-1 rounded-full text-xs transition-all cursor-pointer border-none flex items-center gap-1 ${
-                                          chartType === 'line' ? 'bg-white text-slate-900 shadow-sm font-extrabold' : 'text-slate-500 hover:text-slate-800 bg-transparent font-semibold'
-                                        }`}
-                                      >
-                                        <span>📈 Line</span>
-                                      </button>
-                                    </div>
-                                  </div>
+
+
                                 </div>
-                                
+
                                 <div className="relative w-full overflow-hidden">
                                   {/* 🖥️ DESKTOP SVG CHART */}
                                   <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="hidden sm:block w-full h-auto overflow-visible select-none">
@@ -8058,83 +8052,62 @@ export default function App() {
                                         </g>
                                       );
                                     })}
-                                    
-                                    {/* Render Selected Chart Type */}
-                                    {chartType === 'line' ? (
-                                      <>
-                                        {/* Area path */}
-                                        {areaPath && (
-                                          <path
-                                            d={areaPath}
-                                            fill={`url(#${metricGrad})`}
-                                            className="transition-all duration-300 animate-in fade-in"
-                                          />
-                                        )}
-                                        {/* Line path */}
-                                        {linePath && (
-                                          <path
-                                            d={linePath}
-                                            fill="none"
-                                            stroke={metricColor}
-                                            strokeWidth="3"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            filter={`url(#${activeGlowFilter})`}
-                                            className="transition-all duration-300"
-                                          />
-                                        )}
-                                        {/* Dots */}
-                                        {coords.map((c, i) => (
-                                          <circle
-                                            key={`d-${i}`}
-                                            cx={c.x}
-                                            cy={c.y}
-                                            r="4"
-                                            fill={metricColor}
-                                            stroke="white"
-                                            strokeWidth="2"
-                                            className="transition-all duration-300 cursor-pointer"
-                                          />
-                                        ))}
-                                      </>
-                                    ) : (
-                                      <>
-                                        {/* Bar Chart rendering */}
-                                        {coords.map((c, i) => {
-                                          const barWidth = 24;
-                                          const barPath = makeBarPath(c.x, c.y, barWidth, 6, paddingTop + chartHeight);
-                                          return (
-                                            <g key={`bar-${i}`} className="transition-all duration-300">
-                                              {barPath && (
-                                                <path
-                                                  d={barPath}
-                                                  fill={`url(#${metricGrad})`}
-                                                  stroke={metricColor}
-                                                  strokeWidth="1.5"
-                                                  filter={`url(#${activeGlowFilter})`}
-                                                  className="transition-all duration-300 hover:brightness-95 cursor-pointer"
-                                                />
-                                              )}
-                                            </g>
-                                          );
-                                        })}
-                                      </>
+
+                                    {/* Area path */}
+                                    {areaPath && (
+                                      <path
+                                        d={areaPath}
+                                        fill={`url(#${metricGrad})`}
+                                        className="transition-all duration-300 animate-in fade-in"
+                                      />
                                     )}
-                                    
+                                    {/* Line path */}
+                                    {linePath && (
+                                      <path
+                                        d={linePath}
+                                        fill="none"
+                                        stroke={metricColor}
+                                        strokeWidth="3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        filter={`url(#${activeGlowFilter})`}
+                                        className="transition-all duration-300"
+                                      />
+                                    )}
+                                    {/* Dots */}
+                                    {coords.map((c, i) => {
+                                      if (pointsCount > 15 && i % 4 !== 0 && i !== pointsCount - 1) return null;
+                                      return (
+                                        <circle
+                                          key={`d-${i}`}
+                                          cx={c.x}
+                                          cy={c.y}
+                                          r={pointsCount > 15 ? 2.5 : 4}
+                                          fill={metricColor}
+                                          stroke="white"
+                                          strokeWidth="2"
+                                          className="transition-all duration-300 cursor-pointer"
+                                        />
+                                      );
+                                    })}
+
                                     {/* Overlay Data Labels above points/bars */}
-                                    {coords.map((c, i) => (
-                                      <text
-                                        key={`val-${i}`}
-                                        x={c.x}
-                                        y={c.y - 8}
-                                        textAnchor="middle"
-                                        className="text-[10px] font-black transition-all duration-300"
-                                        style={{ fill: metricColor }}
-                                      >
-                                        {c.v}
-                                      </text>
-                                    ))}
-                                    
+                                    {coords.map((c, i) => {
+                                      if (pointsCount > 15 && i % 4 !== 0 && i !== pointsCount - 1) return null;
+                                      return (
+                                        <text
+                                          key={`val-${i}`}
+                                          x={c.x}
+                                          y={c.y - 8}
+                                          textAnchor="middle"
+                                          className="text-[10px] font-black transition-all duration-300"
+                                          style={{ fill: metricColor }}
+                                        >
+                                          {c.v}
+                                        </text>
+                                      );
+                                    })}
+
                                     {/* X-axis Labels */}
                                     {adminChartData.labels.map((label, idx) => {
                                       const x = paddingLeft + idx * xStep;
@@ -8144,13 +8117,13 @@ export default function App() {
                                           x={x}
                                           y={svgHeight - 10}
                                           textAnchor="middle"
-                                          className="text-[9.5px] font-extrabold fill-slate-400"
+                                          className={`font-extrabold fill-slate-400 transition-all duration-300 ${pointsCount > 15 ? 'text-[8px]' : 'text-[9.5px]'}`}
                                         >
                                           {label}
                                         </text>
                                       );
                                     })}
-                                    
+
                                     {/* Defs for gradients, patterns, and filters */}
                                     <defs>
                                       <pattern id="dotGrid" width="16" height="16" patternUnits="userSpaceOnUse">
@@ -8209,84 +8182,64 @@ export default function App() {
                                       );
                                     })}
 
-                                    {/* Render Selected Chart Type */}
-                                    {chartType === 'line' ? (
-                                      <>
-                                        {/* Area path */}
-                                        {mAreaPath && (
-                                          <path
-                                            d={mAreaPath}
-                                            fill={`url(#${metricGrad}Mobile)`}
-                                            className="transition-all duration-300 animate-in fade-in"
-                                          />
-                                        )}
-                                        {/* Line path */}
-                                        {mLinePath && (
-                                          <path
-                                            d={mLinePath}
-                                            fill="none"
-                                            stroke={metricColor}
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            filter={`url(#${activeGlowFilter}Mobile)`}
-                                            className="transition-all duration-300"
-                                          />
-                                        )}
-                                        {/* Dots */}
-                                        {mCoords.map((c, i) => (
-                                          <circle
-                                            key={`md-${i}`}
-                                            cx={c.x}
-                                            cy={c.y}
-                                            r="2.5"
-                                            fill={metricColor}
-                                            stroke="white"
-                                            strokeWidth="1.5"
-                                            className="transition-all duration-300"
-                                          />
-                                        ))}
-                                      </>
-                                    ) : (
-                                      <>
-                                        {/* Bar Chart rendering */}
-                                        {mCoords.map((c, i) => {
-                                          const barWidth = 14;
-                                          const barPath = makeBarPath(c.x, c.y, barWidth, 4, mPaddingTop + mChartHeight);
-                                          return (
-                                            <g key={`mbar-${i}`} className="transition-all duration-300">
-                                              {barPath && (
-                                                <path
-                                                  d={barPath}
-                                                  fill={`url(#${metricGrad}Mobile)`}
-                                                  stroke={metricColor}
-                                                  strokeWidth="1"
-                                                  filter={`url(#${activeGlowFilter}Mobile)`}
-                                                  className="transition-all duration-300"
-                                                />
-                                              )}
-                                            </g>
-                                          );
-                                        })}
-                                      </>
+                                    {/* Area path */}
+                                    {mAreaPath && (
+                                      <path
+                                        d={mAreaPath}
+                                        fill={`url(#${metricGrad}Mobile)`}
+                                        className="transition-all duration-300 animate-in fade-in"
+                                      />
                                     )}
+                                    {/* Line path */}
+                                    {mLinePath && (
+                                      <path
+                                        d={mLinePath}
+                                        fill="none"
+                                        stroke={metricColor}
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        filter={`url(#${activeGlowFilter}Mobile)`}
+                                        className="transition-all duration-300"
+                                      />
+                                    )}
+                                    {/* Dots */}
+                                    {mCoords.map((c, i) => {
+                                      if (pointsCount > 15 && i % 4 !== 0 && i !== pointsCount - 1) return null;
+                                      return (
+                                        <circle
+                                          key={`md-${i}`}
+                                          cx={c.x}
+                                          cy={c.y}
+                                          r={pointsCount > 15 ? 1.5 : 2.5}
+                                          fill={metricColor}
+                                          stroke="white"
+                                          strokeWidth="1.5"
+                                          className="transition-all duration-300"
+                                        />
+                                      );
+                                    })}
 
                                     {/* Scaled Value Labels */}
-                                    {mCoords.map((c, i) => (
-                                      <text
-                                        key={`mval-${i}`}
-                                        x={c.x}
-                                        y={c.y - 5}
-                                        textAnchor="middle"
-                                        className="text-[8px] font-black transition-all duration-300"
-                                        style={{ fill: metricColor }}
-                                      >
-                                        {c.v}
-                                      </text>
-                                    ))}
+                                    {mCoords.map((c, i) => {
+                                      if (pointsCount > 15 && i % 4 !== 0 && i !== pointsCount - 1) return null;
+                                      return (
+                                        <text
+                                          key={`mval-${i}`}
+                                          x={c.x}
+                                          y={c.y - 5}
+                                          textAnchor="middle"
+                                          className="text-[8px] font-black transition-all duration-300"
+                                          style={{ fill: metricColor }}
+                                        >
+                                          {c.v}
+                                        </text>
+                                      );
+                                    })}
 
                                     {/* X-axis Labels (Scaled & centered) */}
                                     {adminChartData.labels.map((label, idx) => {
+                                      if (pointsCount > 15 && idx % 2 !== 0 && idx !== pointsCount - 1) return null;
                                       const x = mPaddingLeft + idx * mXStep;
                                       return (
                                         <text
@@ -8363,7 +8316,7 @@ export default function App() {
 
                           {/* Dual Columns for Approvals & Placements */}
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            
+
                             {/* Pending Approvals */}
                             <div className="bg-white rounded-xl border border-outline-variant/30 p-6 custom-shadow space-y-4">
                               <h3 className="font-headline font-bold text-base text-on-surface border-b border-outline-variant/10 pb-3 flex items-center gap-2">
@@ -8462,7 +8415,7 @@ export default function App() {
                       {/* 🏪 CONSUMER ACCOUNTS TAB */}
                       {adminTab === 'users' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           <div className="flex items-center justify-between flex-wrap gap-4">
                             <div>
                               <h3 className="font-headline font-bold text-xl text-on-surface">Consumer & Retailer Accounts</h3>
@@ -8605,11 +8558,10 @@ export default function App() {
                                       <td className="px-4 py-3.5 text-on-surface-variant text-[11px]">{u.location}</td>
                                       <td className="px-4 py-3.5 font-bold text-primary text-center">{u.dealsCount || 0} deals</td>
                                       <td className="px-4 py-3.5">
-                                        <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full border tracking-wide uppercase ${
-                                          u.status === 'Active' ? 'bg-primary/10 text-primary border-primary/20' :
-                                          u.status === 'Pending' ? 'bg-amber-600/10 text-amber-600 border-amber-600/20' :
-                                          'bg-error/10 text-error border-error/20'
-                                        }`}>
+                                        <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full border tracking-wide uppercase ${u.status === 'Active' ? 'bg-primary/10 text-primary border-primary/20' :
+                                            u.status === 'Pending' ? 'bg-amber-600/10 text-amber-600 border-amber-600/20' :
+                                              'bg-error/10 text-error border-error/20'
+                                          }`}>
                                           {u.status}
                                         </span>
                                       </td>
@@ -8665,23 +8617,22 @@ export default function App() {
                                           <p className="text-[9px] text-primary font-bold tracking-wide uppercase mt-0.5">{u.verified ? '✓ Verified Partner' : '⏳ Review Pending'}</p>
                                         </div>
                                       </div>
-                                      
-                                      <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full border tracking-wide uppercase ${
-                                        u.status === 'Active' ? 'bg-primary/10 text-primary border-primary/20' :
-                                        u.status === 'Pending' ? 'bg-amber-600/10 text-amber-600 border-amber-600/20' :
-                                        'bg-error/10 text-error border-error/20'
-                                      }`}>
+
+                                      <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full border tracking-wide uppercase ${u.status === 'Active' ? 'bg-primary/10 text-primary border-primary/20' :
+                                          u.status === 'Pending' ? 'bg-amber-600/10 text-amber-600 border-amber-600/20' :
+                                            'bg-error/10 text-error border-error/20'
+                                        }`}>
                                         {u.status}
                                       </span>
                                     </div>
-                                    
+
                                     <div className="grid grid-cols-2 gap-3 pt-1 text-slate-600">
                                       <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 flex flex-col justify-between">
                                         <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Owner Details</span>
                                         <p className="text-slate-800 text-xs font-bold mt-0.5">{u.name}</p>
                                         <p className="text-slate-550 font-mono text-[10px] truncate mt-0.5">{u.email}</p>
                                       </div>
-                                      
+
                                       <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 flex flex-col justify-between">
                                         <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Market / Location</span>
                                         <p className="text-slate-850 font-bold text-xs mt-0.5 uppercase tracking-wide">{u.category}</p>
@@ -8691,7 +8642,7 @@ export default function App() {
 
                                     <div className="flex items-center justify-between pt-2 border-t border-slate-100/50 text-xs">
                                       <span className="text-xs font-bold text-primary">{u.dealsCount || 0} deals active</span>
-                                      
+
                                       <div className="flex items-center gap-3">
                                         {u.status === 'Pending' && (
                                           <button
@@ -8736,7 +8687,7 @@ export default function App() {
                       {/* 🛡️ MODERATORS TAB */}
                       {adminTab === 'moderators' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           <div className="flex items-center justify-between flex-wrap gap-4">
                             <div>
                               <h3 className="font-headline font-bold text-xl text-on-surface">Community Moderators</h3>
@@ -8919,7 +8870,7 @@ export default function App() {
                       {/* 📢 TOP BANNER TAB */}
                       {adminTab === 'banner' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           <div className="flex items-center justify-between flex-wrap gap-4 border-b border-outline-variant/20 pb-4">
                             <div>
                               <h3 className="font-black text-2xl text-on-surface font-headline">Top Announcement Banners</h3>
@@ -9066,9 +9017,8 @@ export default function App() {
                                     <span className="bg-surface-container text-on-surface-variant text-[10px] font-black px-2.5 py-0.5 rounded border border-outline-variant/20 uppercase select-none">
                                       {b.type}
                                     </span>
-                                    <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border select-none ${
-                                      b.status === 'Active' ? 'bg-[#e6f2e8] text-[#047c1f] border-[#047c1f]/20' : 'bg-surface-container text-on-surface-variant/60 border-outline-variant/20'
-                                    }`}>
+                                    <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border select-none ${b.status === 'Active' ? 'bg-[#e6f2e8] text-[#047c1f] border-[#047c1f]/20' : 'bg-surface-container text-on-surface-variant/60 border-outline-variant/20'
+                                      }`}>
                                       {b.status}
                                     </span>
                                   </div>
@@ -9122,7 +9072,7 @@ export default function App() {
                       {/* ⭐ FEATURED PLACEMENTS TAB */}
                       {adminTab === 'featured' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           <div className="border-b border-outline-variant/20 pb-4">
                             <h3 className="font-black text-2xl text-on-surface font-headline">Featured Card Placements</h3>
                             <p className="text-[12px] text-on-surface-variant font-medium mt-1">Approve or audit homepage advertisement spotlights</p>
@@ -9146,11 +9096,10 @@ export default function App() {
                                       <td className="px-4 py-3.5 font-bold">{r.duration || '7 days'}</td>
                                       <td className="px-4 py-3.5 font-semibold text-on-surface-variant text-[12px]">{r.requestedDate}</td>
                                       <td className="px-4 py-3.5">
-                                        <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black border tracking-wider uppercase select-none ${
-                                          r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
-                                          r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
-                                          'bg-amber-50 text-amber-600 border-amber-200'
-                                        }`}>
+                                        <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black border tracking-wider uppercase select-none ${r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
+                                            r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
+                                              'bg-amber-50 text-amber-600 border-amber-200'
+                                          }`}>
                                           {r.status}
                                         </span>
                                       </td>
@@ -9211,11 +9160,10 @@ export default function App() {
                                         <p className="font-bold text-[13px] text-on-surface line-clamp-2">{r.dealTitle}</p>
                                         <p className="text-[10px] text-on-surface-variant font-medium mt-1">Requested: {r.requestedDate}</p>
                                       </div>
-                                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black border tracking-wider uppercase select-none shrink-0 ${
-                                        r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
-                                        r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
-                                        'bg-amber-50 text-amber-600 border-amber-200'
-                                      }`}>
+                                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black border tracking-wider uppercase select-none shrink-0 ${r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
+                                          r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
+                                            'bg-amber-50 text-amber-600 border-amber-200'
+                                        }`}>
                                         {r.status}
                                       </span>
                                     </div>
@@ -9285,7 +9233,7 @@ export default function App() {
                       {/* 🏷️ CATEGORY MANAGER TAB */}
                       {adminTab === 'categories' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           <div className="flex items-center justify-between flex-wrap gap-4 border-b border-outline-variant/20 pb-4">
                             <div>
                               <h3 className="font-black text-2xl text-on-surface font-headline">Category & Taxonomy Manager</h3>
@@ -9391,9 +9339,8 @@ export default function App() {
                                   </div>
                                 </div>
                                 <div className="flex flex-col items-end gap-1.5 shrink-0">
-                                  <span className={`text-[9px] font-black px-1.5 py-0.5 rounded border uppercase select-none ${
-                                    cat.active ? 'bg-primary/10 text-primary border-primary/20' : 'bg-surface-container text-on-surface-variant/60 border-outline-variant/10'
-                                  }`}>
+                                  <span className={`text-[9px] font-black px-1.5 py-0.5 rounded border uppercase select-none ${cat.active ? 'bg-primary/10 text-primary border-primary/20' : 'bg-surface-container text-on-surface-variant/60 border-outline-variant/10'
+                                    }`}>
                                     {cat.active ? 'Active' : 'Paused'}
                                   </span>
                                   <div className="flex items-center gap-1">
@@ -9429,7 +9376,7 @@ export default function App() {
                       {/* 💰 ALL DEALS TAB */}
                       {adminTab === 'deals' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           <div className="border-b border-outline-variant/20 pb-4">
                             <h3 className="font-black text-2xl text-on-surface font-headline">Marketplace Listings Auditing</h3>
                             <p className="text-[12px] text-on-surface-variant font-medium mt-1">{allDeals.length} active campaigns currently live in Australian feed</p>
@@ -9551,7 +9498,7 @@ export default function App() {
                       {/* 📦 STOCK MANAGER TAB */}
                       {adminTab === 'stock' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           <div className="border-b border-outline-variant/20 pb-4">
                             <h3 className="font-black text-2xl text-on-surface font-headline">Platform Stock Inventory Registry</h3>
                             <p className="text-[12px] text-on-surface-variant font-medium mt-1">Audit and balance inventory quantities across all partner storefronts</p>
@@ -9710,21 +9657,21 @@ export default function App() {
                       {/* 🔔 SYSTEM NOTIFICATIONS TAB */}
                       {adminTab === 'notifications' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          
+
                           <div className="border-b border-outline-variant/20 pb-4">
                             <h3 className="font-black text-2xl text-on-surface font-headline">Push Alert Alerting System</h3>
                             <p className="text-[12px] text-on-surface-variant font-medium mt-1">Broadcast push updates, warning signals, or news feeds to platform cohorts</p>
                           </div>
 
                           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            
+
                             {/* Broadcaster form */}
                             <div className="lg:col-span-1 bg-white border border-outline-variant/30 rounded-2xl p-6 shadow-sm space-y-4 h-fit">
                               <h4 className="font-black text-[14px] text-on-surface border-b border-outline-variant/20 pb-3 flex items-center gap-2">
                                 <span className="material-symbols-outlined text-primary text-base">campaign</span>
                                 Broadcast Composer
                               </h4>
-                              
+
                               <div className="space-y-1">
                                 <label className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider">Target Audience Cohort</label>
                                 <select
@@ -9814,8 +9761,8 @@ export default function App() {
                                     <div className="absolute top-0 bottom-0 left-0 w-1"
                                       style={{
                                         backgroundColor: sn.type === 'warning' ? '#d97706' :
-                                                         sn.type === 'error' ? '#dc2626' :
-                                                         sn.type === 'success' ? '#15803d' : '#2563eb'
+                                          sn.type === 'error' ? '#dc2626' :
+                                            sn.type === 'success' ? '#15803d' : '#2563eb'
                                       }}
                                     ></div>
                                     <div className="flex items-center justify-between flex-wrap gap-2 text-xs font-bold pl-1">
@@ -9903,7 +9850,7 @@ export default function App() {
             {currentRoute === '#moderator' && (
               currentUser?.role === 'moderator' ? (
                 <div className="flex font-body bg-background text-on-surface min-h-screen relative w-full text-left overflow-hidden animate-in fade-in duration-300">
-                  
+
                   {/* Sidebar Navigation */}
                   <aside className="hidden sm:flex h-screen w-64 fixed left-0 top-0 z-50 flex-col py-6 border-r border-outline-variant/20 bg-surface-container select-none">
                     <div className="px-6 mb-10 flex items-center gap-3">
@@ -9927,11 +9874,10 @@ export default function App() {
                         <button
                           key={tab.key}
                           onClick={() => setModeratorTab(tab.key)}
-                          className={`w-[calc(100%-1rem)] rounded-lg mx-2 my-1 px-4 py-2.5 flex items-center gap-3 transition-transform active:scale-95 text-left font-bold text-sm cursor-pointer border-none focus:outline-none focus:ring-0 ${
-                            moderatorTab === tab.key
+                          className={`w-[calc(100%-1rem)] rounded-lg mx-2 my-1 px-4 py-2.5 flex items-center gap-3 transition-transform active:scale-95 text-left font-bold text-sm cursor-pointer border-none focus:outline-none focus:ring-0 ${moderatorTab === tab.key
                               ? 'bg-primary text-white font-semibold shadow-sm'
                               : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
-                          }`}
+                            }`}
                         >
                           <span className="material-symbols-outlined text-[18px]">{tab.icon}</span>
                           <span>{tab.label}</span>
@@ -9976,7 +9922,7 @@ export default function App() {
                   </aside>
 
                   <main className="w-full sm:ml-64 flex-1 min-h-screen flex flex-col bg-background pb-16 lg:pb-0">
-                    
+
                     {/* TopNavBar */}
                     <header className="w-full sticky top-0 z-40 bg-surface flex justify-between items-center px-4 sm:px-8 py-3 sm:py-4 border-b border-outline-variant/30 shadow-sm">
                       <div className="flex items-center gap-8">
@@ -10004,7 +9950,7 @@ export default function App() {
                           )}
                         </button>
                         <div className="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
-                        
+
                         <div className="flex items-center gap-3 cursor-pointer hover:bg-surface-variant/30 p-1.5 rounded-lg transition-colors">
                           <div className="text-right">
                             <p className="text-sm font-bold leading-none text-on-surface">{currentUser.name}</p>
@@ -10019,23 +9965,23 @@ export default function App() {
 
                     {/* Content Canvas */}
                     <section className="p-8 max-w-7xl w-full mx-auto space-y-8 flex-1 pb-24">
-                      
+
                       {/* Page Header */}
                       <div className="flex justify-between items-end flex-wrap gap-4 text-left">
                         <div>
                           <h2 className="text-3xl font-headline font-bold text-on-surface">
-                            {moderatorTab === 'overview' ? 'Moderator Hub Overview' : 
-                             moderatorTab === 'flagged' ? 'Flagged Complaints Queue' : 
-                             moderatorTab === 'community' ? 'Spotlight Feed Review' : 
-                             moderatorTab === 'coupons' ? 'Active Coupons Audit' : 
-                             'Announcements Billboard'}
+                            {moderatorTab === 'overview' ? 'Moderator Hub Overview' :
+                              moderatorTab === 'flagged' ? 'Flagged Complaints Queue' :
+                                moderatorTab === 'community' ? 'Spotlight Feed Review' :
+                                  moderatorTab === 'coupons' ? 'Active Coupons Audit' :
+                                    'Announcements Billboard'}
                           </h2>
                           <p className="text-on-surface-variant mt-1 font-semibold">
-                            {moderatorTab === 'overview' ? 'Monitor platform complaints, active site coupon indices, and bulletins.' : 
-                             moderatorTab === 'flagged' ? 'User-reported promotions pending standard editorial review.' : 
-                             moderatorTab === 'community' ? 'Manage user posts in the community timeline feed.' : 
-                             moderatorTab === 'coupons' ? 'Audit verified store coupon directories currently active.' : 
-                             'Program the dynamic header ticker billboard announcements.'}
+                            {moderatorTab === 'overview' ? 'Monitor platform complaints, active site coupon indices, and bulletins.' :
+                              moderatorTab === 'flagged' ? 'User-reported promotions pending standard editorial review.' :
+                                moderatorTab === 'community' ? 'Manage user posts in the community timeline feed.' :
+                                  moderatorTab === 'coupons' ? 'Audit verified store coupon directories currently active.' :
+                                    'Program the dynamic header ticker billboard announcements.'}
                           </p>
                         </div>
                         <div className="flex gap-3 shrink-0">
@@ -10080,7 +10026,7 @@ export default function App() {
                       ══════════════════════════════════════ */}
                       {moderatorTab === 'overview' && (
                         <div className="space-y-8 animate-in fade-in duration-300">
-                          
+
                           {/* KPI Cards Grid */}
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                             {/* Active Flags */}
@@ -10096,7 +10042,7 @@ export default function App() {
                                 {moderatorMetrics.flags}
                               </p>
                             </div>
-                            
+
                             {/* Spotlight Posts */}
                             <div className="bg-surface-container-low p-6 rounded-xl custom-shadow group hover:bg-white border border-primary/20 hover:border-primary transition-all duration-200 hover:-translate-y-0.5 text-left">
                               <div className="flex justify-between items-start mb-4">
@@ -10142,7 +10088,7 @@ export default function App() {
 
                           {/* Quick Controls & Logs */}
                           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            
+
                             <div className="bg-white rounded-xl border border-outline-variant/30 p-6 custom-shadow space-y-4 col-span-2 text-left">
                               <h3 className="font-headline font-bold text-base text-on-surface border-b border-outline-variant/10 pb-3 flex items-center gap-2">
                                 <span className="material-symbols-outlined text-primary">campaign</span> Billboard Notice Controller
@@ -10150,7 +10096,7 @@ export default function App() {
                               <p className="text-xs text-on-surface-variant leading-relaxed font-semibold">
                                 Global senior moderator panel. Modifications to notices display instantly on the top announcement ticker of all pages.
                               </p>
-                              
+
                               <div className="space-y-4 pt-2">
                                 {adminBanners.map(b => (
                                   <div key={b.id} className="p-4 bg-surface-container-low rounded-xl border border-outline-variant/20 flex items-center justify-between gap-4">
@@ -10232,8 +10178,8 @@ export default function App() {
                             </div>
                             <button
                               onClick={() => {
-                                  setFlaggedDeals(prev => prev.map(f => ({ ...f, status: 'Approved' })));
-                                  triggerToast('✓ Cleared flagged deals queue!', 'success');
+                                setFlaggedDeals(prev => prev.map(f => ({ ...f, status: 'Approved' })));
+                                triggerToast('✓ Cleared flagged deals queue!', 'success');
                               }}
                               className="px-4 py-2.5 rounded-xl bg-primary hover:opacity-90 text-white font-bold text-xs cursor-pointer border-none shadow-sm transition-opacity"
                             >
@@ -10503,9 +10449,8 @@ export default function App() {
                                     <span className="bg-surface-container text-on-surface-variant text-[10px] font-black px-2.5 py-0.5 rounded border border-outline-variant/30 uppercase">
                                       {b.type}
                                     </span>
-                                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase ${
-                                      b.status === 'Active' ? 'bg-primary/10 text-primary' : 'bg-surface-container text-on-surface-variant'
-                                    }`}>
+                                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase ${b.status === 'Active' ? 'bg-primary/10 text-primary' : 'bg-surface-container text-on-surface-variant'
+                                      }`}>
                                       {b.status}
                                     </span>
                                   </div>
@@ -10532,9 +10477,8 @@ export default function App() {
                                       setAdminBanners(prev => prev.map(x => x.id === b.id ? { ...x, status: newStatus } : x));
                                       triggerToast(`Banner status updated to ${newStatus}`, 'info');
                                     }}
-                                    className={`px-3.5 py-2 rounded-xl font-bold text-xs cursor-pointer border-none transition-colors ${
-                                      b.status === 'Active' ? 'bg-amber-600/10 hover:bg-amber-600/20 text-amber-600' : 'bg-primary/10 hover:bg-primary/20 text-primary'
-                                    }`}
+                                    className={`px-3.5 py-2 rounded-xl font-bold text-xs cursor-pointer border-none transition-colors ${b.status === 'Active' ? 'bg-amber-600/10 hover:bg-amber-600/20 text-amber-600' : 'bg-primary/10 hover:bg-primary/20 text-primary'
+                                      }`}
                                   >
                                     {b.status === 'Active' ? 'Deactivate' : 'Activate'}
                                   </button>
@@ -10603,7 +10547,7 @@ export default function App() {
       ========================================== */}
       <footer className={`bg-[#047c1f] border-t 
         border-[#035a16] text-white/80 mt-16 font-semibold 
-        ${(isConsumerDashboard || isAdminDashboard || isModeratorDashboard) 
+        ${(isConsumerDashboard || isAdminDashboard || isModeratorDashboard)
           ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
 
@@ -10699,16 +10643,18 @@ export default function App() {
       {/* Checkout & Payment Modal */}
       {checkoutModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200"
           onClick={() => {
             if (!paymentLoading) {
               setCheckoutModalOpen(false);
               setPaymentSuccess(false);
+              setCheckoutStep('shipping');
+              setShipToDifferent(false);
             }
           }}
         >
           <div
-            className="w-full max-w-md bg-white rounded-[8px] border border-[#e8e8e8] border-t-4 border-t-[#047c1f] p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200"
+            className="w-full max-w-md bg-white rounded-[8px] border border-[#e8e8e8] border-t-4 border-t-[#047c1f] p-5 sm:p-8 space-y-5 sm:space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
 
@@ -10717,6 +10663,8 @@ export default function App() {
                 if (!paymentLoading) {
                   setCheckoutModalOpen(false);
                   setPaymentSuccess(false);
+                  setCheckoutStep('shipping');
+                  setShipToDifferent(false);
                 }
               }}
               className="absolute right-4 top-4 p-1.5 rounded-[8px] text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-colors cursor-pointer"
@@ -10738,6 +10686,8 @@ export default function App() {
                     onClick={() => {
                       setCheckoutModalOpen(false);
                       setPaymentSuccess(false);
+                      setCheckoutStep('shipping');
+                      setShipToDifferent(false);
                     }}
                     className="w-full bg-[#047c1f] hover:bg-[#036318] text-white py-2.5 rounded-[8px] text-sm font-bold shadow-md transition-colors cursor-pointer border-none"
                   >
@@ -10750,9 +10700,11 @@ export default function App() {
                 <div className="text-left border-b border-slate-100 pb-3">
                   <h3 className="text-xl font-display font-extrabold text-slate-900 flex items-center gap-2">
                     <span className="material-symbols-outlined text-[#047c1f]">security</span>
-                    Secure Checkout
+                    Secure Checkout {checkoutStep === 'payment' && <span className="text-[10px] bg-[#e6f2e8] text-[#047c1f] px-2.5 py-0.5 rounded-full font-sans font-bold">Step 2 of 2</span>}
                   </h3>
-                  <p className="text-[11px] text-slate-500 font-semibold mt-0.5">Review your order details and enter payment card info.</p>
+                  <p className="text-[11px] text-slate-500 font-semibold mt-0.5">
+                    {checkoutStep === 'shipping' ? 'Step 1: Review your order details and enter delivery address.' : 'Step 2: Enter card details to complete your payment.'}
+                  </p>
                 </div>
 
                 {/* Items Summary list */}
@@ -10796,11 +10748,11 @@ export default function App() {
                     e.preventDefault();
                     if (paymentLoading) return;
                     setPaymentLoading(true);
-                    
+
                     setTimeout(() => {
                       setPaymentLoading(false);
                       setPaymentSuccess(true);
-                      
+
                       const orderId = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
                       const orderDate = new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
                       const trackingNo = 'AP-' + Math.floor(100000000 + Math.random() * 900000000);
@@ -10814,6 +10766,7 @@ export default function App() {
                         status: 'In Transit',
                         carrier: 'Australia Post',
                         trackingNumber: trackingNo,
+                        shipping: shipToDifferent ? { ...diffShippingForm, email: shippingForm.email, phone: shippingForm.phone } : { ...shippingForm },
                         timeline: [
                           { title: 'Order Placed', desc: 'Order received and payment approved', time: 'Just now', done: true },
                           { title: 'Processing', desc: 'Packed and prepared at merchant warehouse', time: 'Expected in 1 day', done: false },
@@ -10822,104 +10775,361 @@ export default function App() {
                         ]
                       };
                       setPurchaseHistory(prev => [newOrder, ...prev]);
-                      setCart([]); 
-                      setAppliedCoupons({}); 
+                      setCart([]);
+                      setAppliedCoupons({});
                       setPaymentForm({ cardholderName: '', cardNumber: '', expiry: '', cvv: '' });
+                      setShippingForm({
+                        fullName: '',
+                        email: '',
+                        phone: '',
+                        address: '',
+                        suburb: '',
+                        state: 'NSW',
+                        postcode: ''
+                      });
+                      setDiffShippingForm({
+                        fullName: '',
+                        address: '',
+                        suburb: '',
+                        state: 'NSW',
+                        postcode: ''
+                      });
+                      setShipToDifferent(false);
+                      setCheckoutStep('shipping');
                       triggerToast(`Payment processed successfully for ${orderId}!`, 'success');
                     }, 1500);
                   }}
-                  className="space-y-3 text-left"
+                  className="space-y-4 text-left"
                 >
-                  <div className="space-y-0.5">
-                    <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Cardholder Name</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. John Citizen"
-                      value={paymentForm.cardholderName}
-                      onChange={(e) => setPaymentForm(prev => ({ ...prev, cardholderName: e.target.value }))}
-                      className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-base focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
-                    />
-                  </div>
+                  {checkoutStep === 'shipping' ? (
+                    <div className="space-y-4">
+                      {/* Contact & Delivery Details Section */}
+                      <div className="space-y-3 pb-3">
+                        <p className="text-[10px] font-black text-[#047c1f] uppercase tracking-wider flex items-center gap-1.5">
+                          <span className="material-symbols-outlined text-[15px]">local_shipping</span> Contact & Customer Details
+                        </p>
 
-                  <div className="space-y-0.5">
-                    <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Card Number</label>
-                    <input
-                      type="text"
-                      required
-                      pattern="[0-9 ]{10,22}"
-                      maxLength="19"
-                      placeholder="xxxx xxxx xxxx xxxx"
-                      value={paymentForm.cardNumber}
-                      onChange={(e) => {
-                        const val = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-                        const matches = val.match(/\d{4,16}/g);
-                        const match = (matches && matches[0]) || '';
-                        const parts = [];
-                        for (let i = 0, len = match.length; i < len; i += 4) {
-                          parts.push(match.substring(i, i + 4));
-                        }
-                        const formatted = parts.length > 0 ? parts.join(' ') : val;
-                        setPaymentForm(prev => ({ ...prev, cardNumber: formatted }));
-                      }}
-                      className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-base focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
-                    />
-                  </div>
+                        <div className="space-y-0.5">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Full Name</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. Jane Citizen"
+                            value={shippingForm.fullName}
+                            onChange={(e) => setShippingForm(prev => ({ ...prev, fullName: e.target.value }))}
+                            className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                          />
+                        </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-0.5">
-                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Expiry Date</label>
-                      <input
-                        type="text"
-                        required
-                        maxLength="5"
-                        placeholder="MM/YY"
-                        value={paymentForm.expiry}
-                        onChange={(e) => {
-                          const val = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-                          let formatted = val;
-                          if (val.length >= 2) {
-                            formatted = val.substring(0, 2) + '/' + val.substring(2, 4);
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="space-y-0.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Email Address</label>
+                            <input
+                              type="email"
+                              required
+                              placeholder="jane@example.com"
+                              value={shippingForm.email}
+                              onChange={(e) => setShippingForm(prev => ({ ...prev, email: e.target.value }))}
+                              className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                            />
+                          </div>
+                          <div className="space-y-0.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Phone Number</label>
+                            <input
+                              type="tel"
+                              required
+                              placeholder="e.g. 0412 345 678"
+                              value={shippingForm.phone}
+                              onChange={(e) => setShippingForm(prev => ({ ...prev, phone: e.target.value }))}
+                              className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-0.5 pt-1">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Billing / Home Address</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. 123 George St"
+                            value={shippingForm.address}
+                            onChange={(e) => setShippingForm(prev => ({ ...prev, address: e.target.value }))}
+                            className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          <div className="col-span-2 sm:col-span-1 space-y-0.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Suburb</label>
+                            <input
+                              type="text"
+                              required
+                              placeholder="Sydney"
+                              value={shippingForm.suburb}
+                              onChange={(e) => setShippingForm(prev => ({ ...prev, suburb: e.target.value }))}
+                              className="w-full px-2 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                            />
+                          </div>
+                          <div className="space-y-0.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">State</label>
+                            <select
+                              value={shippingForm.state}
+                              onChange={(e) => setShippingForm(prev => ({ ...prev, state: e.target.value }))}
+                              className="w-full px-2 py-2 rounded-[6px] border border-slate-200 text-sm bg-white focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                            >
+                              <option value="NSW">NSW</option>
+                              <option value="VIC">VIC</option>
+                              <option value="QLD">QLD</option>
+                              <option value="WA">WA</option>
+                              <option value="SA">SA</option>
+                              <option value="TAS">TAS</option>
+                              <option value="ACT">ACT</option>
+                              <option value="NT">NT</option>
+                            </select>
+                          </div>
+                          <div className="space-y-0.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Postcode</label>
+                            <input
+                              type="text"
+                              required
+                              pattern="\d{4}"
+                              maxLength="4"
+                              placeholder="2000"
+                              value={shippingForm.postcode}
+                              onChange={(e) => {
+                                const val = e.target.value.replace(/[^0-9]/gi, '');
+                                setShippingForm(prev => ({ ...prev, postcode: val }));
+                              }}
+                              className="w-full px-2 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 pt-1 pb-1 border-t border-slate-100">
+                        <input
+                          type="checkbox"
+                          id="shipToDifferent"
+                          checked={shipToDifferent}
+                          onChange={(e) => setShipToDifferent(e.target.checked)}
+                          className="w-4 h-4 text-[#047c1f] border-slate-300 rounded focus:ring-[#047c1f]"
+                        />
+                        <label htmlFor="shipToDifferent" className="text-xs font-bold text-slate-700 cursor-pointer select-none">
+                          Ship to a different address?
+                        </label>
+                      </div>
+
+                      {shipToDifferent && (
+                        <div className="space-y-3 pt-3 border-t border-slate-150 animate-in slide-in-from-top-2 duration-200">
+                          <p className="text-[10px] font-black text-[#047c1f] uppercase tracking-wider flex items-center gap-1.5">
+                            <span className="material-symbols-outlined text-[15px]">local_shipping</span> Separate Shipping Delivery Address
+                          </p>
+
+                          <div className="space-y-0.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Recipient's Full Name</label>
+                            <input
+                              type="text"
+                              required={shipToDifferent}
+                              placeholder="e.g. Recipient Name"
+                              value={diffShippingForm.fullName}
+                              onChange={(e) => setDiffShippingForm(prev => ({ ...prev, fullName: e.target.value }))}
+                              className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                            />
+                          </div>
+
+                          <div className="space-y-0.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Shipping Street Address</label>
+                            <input
+                              type="text"
+                              required={shipToDifferent}
+                              placeholder="e.g. 456 Delivery Rd"
+                              value={diffShippingForm.address}
+                              onChange={(e) => setDiffShippingForm(prev => ({ ...prev, address: e.target.value }))}
+                              className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                            <div className="col-span-2 sm:col-span-1 space-y-0.5">
+                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Suburb</label>
+                              <input
+                                type="text"
+                                required={shipToDifferent}
+                                placeholder="Melbourne"
+                                value={diffShippingForm.suburb}
+                                onChange={(e) => setDiffShippingForm(prev => ({ ...prev, suburb: e.target.value }))}
+                                className="w-full px-2 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                              />
+                            </div>
+                            <div className="space-y-0.5">
+                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">State</label>
+                              <select
+                                value={diffShippingForm.state}
+                                onChange={(e) => setDiffShippingForm(prev => ({ ...prev, state: e.target.value }))}
+                                className="w-full px-2 py-2 rounded-[6px] border border-slate-200 text-sm bg-white focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                              >
+                                <option value="NSW">NSW</option>
+                                <option value="VIC">VIC</option>
+                                <option value="QLD">QLD</option>
+                                <option value="WA">WA</option>
+                                <option value="SA">SA</option>
+                                <option value="TAS">TAS</option>
+                                <option value="ACT">ACT</option>
+                                <option value="NT">NT</option>
+                              </select>
+                            </div>
+                            <div className="space-y-0.5">
+                              <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Postcode</label>
+                              <input
+                                type="text"
+                                required={shipToDifferent}
+                                pattern="\d{4}"
+                                maxLength="4"
+                                placeholder="3000"
+                                value={diffShippingForm.postcode}
+                                onChange={(e) => {
+                                  const val = e.target.value.replace(/[^0-9]/gi, '');
+                                  setDiffShippingForm(prev => ({ ...prev, postcode: val }));
+                                }}
+                                className="w-full px-2 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!shippingForm.fullName || !shippingForm.email || !shippingForm.phone || !shippingForm.address || !shippingForm.suburb || !shippingForm.postcode) {
+                            triggerToast('Please fill out all required contact and billing details, mate!', 'warning');
+                            return;
                           }
-                          setPaymentForm(prev => ({ ...prev, expiry: formatted }));
+                          if (shipToDifferent) {
+                            if (!diffShippingForm.fullName || !diffShippingForm.address || !diffShippingForm.suburb || !diffShippingForm.postcode) {
+                              triggerToast('Please fill out all separate shipping address details!', 'warning');
+                              return;
+                            }
+                          }
+                          setCheckoutStep('payment');
                         }}
-                        className="w-full px-3 py-1.5 rounded-[6px] border border-slate-200 text-xs focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
-                      />
+                        className="w-full bg-[#047c1f] hover:bg-[#036318] text-white py-2.5 rounded-[8px] font-bold text-sm shadow-md transition-colors cursor-pointer border-none flex items-center justify-center gap-2 mt-2"
+                      >
+                        <span>Next: Payment Details</span>
+                        <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                      </button>
                     </div>
-                    <div className="space-y-0.5">
-                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">CVV</label>
-                      <input
-                        type="password"
-                        required
-                        maxLength="3"
-                        placeholder="123"
-                        value={paymentForm.cvv}
-                        onChange={(e) => {
-                          const val = e.target.value.replace(/[^0-9]/gi, '');
-                          setPaymentForm(prev => ({ ...prev, cvv: val }));
-                        }}
-                        className="w-full px-3 py-1.5 rounded-[6px] border border-slate-200 text-xs focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
-                      />
-                    </div>
-                  </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {/* Payment Card Details Section */}
+                      <div className="space-y-3">
+                        <p className="text-[10px] font-black text-[#047c1f] uppercase tracking-wider flex items-center gap-1.5">
+                          <span className="material-symbols-outlined text-[15px]">credit_card</span> Payment Details
+                        </p>
 
-                  <button
-                    type="submit"
-                    disabled={paymentLoading}
-                    className="w-full bg-[#047c1f] hover:bg-[#036318] text-white py-2.5 rounded-[8px] font-bold text-sm shadow-md transition-colors cursor-pointer border-none flex items-center justify-center gap-2 mt-2"
-                  >
-                    {paymentLoading ? (
-                      <>
-                        <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                        <span>Processing Payment...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="material-symbols-outlined text-xs">lock</span>
-                        <span>Pay ${cartTotals.total.toFixed(2)} AUD</span>
-                      </>
-                    )}
-                  </button>
+                        <div className="space-y-0.5">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Cardholder Name</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. John Citizen"
+                            value={paymentForm.cardholderName}
+                            onChange={(e) => setPaymentForm(prev => ({ ...prev, cardholderName: e.target.value }))}
+                            className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                          />
+                        </div>
+
+                        <div className="space-y-0.5">
+                          <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Card Number</label>
+                          <input
+                            type="text"
+                            required
+                            pattern="[0-9 ]{10,22}"
+                            maxLength="19"
+                            placeholder="xxxx xxxx xxxx xxxx"
+                            value={paymentForm.cardNumber}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                              const matches = val.match(/\d{4,16}/g);
+                              const match = (matches && matches[0]) || '';
+                              const parts = [];
+                              for (let i = 0, len = match.length; i < len; i += 4) {
+                                parts.push(match.substring(i, i + 4));
+                              }
+                              const formatted = parts.length > 0 ? parts.join(' ') : val;
+                              setPaymentForm(prev => ({ ...prev, cardNumber: formatted }));
+                            }}
+                            className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-0.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Expiry Date</label>
+                            <input
+                              type="text"
+                              required
+                              maxLength="5"
+                              placeholder="MM/YY"
+                              value={paymentForm.expiry}
+                              onChange={(e) => {
+                                const val = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                                let formatted = val;
+                                if (val.length >= 2) {
+                                  formatted = val.substring(0, 2) + '/' + val.substring(2, 4);
+                                }
+                                setPaymentForm(prev => ({ ...prev, expiry: formatted }));
+                              }}
+                              className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                            />
+                          </div>
+                          <div className="space-y-0.5">
+                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider">CVV</label>
+                            <input
+                              type="password"
+                              required
+                              maxLength="3"
+                              placeholder="123"
+                              value={paymentForm.cvv}
+                              onChange={(e) => {
+                                const val = e.target.value.replace(/[^0-9]/gi, '');
+                                setPaymentForm(prev => ({ ...prev, cvv: val }));
+                              }}
+                              className="w-full px-3 py-2 rounded-[6px] border border-slate-200 text-sm focus:border-[#047c1f] focus:outline-none focus:ring-1 focus:ring-[#047c1f]/20"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-3 pt-1">
+                        <button
+                          type="button"
+                          onClick={() => setCheckoutStep('shipping')}
+                          className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-[8px] font-bold text-sm transition-colors cursor-pointer border border-slate-200 flex items-center justify-center gap-1.5"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+                          <span>Back</span>
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={paymentLoading}
+                          className="flex-[2] bg-[#047c1f] hover:bg-[#036318] text-white py-2.5 rounded-[8px] font-bold text-sm shadow-md transition-colors cursor-pointer border-none flex items-center justify-center gap-2"
+                        >
+                          {paymentLoading ? (
+                            <>
+                              <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                              <span>Processing...</span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="material-symbols-outlined text-xs">lock</span>
+                              <span>Pay ${cartTotals.total.toFixed(2)} AUD</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </form>
               </div>
             )}
@@ -10934,7 +11144,7 @@ export default function App() {
           onClick={() => setLoginModalOpen(false)}
         >
           <div
-            className="w-full max-w-md bg-white rounded-[8px] border border-[#e8e8e8] border-t-4 border-t-[#047c1f] p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200"
+            className="w-full max-w-md bg-white rounded-[8px] border border-[#e8e8e8] border-t-4 border-t-[#047c1f] p-5 sm:p-8 space-y-5 sm:space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
 
@@ -11106,11 +11316,11 @@ export default function App() {
       {/* 2. Simulated External Checkout Redirection Modal */}
       {redirectModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200"
           onClick={() => setRedirectModalOpen(false)}
         >
           <div
-            className="w-full max-w-sm bg-white rounded-[8px] border border-[#e8e8e8] p-6 sm:p-8 space-y-4 text-center shadow-2xl relative animate-in zoom-in-95 duration-200"
+            className="w-full max-w-sm bg-white rounded-[8px] border border-[#e8e8e8] p-5 sm:p-8 space-y-4 text-center shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
 
@@ -11158,7 +11368,7 @@ export default function App() {
           onClick={() => setPostModalOpen(false)}
         >
           <div
-            className="w-full max-w-lg bg-white rounded-[8px] border border-[#e8e8e8] p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200"
+            className="w-full max-w-lg bg-white rounded-[8px] border border-[#e8e8e8] p-5 sm:p-8 space-y-5 sm:space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
 
@@ -11187,7 +11397,7 @@ export default function App() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-500 uppercase">Store / Retailer Name</label>
                   <input
@@ -11211,8 +11421,8 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
-                <div className="space-y-1 col-span-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="space-y-1 col-span-1 sm:col-span-2">
                   <label className="text-xs font-bold text-slate-500 uppercase">Link</label>
                   <input
                     type="text"
@@ -11300,86 +11510,86 @@ export default function App() {
             {/* ── LEFT COLUMN: existing feed content ── */}
             <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
 
-            {/* ── PANEL HEADER ── */}
-            <div className="bg-white border-b 
+              {/* ── PANEL HEADER ── */}
+              <div className="bg-white border-b 
               border-[#e8e8e8] px-4 py-3 
               flex items-center justify-between 
               shrink-0 select-none">
-              <div className="flex items-center gap-2.5">
-                {expandedPost && (
+                <div className="flex items-center gap-2.5">
+                  {expandedPost && (
+                    <button
+                      onClick={() => {
+                        setExpandedPost(null);
+                        setShowCreatePost(false);
+                      }}
+                      className="p-1.5 rounded-full hover:bg-slate-100 cursor-pointer mr-0.5 transition-colors"
+                    >
+                      <ChevronLeft className="w-4 h-4 text-slate-650" />
+                    </button>
+                  )}
+                  <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-inner">
+                    <MessageSquare className="w-4.5 h-4.5 text-[#047c1f]" />
+                  </div>
+                  <div>
+                    <h2 className="font-extrabold text-[15px] text-slate-900 leading-tight">
+                      {expandedPost
+                        ? expandedPost.title.substring(0, 35) + '...'
+                        : showCreatePost
+                          ? 'Create Post'
+                          : 'r/7deals Community 🇦🇺'}
+                    </h2>
+                    {!expandedPost && !showCreatePost && (
+                      <p className="text-[10px] text-slate-400 font-bold tracking-wide">
+                        {communityDeals.length} posts · Australian bargain hunters
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {!expandedPost && !showCreatePost && (
+                    <button
+                      onClick={() => {
+                        if (!currentUser) {
+                          setCommunityPanelOpen(false);
+                          setLoginModalOpen(true);
+                          triggerToast('Sign in to post', 'warning');
+                          return;
+                        }
+                        setShowCreatePost(true);
+                      }}
+                      className="flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#fdc800] hover:bg-[#e0b000] active:scale-95 text-[#0d0d0d] font-black text-[12px] cursor-pointer transition-all shadow-sm"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      Post
+                    </button>
+                  )}
                   <button
                     onClick={() => {
+                      setCommunityPanelOpen(false);
                       setExpandedPost(null);
                       setShowCreatePost(false);
                     }}
-                    className="p-1.5 rounded-full hover:bg-slate-100 cursor-pointer mr-0.5 transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 hover:bg-red-50 hover:text-red-550 active:scale-95 text-slate-500 border border-slate-200 hover:border-red-200 transition-all duration-150 cursor-pointer font-bold text-[12px]"
                   >
-                    <ChevronLeft className="w-4 h-4 text-slate-650" />
+                    <X className="w-3.5 h-3.5" />
+                    Close
                   </button>
-                )}
-                <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-inner">
-                  <MessageSquare className="w-4.5 h-4.5 text-[#047c1f]" />
-                </div>
-                <div>
-                  <h2 className="font-extrabold text-[15px] text-slate-900 leading-tight">
-                    {expandedPost 
-                      ? expandedPost.title.substring(0,35) + '...'
-                      : showCreatePost 
-                        ? 'Create Post'
-                        : 'r/7deals Community 🇦🇺'}
-                  </h2>
-                  {!expandedPost && !showCreatePost && (
-                    <p className="text-[10px] text-slate-400 font-bold tracking-wide">
-                      {communityDeals.length} posts · Australian bargain hunters
-                    </p>
-                  )}
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                {!expandedPost && !showCreatePost && (
-                  <button
-                    onClick={() => {
-                      if (!currentUser) {
-                        setCommunityPanelOpen(false);
-                        setLoginModalOpen(true);
-                        triggerToast('Sign in to post', 'warning');
-                        return;
-                      }
-                      setShowCreatePost(true);
-                    }}
-                    className="flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#fdc800] hover:bg-[#e0b000] active:scale-95 text-[#0d0d0d] font-black text-[12px] cursor-pointer transition-all shadow-sm"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    Post
-                  </button>
-                )}
-                <button
-                  onClick={() => {
-                    setCommunityPanelOpen(false);
-                    setExpandedPost(null);
-                    setShowCreatePost(false);
-                  }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 hover:bg-red-50 hover:text-red-550 active:scale-95 text-slate-500 border border-slate-200 hover:border-red-200 transition-all duration-150 cursor-pointer font-bold text-[12px]"
-                >
-                  <X className="w-3.5 h-3.5" />
-                  Close
-                </button>
-              </div>
-            </div>
 
-            {/* ── CREATE POST VIEW ── */}
-            {showCreatePost && (
-              <div className="flex-1 overflow-y-auto min-w-0 p-4 space-y-4">
-                
-                {/* Post type selector */}
-                <div className="bg-white rounded-2xl 
+              {/* ── CREATE POST VIEW ── */}
+              {showCreatePost && (
+                <div className="flex-1 overflow-y-auto min-w-0 p-4 space-y-4">
+
+                  {/* Post type selector */}
+                  <div className="bg-white rounded-2xl 
                   border border-[#e8e8e8] p-1 
                   flex gap-1">
-                  {['Deal', 'Discussion', 'Question'].map(
-                    (type) => (
-                    <button
-                      key={type}
-                      className="flex-1 py-2 rounded-xl 
+                    {['Deal', 'Discussion', 'Question'].map(
+                      (type) => (
+                        <button
+                          key={type}
+                          className="flex-1 py-2 rounded-xl 
                         text-[12px] font-bold 
                         cursor-pointer transition-colors
                         bg-[#047c1f] text-white 
@@ -11387,397 +11597,397 @@ export default function App() {
                         [&:not(:first-child)]:bg-transparent 
                         [&:not(:first-child)]:text-slate-500 
                         hover:[&:not(:first-child)]:bg-slate-50"
-                      onClick={() => {}}
-                    >
-                      {type}
-                    </button>
-                  ))}
-                </div>
+                          onClick={() => { }}
+                        >
+                          {type}
+                        </button>
+                      ))}
+                  </div>
 
-                {/* Avatar + Title input */}
-                <div className="bg-white rounded-2xl 
+                  {/* Avatar + Title input */}
+                  <div className="bg-white rounded-2xl 
                   border border-[#e8e8e8] p-4 
                   space-y-3">
-                  <div className="flex items-center 
+                    <div className="flex items-center 
                     gap-2 pb-3 border-b border-slate-100">
-                    <div className={`w-8 h-8 rounded-full 
+                      <div className={`w-8 h-8 rounded-full 
                       ${currentUser?.color || 'bg-[#047c1f]'} 
                       text-white font-bold text-[11px] 
                       flex items-center justify-center`}>
-                      {currentUser?.avatar || '?'}
-                    </div>
-                    <span className="text-[13px] 
+                        {currentUser?.avatar || '?'}
+                      </div>
+                      <span className="text-[13px] 
                       font-bold text-slate-700">
-                      {currentUser?.name}
-                    </span>
-                    <span className="ml-auto text-[10px] 
+                        {currentUser?.name}
+                      </span>
+                      <span className="ml-auto text-[10px] 
                       font-bold text-[#047c1f] 
                       bg-[#e6f2e8] px-2 py-0.5 rounded-full">
-                      Posting to r/7deals
-                    </span>
-                  </div>
+                        Posting to r/7deals
+                      </span>
+                    </div>
 
-                  <input
-                    type="text"
-                    placeholder="Title — be specific and helpful"
-                    value={communityPostTitle}
-                    onChange={(e) => 
-                      setCommunityPostTitle(e.target.value)
-                    }
-                    className="w-full text-[14px] font-bold 
+                    <input
+                      type="text"
+                      placeholder="Title — be specific and helpful"
+                      value={communityPostTitle}
+                      onChange={(e) =>
+                        setCommunityPostTitle(e.target.value)
+                      }
+                      className="w-full text-[14px] font-bold 
                       text-slate-900 placeholder-slate-300 
                       border-none outline-none bg-transparent 
                       resize-none"
-                    maxLength={200}
-                  />
+                      maxLength={200}
+                    />
 
-                  <textarea
-                    placeholder="Share the deal details, store link, or any tips for fellow Aussies..."
-                    value={communityPostText}
-                    onChange={(e) => 
-                      setCommunityPostText(e.target.value)
-                    }
-                    rows={4}
-                    className="w-full text-[13px] 
+                    <textarea
+                      placeholder="Share the deal details, store link, or any tips for fellow Aussies..."
+                      value={communityPostText}
+                      onChange={(e) =>
+                        setCommunityPostText(e.target.value)
+                      }
+                      rows={4}
+                      className="w-full text-[13px] 
                       text-slate-700 placeholder-slate-300 
                       border-none outline-none 
                       bg-transparent resize-none 
                       font-medium"
-                  />
-                </div>
+                    />
+                  </div>
 
-                {/* Deal details */}
-                <div className="bg-white rounded-2xl 
+                  {/* Deal details */}
+                  <div className="bg-white rounded-2xl 
                   border border-[#e8e8e8] p-4 space-y-3">
-                  <p className="text-[11px] font-bold 
+                    <p className="text-[11px] font-bold 
                     text-slate-400 uppercase 
                     tracking-wider">
-                    Deal Details (optional)
-                  </p>
-                  <input
-                    type="text"
-                    placeholder="Store / Retailer name"
-                    value={communityPostStore}
-                    onChange={(e) => 
-                      setCommunityPostStore(e.target.value)
-                    }
-                    className="w-full bg-slate-50 
+                      Deal Details (optional)
+                    </p>
+                    <input
+                      type="text"
+                      placeholder="Store / Retailer name"
+                      value={communityPostStore}
+                      onChange={(e) =>
+                        setCommunityPostStore(e.target.value)
+                      }
+                      className="w-full bg-slate-50 
                       border border-[#e8e8e8] rounded-xl 
                       px-3 py-2.5 text-[13px] font-medium 
                       focus:outline-none 
                       focus:ring-2 
                       focus:ring-[#047c1f]/20"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Deal link (paste URL)"
-                    value={communityPostLink}
-                    onChange={(e) => 
-                      setCommunityPostLink(e.target.value)
-                    }
-                    className="w-full bg-slate-50 
+                    />
+                    <input
+                      type="text"
+                      placeholder="Deal link (paste URL)"
+                      value={communityPostLink}
+                      onChange={(e) =>
+                        setCommunityPostLink(e.target.value)
+                      }
+                      className="w-full bg-slate-50 
                       border border-[#e8e8e8] rounded-xl 
                       px-3 py-2.5 text-[13px] font-medium 
                       focus:outline-none 
                       focus:ring-2 
                       focus:ring-[#047c1f]/20"
-                  />
-                  <select
-                    value={communityPostCategory}
-                    onChange={(e) => 
-                      setCommunityPostCategory(e.target.value)
-                    }
-                    className="w-full bg-slate-50 
+                    />
+                    <select
+                      value={communityPostCategory}
+                      onChange={(e) =>
+                        setCommunityPostCategory(e.target.value)
+                      }
+                      className="w-full bg-slate-50 
                       border border-[#e8e8e8] rounded-xl 
                       px-3 py-2.5 text-[13px] font-medium 
                       focus:outline-none 
                       focus:ring-2 
                       focus:ring-[#047c1f]/20"
-                  >
-                    {CATEGORY_NAMES.map(c => (
-                      <option key={c}>{c}</option>
-                    ))}
-                  </select>
-                </div>
+                    >
+                      {CATEGORY_NAMES.map(c => (
+                        <option key={c}>{c}</option>
+                      ))}
+                    </select>
+                  </div>
 
-                {/* Post rules reminder */}
-                <div className="bg-[#fff9e6] border 
+                  {/* Post rules reminder */}
+                  <div className="bg-[#fff9e6] border 
                   border-[#fdc800]/30 rounded-2xl p-3">
-                  <p className="text-[11px] font-bold 
+                    <p className="text-[11px] font-bold 
                     text-amber-800 mb-1">
-                    📋 Community Guidelines
-                  </p>
-                  <ul className="text-[11px] 
+                      📋 Community Guidelines
+                    </p>
+                    <ul className="text-[11px] 
                     text-amber-700 space-y-0.5 
                     font-medium list-disc pl-4">
-                    <li>Verify the deal is still active</li>
-                    <li>Include store name and discount amount</li>
-                    <li>No spam or self-promotion</li>
-                    <li>Be a legend, help fellow Aussies save</li>
-                  </ul>
-                </div>
+                      <li>Verify the deal is still active</li>
+                      <li>Include store name and discount amount</li>
+                      <li>No spam or self-promotion</li>
+                      <li>Be a legend, help fellow Aussies save</li>
+                    </ul>
+                  </div>
 
-                {/* Submit */}
-                <button
-                  onClick={() => {
-                    if (!communityPostTitle.trim()) {
-                      triggerToast(
-                        'Add a title for your post', 
-                        'error'
+                  {/* Submit */}
+                  <button
+                    onClick={() => {
+                      if (!communityPostTitle.trim()) {
+                        triggerToast(
+                          'Add a title for your post',
+                          'error'
+                        );
+                        return;
+                      }
+                      const newPost = {
+                        id: 'cd' + Date.now(),
+                        user: currentUser.name,
+                        avatar: currentUser.avatar,
+                        userColor: currentUser.color
+                          || 'bg-[#047c1f]',
+                        title: communityPostTitle,
+                        body: communityPostText,
+                        store: communityPostStore
+                          || 'Various',
+                        discount: 'Community Find',
+                        upvotes: 1,
+                        downvotes: 0,
+                        comments: [],
+                        time: 'Just now',
+                        category: communityPostCategory,
+                        state: selectedState !== 'All Australia'
+                          ? selectedState : 'National',
+                        link: communityPostLink,
+                        hot: false,
+                      };
+                      setCommunityDeals(prev =>
+                        [newPost, ...prev]
                       );
-                      return;
-                    }
-                    const newPost = {
-                      id: 'cd' + Date.now(),
-                      user: currentUser.name,
-                      avatar: currentUser.avatar,
-                      userColor: currentUser.color 
-                        || 'bg-[#047c1f]',
-                      title: communityPostTitle,
-                      body: communityPostText,
-                      store: communityPostStore 
-                        || 'Various',
-                      discount: 'Community Find',
-                      upvotes: 1,
-                      downvotes: 0,
-                      comments: [],
-                      time: 'Just now',
-                      category: communityPostCategory,
-                      state: selectedState !== 'All Australia' 
-                        ? selectedState : 'National',
-                      link: communityPostLink,
-                      hot: false,
-                    };
-                    setCommunityDeals(prev => 
-                      [newPost, ...prev]
-                    );
-                    setCommunityPostTitle('');
-                    setCommunityPostText('');
-                    setCommunityPostStore('');
-                    setCommunityPostLink('');
-                    setShowCreatePost(false);
-                    triggerToast(
-                      '✓ Posted to r/7deals! 🦘', 
-                      'success'
-                    );
-                  }}
-                  className="w-full py-3 rounded-full 
+                      setCommunityPostTitle('');
+                      setCommunityPostText('');
+                      setCommunityPostStore('');
+                      setCommunityPostLink('');
+                      setShowCreatePost(false);
+                      triggerToast(
+                        '✓ Posted to r/7deals! 🦘',
+                        'success'
+                      );
+                    }}
+                    className="w-full py-3 rounded-full 
                     bg-[#047c1f] hover:bg-[#035a16] 
                     text-white font-bold text-[14px] 
                     cursor-pointer transition-colors 
                     shadow-md"
-                >
-                  Post to Community
-                </button>
-              </div>
-            )}
+                  >
+                    Post to Community
+                  </button>
+                </div>
+              )}
 
-            {/* ── EXPANDED POST VIEW (Reddit-style) ── */}
-            {expandedPost && !showCreatePost && (() => {
-              const post = communityDeals.find(
-                p => p.id === expandedPost.id
-              ) || expandedPost;
-              const isUpvoted = upvotedPosts.has(post.id);
+              {/* ── EXPANDED POST VIEW (Reddit-style) ── */}
+              {expandedPost && !showCreatePost && (() => {
+                const post = communityDeals.find(
+                  p => p.id === expandedPost.id
+                ) || expandedPost;
+                const isUpvoted = upvotedPosts.has(post.id);
 
-              return (
-                <div className="flex-1 overflow-y-auto min-w-0">
-                  
-                  {/* Post content */}
-                  <div className="bg-white border-b 
+                return (
+                  <div className="flex-1 overflow-y-auto min-w-0">
+
+                    {/* Post content */}
+                    <div className="bg-white border-b 
                     border-[#e8e8e8] p-4 space-y-3">
-                    
-                    {/* Post meta */}
-                    <div className="flex items-center 
+
+                      {/* Post meta */}
+                      <div className="flex items-center 
                       gap-2 text-[11px] text-slate-400 
                       font-semibold flex-wrap">
-                      <div className={`w-6 h-6 rounded-full 
+                        <div className={`w-6 h-6 rounded-full 
                         ${post.userColor} text-white 
                         font-bold text-[9px] 
                         flex items-center justify-center`}>
-                        {post.avatar}
-                      </div>
-                      <span className="font-bold 
+                          {post.avatar}
+                        </div>
+                        <span className="font-bold 
                         text-slate-700">
-                        u/{post.user}
-                      </span>
-                      <span>·</span>
-                      <span>{post.time}</span>
-                      <span>·</span>
-                      <span className="px-1.5 py-0.5 
+                          u/{post.user}
+                        </span>
+                        <span>·</span>
+                        <span>{post.time}</span>
+                        <span>·</span>
+                        <span className="px-1.5 py-0.5 
                         rounded bg-[#e6f2e8] 
                         text-[#047c1f] font-bold">
-                        {post.category}
-                      </span>
-                      {post.state && (
-                        <span className="px-1.5 py-0.5 
+                          {post.category}
+                        </span>
+                        {post.state && (
+                          <span className="px-1.5 py-0.5 
                           rounded bg-slate-100 
                           text-slate-500 font-bold">
-                          {post.state}
-                        </span>
-                      )}
-                    </div>
+                            {post.state}
+                          </span>
+                        )}
+                      </div>
 
-                    {/* Title */}
-                    <h3 className="text-[16px] font-bold 
+                      {/* Title */}
+                      <h3 className="text-[16px] font-bold 
                       text-slate-900 leading-snug">
-                      {post.title}
-                    </h3>
+                        {post.title}
+                      </h3>
 
-                    {/* Body text */}
-                    {post.body && (
-                      <p className="text-[13px] 
+                      {/* Body text */}
+                      {post.body && (
+                        <p className="text-[13px] 
                         text-slate-600 font-medium 
                         leading-relaxed">
-                        {post.body}
-                      </p>
-                    )}
+                          {post.body}
+                        </p>
+                      )}
 
-                    {/* Store + discount */}
-                    {post.store && (
-                      <div className="flex flex-wrap 
+                      {/* Store + discount */}
+                      {post.store && (
+                        <div className="flex flex-wrap 
                         gap-2">
-                        <span className="px-2.5 py-1 
+                          <span className="px-2.5 py-1 
                           rounded-lg bg-slate-100 
                           text-slate-600 text-[12px] 
                           font-bold flex items-center gap-1">
-                          <ShoppingBag className="w-3 h-3" />
-                          {post.store}
-                        </span>
-                        <span className="px-2.5 py-1 
+                            <ShoppingBag className="w-3 h-3" />
+                            {post.store}
+                          </span>
+                          <span className="px-2.5 py-1 
                           rounded-lg bg-[#fdc800] 
                           text-[#0d0d0d] text-[12px] 
                           font-bold">
-                          {post.discount}
-                        </span>
-                      </div>
-                    )}
+                            {post.discount}
+                          </span>
+                        </div>
+                      )}
 
-                    {/* Link */}
-                    {post.link && (
-                      <a
-                        href={post.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 
+                      {/* Link */}
+                      {post.link && (
+                        <a
+                          href={post.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 
                           text-[12px] text-[#047c1f] 
                           font-bold hover:underline"
-                      >
-                        <ExternalLink className="w-3.5 
+                        >
+                          <ExternalLink className="w-3.5 
                           h-3.5" />
-                        View Deal Link
-                      </a>
-                    )}
+                          View Deal Link
+                        </a>
+                      )}
 
-                    {/* Vote + action bar */}
-                    <div className="flex items-center 
-                      gap-3 pt-2 border-t border-slate-100">
-                      
-                      {/* Upvote/downvote */}
+                      {/* Vote + action bar */}
                       <div className="flex items-center 
+                      gap-3 pt-2 border-t border-slate-100">
+
+                        {/* Upvote/downvote */}
+                        <div className="flex items-center 
                         gap-1 bg-slate-100 rounded-full 
                         p-1">
-                        <button
-                          onClick={() => 
-                            handleUpvote(post.id)
-                          }
-                          className={`p-1.5 rounded-full 
+                          <button
+                            onClick={() =>
+                              handleUpvote(post.id)
+                            }
+                            className={`p-1.5 rounded-full 
                             cursor-pointer transition-colors 
-                            ${isUpvoted 
-                              ? 'bg-[#047c1f] text-white' 
-                              : 'hover:bg-slate-200 text-slate-500'}`}
-                        >
-                          <TrendingUp className="w-3.5 
+                            ${isUpvoted
+                                ? 'bg-[#047c1f] text-white'
+                                : 'hover:bg-slate-200 text-slate-500'}`}
+                          >
+                            <TrendingUp className="w-3.5 
                             h-3.5" />
-                        </button>
-                        <span className={`text-[12px] 
+                          </button>
+                          <span className={`text-[12px] 
                           font-bold px-1 
-                          ${isUpvoted 
-                            ? 'text-[#047c1f]' 
-                            : 'text-slate-700'}`}>
-                          {post.upvotes}
-                        </span>
-                        <button
-                          className="p-1.5 rounded-full 
+                          ${isUpvoted
+                              ? 'text-[#047c1f]'
+                              : 'text-slate-700'}`}>
+                            {post.upvotes}
+                          </span>
+                          <button
+                            className="p-1.5 rounded-full 
                             hover:bg-slate-200 
                             text-slate-400 cursor-pointer"
-                        >
-                          <ChevronDown className="w-3.5 
+                          >
+                            <ChevronDown className="w-3.5 
                             h-3.5" />
-                        </button>
-                      </div>
+                          </button>
+                        </div>
 
-                      {/* Comment count */}
-                      <div className="flex items-center 
+                        {/* Comment count */}
+                        <div className="flex items-center 
                         gap-1 text-[12px] text-slate-500 
                         font-bold">
-                        <MessageSquare className="w-3.5 
+                          <MessageSquare className="w-3.5 
                           h-3.5" />
-                        {post.comments.length} comments
-                      </div>
+                          {post.comments.length} comments
+                        </div>
 
-                      {/* Share */}
-                      <button
-                        onClick={() => {
-                          navigator.clipboard.writeText(
-                            `${window.location.origin}#community/${post.id}`
-                          );
-                          triggerToast(
-                            '🔗 Link copied!', 'success'
-                          );
-                        }}
-                        className="flex items-center gap-1 
+                        {/* Share */}
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(
+                              `${window.location.origin}#community/${post.id}`
+                            );
+                            triggerToast(
+                              '🔗 Link copied!', 'success'
+                            );
+                          }}
+                          className="flex items-center gap-1 
                           text-[12px] text-slate-500 
                           font-bold hover:text-[#047c1f] 
                           cursor-pointer transition-colors"
-                      >
-                        <Share2 className="w-3.5 h-3.5" />
-                        Share
-                      </button>
+                        >
+                          <Share2 className="w-3.5 h-3.5" />
+                          Share
+                        </button>
 
-                      {/* Save */}
-                      <button
-                        className="flex items-center gap-1 
+                        {/* Save */}
+                        <button
+                          className="flex items-center gap-1 
                           text-[12px] text-slate-500 
                           font-bold hover:text-[#047c1f] 
                           cursor-pointer transition-colors 
                           ml-auto"
-                      >
-                        <Bookmark className="w-3.5 h-3.5" />
-                        Save
-                      </button>
+                        >
+                          <Bookmark className="w-3.5 h-3.5" />
+                          Save
+                        </button>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* ── COMMENTS SECTION ── */}
-                  <div className="p-4 space-y-4">
-                    
-                    {/* Add comment box */}
-                    {currentUser ? (
-                      <div className="bg-white rounded-2xl 
+                    {/* ── COMMENTS SECTION ── */}
+                    <div className="p-4 space-y-4">
+
+                      {/* Add comment box */}
+                      {currentUser ? (
+                        <div className="bg-white rounded-2xl 
                         border border-[#e8e8e8] p-3 
                         space-y-2">
-                        <div className="flex items-center 
+                          <div className="flex items-center 
                           gap-2">
-                          <div className={`w-7 h-7 
+                            <div className={`w-7 h-7 
                             rounded-full 
                             ${currentUser.color} 
                             text-white font-bold text-[10px] 
                             flex items-center justify-center 
                             shrink-0`}>
-                            {currentUser.avatar}
-                          </div>
-                          <textarea
-                            placeholder="Add a comment... what do you know about this deal?"
-                            value={commentInputs[post.id] 
-                              || ''}
-                            onChange={(e) => 
-                              setCommentInputs(prev => ({
-                                ...prev,
-                                [post.id]: e.target.value
-                              }))
-                            }
-                            rows={2}
-                            className="flex-1 bg-slate-50 
+                              {currentUser.avatar}
+                            </div>
+                            <textarea
+                              placeholder="Add a comment... what do you know about this deal?"
+                              value={commentInputs[post.id]
+                                || ''}
+                              onChange={(e) =>
+                                setCommentInputs(prev => ({
+                                  ...prev,
+                                  [post.id]: e.target.value
+                                }))
+                              }
+                              rows={2}
+                              className="flex-1 bg-slate-50 
                               border border-[#e8e8e8] 
                               rounded-xl px-3 py-2 
                               text-[12px] font-medium 
@@ -11785,29 +11995,29 @@ export default function App() {
                               focus:outline-none 
                               focus:ring-2 
                               focus:ring-[#047c1f]/20"
-                          />
-                        </div>
-                        <div className="flex justify-end">
-                          <button
-                            onClick={() => {
-                              const text = commentInputs[
-                                post.id
-                              ]?.trim();
-                              if (!text) return;
-                              setCommunityDeals(prev => 
-                                prev.map(p => 
-                                  p.id === post.id 
-                                    ? {
+                            />
+                          </div>
+                          <div className="flex justify-end">
+                            <button
+                              onClick={() => {
+                                const text = commentInputs[
+                                  post.id
+                                ]?.trim();
+                                if (!text) return;
+                                setCommunityDeals(prev =>
+                                  prev.map(p =>
+                                    p.id === post.id
+                                      ? {
                                         ...p,
                                         comments: [
                                           ...p.comments,
                                           {
                                             id: Date.now(),
-                                            user: 
+                                            user:
                                               currentUser.name,
-                                            avatar: 
+                                            avatar:
                                               currentUser.avatar,
-                                            color: 
+                                            color:
                                               currentUser.color,
                                             comment: text,
                                             time: 'Just now',
@@ -11815,168 +12025,168 @@ export default function App() {
                                           }
                                         ]
                                       }
-                                    : p
-                                )
-                              );
-                              setCommentInputs(prev => ({
-                                ...prev,
-                                [post.id]: ''
-                              }));
-                              setExpandedPost(prev => ({
-                                ...prev,
-                                comments: [
-                                  ...(prev.comments || []),
-                                  {
-                                    id: Date.now(),
-                                    user: currentUser.name,
-                                    avatar: currentUser.avatar,
-                                    color: currentUser.color,
-                                    comment: text,
-                                    time: 'Just now',
-                                    likes: 0,
-                                  }
-                                ]
-                              }));
-                              triggerToast(
-                                '✓ Comment posted!', 
-                                'success'
-                              );
-                            }}
-                            className="px-4 py-1.5 
+                                      : p
+                                  )
+                                );
+                                setCommentInputs(prev => ({
+                                  ...prev,
+                                  [post.id]: ''
+                                }));
+                                setExpandedPost(prev => ({
+                                  ...prev,
+                                  comments: [
+                                    ...(prev.comments || []),
+                                    {
+                                      id: Date.now(),
+                                      user: currentUser.name,
+                                      avatar: currentUser.avatar,
+                                      color: currentUser.color,
+                                      comment: text,
+                                      time: 'Just now',
+                                      likes: 0,
+                                    }
+                                  ]
+                                }));
+                                triggerToast(
+                                  '✓ Comment posted!',
+                                  'success'
+                                );
+                              }}
+                              className="px-4 py-1.5 
                               rounded-full bg-[#047c1f] 
                               hover:bg-[#035a16] 
                               text-white text-[12px] 
                               font-bold cursor-pointer 
                               transition-colors"
-                          >
-                            Comment
-                          </button>
+                            >
+                              Comment
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="bg-white rounded-2xl 
+                      ) : (
+                        <div className="bg-white rounded-2xl 
                         border border-[#e8e8e8] p-4 
                         text-center">
-                        <p className="text-[13px] 
+                          <p className="text-[13px] 
                           text-slate-500 font-bold mb-2">
-                          Join the discussion
-                        </p>
-                        <button
-                          onClick={() => {
-                            setCommunityPanelOpen(false);
-                            setLoginModalOpen(true);
-                          }}
-                          className="px-4 py-2 rounded-full 
+                            Join the discussion
+                          </p>
+                          <button
+                            onClick={() => {
+                              setCommunityPanelOpen(false);
+                              setLoginModalOpen(true);
+                            }}
+                            className="px-4 py-2 rounded-full 
                             bg-[#047c1f] text-white 
                             text-[12px] font-bold 
                             cursor-pointer"
-                        >
-                          Sign in to comment
-                        </button>
-                      </div>
-                    )}
+                          >
+                            Sign in to comment
+                          </button>
+                        </div>
+                      )}
 
-                    {/* Comments list */}
-                    {post.comments.length === 0 ? (
-                      <div className="text-center py-8 
+                      {/* Comments list */}
+                      {post.comments.length === 0 ? (
+                        <div className="text-center py-8 
                         text-slate-400">
-                        <MessageSquare className="w-8 h-8 
+                          <MessageSquare className="w-8 h-8 
                           mx-auto mb-2 stroke-1" />
-                        <p className="text-[13px] font-bold">
-                          No comments yet
-                        </p>
-                        <p className="text-[11px]">
-                          Be the first to comment, mate!
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        {post.comments.map((c, i) => (
-                          <div key={c.id || i} 
-                            className="bg-white rounded-2xl 
+                          <p className="text-[13px] font-bold">
+                            No comments yet
+                          </p>
+                          <p className="text-[11px]">
+                            Be the first to comment, mate!
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {post.comments.map((c, i) => (
+                            <div key={c.id || i}
+                              className="bg-white rounded-2xl 
                               border border-[#e8e8e8] p-3">
-                            <div className="flex items-start 
+                              <div className="flex items-start 
                               gap-2">
-                              <div className={`w-7 h-7 
+                                <div className={`w-7 h-7 
                                 rounded-full shrink-0
                                 ${c.color || 'bg-[#047c1f]'} 
                                 text-white font-bold 
                                 text-[10px] flex items-center 
                                 justify-center`}>
-                                {c.avatar 
-                                  || c.user
-                                    .substring(0,2)
-                                    .toUpperCase()}
-                              </div>
-                              <div className="flex-1 
-                                min-w-0">
-                                <div className="flex items-center 
-                                  gap-1.5 mb-1">
-                                  <span className="text-[12px] 
-                                    font-bold text-slate-800">
-                                    u/{c.user}
-                                  </span>
-                                  <span className="text-[10px] 
-                                    text-slate-400">
-                                    {c.time || 'recently'}
-                                  </span>
+                                  {c.avatar
+                                    || c.user
+                                      .substring(0, 2)
+                                      .toUpperCase()}
                                 </div>
-                                <p className="text-[12px] 
+                                <div className="flex-1 
+                                min-w-0">
+                                  <div className="flex items-center 
+                                  gap-1.5 mb-1">
+                                    <span className="text-[12px] 
+                                    font-bold text-slate-800">
+                                      u/{c.user}
+                                    </span>
+                                    <span className="text-[10px] 
+                                    text-slate-400">
+                                      {c.time || 'recently'}
+                                    </span>
+                                  </div>
+                                  <p className="text-[12px] 
                                   text-slate-600 font-medium 
                                   leading-relaxed">
-                                  {c.comment}
-                                </p>
-                                <div className="flex items-center 
+                                    {c.comment}
+                                  </p>
+                                  <div className="flex items-center 
                                   gap-3 mt-2">
-                                  <button className="flex 
+                                    <button className="flex 
                                     items-center gap-1 
                                     text-[11px] text-slate-400 
                                     font-bold hover:text-[#047c1f] 
                                     cursor-pointer">
-                                    <TrendingUp className="w-3 
+                                      <TrendingUp className="w-3 
                                       h-3" />
-                                    {c.likes || 0}
-                                  </button>
-                                  <button className="text-[11px] 
+                                      {c.likes || 0}
+                                    </button>
+                                    <button className="text-[11px] 
                                     text-slate-400 font-bold 
                                     hover:text-slate-600 
                                     cursor-pointer">
-                                    Reply
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      navigator.clipboard
-                                        .writeText(c.comment);
-                                      triggerToast(
-                                        '🔗 Comment copied!',
-                                        'info'
-                                      );
-                                    }}
-                                    className="text-[11px] 
+                                      Reply
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        navigator.clipboard
+                                          .writeText(c.comment);
+                                        triggerToast(
+                                          '🔗 Comment copied!',
+                                          'info'
+                                        );
+                                      }}
+                                      className="text-[11px] 
                                       text-slate-400 font-bold 
                                       hover:text-slate-600 
                                       cursor-pointer 
                                       flex items-center gap-1"
-                                  >
-                                    <Share2 className="w-3 
+                                    >
+                                      <Share2 className="w-3 
                                       h-3" />
-                                    Share
-                                  </button>
+                                      Share
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-            );
-          })()}
+                );
+              })()}
 
-            {/* ── MAIN FEED VIEW ── */}
-            {!expandedPost && !showCreatePost && (
-              <div className="flex-1 flex flex-col min-w-0">
+              {/* ── MAIN FEED VIEW ── */}
+              {!expandedPost && !showCreatePost && (
+                <div className="flex-1 flex flex-col min-w-0">
                   {/* Sort, Search, and Category bar */}
                   <div className="bg-white border-b border-[#e8e8e8] px-3 sm:px-4 py-2.5 flex items-center gap-2.5 shrink-0 flex-wrap">
                     {/* Sort segmented controls */}
@@ -11989,11 +12199,10 @@ export default function App() {
                         <button
                           key={tab.key}
                           onClick={() => setCommunitySort(tab.key)}
-                          className={`px-3 py-1 rounded-full text-[11px] sm:text-[12px] font-bold cursor-pointer transition-all duration-250 ${
-                            communitySort === tab.key 
-                              ? 'bg-white text-[#047c1f] shadow-sm font-black border-none' 
+                          className={`px-3 py-1 rounded-full text-[11px] sm:text-[12px] font-bold cursor-pointer transition-all duration-250 ${communitySort === tab.key
+                              ? 'bg-white text-[#047c1f] shadow-sm font-black border-none'
                               : 'text-slate-500 hover:text-slate-800'
-                          }`}
+                            }`}
                         >
                           {tab.label}
                         </button>
@@ -12069,208 +12278,206 @@ export default function App() {
                   )}
 
                   {/* Feed */}
-                  <div 
+                  <div
                     className="overflow-y-auto p-3 space-y-3 flex-1"
                     style={{ flex: '1 1 0', minHeight: 0 }}
                   >
-                  {filteredAndSortedCommunityDeals.length === 0 ? (
-                    <div className="text-center py-16 text-slate-400 bg-white rounded-2xl border border-[#e8e8e8] p-6 shadow-sm">
-                      <Search className="w-10 h-10 mx-auto mb-3 stroke-1 text-slate-300" />
-                      <h4 className="text-[14px] font-bold text-slate-700 mb-1">No community posts found</h4>
-                      <p className="text-[11px] text-slate-400 max-w-xs mx-auto mb-4 leading-normal font-semibold">
-                        We couldn't find any community posts matching "{communitySearchQuery}" {communityCategoryFilter !== 'All' ? `in category "${communityCategoryFilter}"` : ''}.
-                      </p>
-                      <button
-                        onClick={() => {
-                          setCommunityCategoryFilter('All');
-                          setCommunitySearchQuery('');
-                        }}
-                        className="px-4 py-2 rounded-full bg-[#047c1f] hover:bg-[#035a16] text-white text-[12px] font-bold cursor-pointer transition-colors shadow-sm"
-                      >
-                        Reset Filters
-                      </button>
-                    </div>
-                  ) : (
-                    filteredAndSortedCommunityDeals.map((post) => {
-                      const isUpvoted = 
-                        upvotedPosts.has(post.id);
-                      return (
-                        <div
-                          key={post.id}
-                          className="bg-white rounded-2xl 
+                    {filteredAndSortedCommunityDeals.length === 0 ? (
+                      <div className="text-center py-16 text-slate-400 bg-white rounded-2xl border border-[#e8e8e8] p-6 shadow-sm">
+                        <Search className="w-10 h-10 mx-auto mb-3 stroke-1 text-slate-300" />
+                        <h4 className="text-[14px] font-bold text-slate-700 mb-1">No community posts found</h4>
+                        <p className="text-[11px] text-slate-400 max-w-xs mx-auto mb-4 leading-normal font-semibold">
+                          We couldn't find any community posts matching "{communitySearchQuery}" {communityCategoryFilter !== 'All' ? `in category "${communityCategoryFilter}"` : ''}.
+                        </p>
+                        <button
+                          onClick={() => {
+                            setCommunityCategoryFilter('All');
+                            setCommunitySearchQuery('');
+                          }}
+                          className="px-4 py-2 rounded-full bg-[#047c1f] hover:bg-[#035a16] text-white text-[12px] font-bold cursor-pointer transition-colors shadow-sm"
+                        >
+                          Reset Filters
+                        </button>
+                      </div>
+                    ) : (
+                      filteredAndSortedCommunityDeals.map((post) => {
+                        const isUpvoted =
+                          upvotedPosts.has(post.id);
+                        return (
+                          <div
+                            key={post.id}
+                            className="bg-white rounded-2xl 
                             border border-[#e8e8e8] 
                             hover:border-[#047c1f]/35 
                             hover:shadow-[0_8px_30px_rgba(0,0,0,0.05)]
                             transition-all duration-300 
                             overflow-hidden p-3.5 sm:p-4 cursor-pointer"
-                          onClick={() => setExpandedPost(post)}
-                          style={{
-                            borderLeft: post.upvotes > 50 
-                              ? '3.5px solid #fdc800' 
-                              : '3.5px solid transparent',
-                          }}
-                        >
-                          <div className="flex gap-4 items-start">
-                            {/* ── LEFT: CONTENT ── */}
-                            <div className="flex-1 min-w-0 space-y-2.5">
-                              
-                              {/* Meta row */}
-                              <div className="flex items-center gap-2 
+                            onClick={() => setExpandedPost(post)}
+                            style={{
+                              borderLeft: post.upvotes > 50
+                                ? '3.5px solid #fdc800'
+                                : '3.5px solid transparent',
+                            }}
+                          >
+                            <div className="flex gap-4 items-start">
+                              {/* ── LEFT: CONTENT ── */}
+                              <div className="flex-1 min-w-0 space-y-2.5">
+
+                                {/* Meta row */}
+                                <div className="flex items-center gap-2 
                                 text-[10px] sm:text-[11px] text-slate-400 font-bold 
                                 mb-1 flex-wrap">
-                                <div className={`w-5.5 h-5.5 rounded-full 
+                                  <div className={`w-5.5 h-5.5 rounded-full 
                                   ${post.userColor} text-white font-bold 
                                   text-[9px] flex items-center 
                                   justify-center shrink-0`}>
-                                  {post.avatar}
-                                </div>
-                                <span className="font-extrabold text-slate-700">
-                                  u/{post.user}
-                                </span>
-                                <span className="text-slate-300">·</span>
-                                <span>{post.time}</span>
-                                
-                                {post.state && (
-                                  <span className="px-2 py-0.5 rounded-full 
+                                    {post.avatar}
+                                  </div>
+                                  <span className="font-extrabold text-slate-700">
+                                    u/{post.user}
+                                  </span>
+                                  <span className="text-slate-300">·</span>
+                                  <span>{post.time}</span>
+
+                                  {post.state && (
+                                    <span className="px-2 py-0.5 rounded-full 
                                     bg-slate-100 text-slate-500 font-extrabold 
                                     text-[9px] tracking-wider uppercase">
-                                    {post.state}
-                                  </span>
-                                )}
-                                
-                                {post.upvotes > 50 && (
-                                  <span className="px-2 py-0.5 rounded-full 
+                                      {post.state}
+                                    </span>
+                                  )}
+
+                                  {post.upvotes > 50 && (
+                                    <span className="px-2 py-0.5 rounded-full 
                                     bg-[#fdc800] text-[#0d0d0d] font-extrabold 
                                     text-[9px] tracking-wider uppercase">
-                                    🔥 Hot
-                                  </span>
-                                )}
-                              </div>
+                                      🔥 Hot
+                                    </span>
+                                  )}
+                                </div>
 
-                              {/* Title & snippet */}
-                              <div className="space-y-1">
-                                <h4 className="text-[14px] sm:text-[15px] font-extrabold 
+                                {/* Title & snippet */}
+                                <div className="space-y-1">
+                                  <h4 className="text-[14px] sm:text-[15px] font-extrabold 
                                   text-slate-900 leading-snug 
                                   hover:text-[#047c1f] transition-colors">
-                                  {post.title}
-                                </h4>
-                                {post.body && (
-                                  <p className="text-[11px] sm:text-[12px] text-slate-500 line-clamp-2 leading-relaxed font-medium">
-                                    {post.body}
-                                  </p>
+                                    {post.title}
+                                  </h4>
+                                  {post.body && (
+                                    <p className="text-[11px] sm:text-[12px] text-slate-500 line-clamp-2 leading-relaxed font-medium">
+                                      {post.body}
+                                    </p>
+                                  )}
+                                </div>
+
+                                {/* Store, discount and category badges */}
+                                {(post.store || post.discount) && (
+                                  <div className="flex gap-1.5 flex-wrap pt-0.5">
+                                    {post.store && (
+                                      <span className="text-[10px] font-extrabold 
+                                      px-2 py-0.5 rounded-md bg-[#e6f2e8] 
+                                      text-[#047c1f] border border-[#047c1f]/10">
+                                        🏪 {post.store}
+                                      </span>
+                                    )}
+                                    {post.discount && (
+                                      <span className="text-[10px] font-extrabold 
+                                      px-2 py-0.5 rounded-md bg-[#fff9e6] 
+                                      text-amber-800 border border-amber-200/50">
+                                        🏷️ {post.discount}
+                                      </span>
+                                    )}
+                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-500">
+                                      {post.category}
+                                    </span>
+                                  </div>
                                 )}
                               </div>
 
-                              {/* Store, discount and category badges */}
-                              {(post.store || post.discount) && (
-                                <div className="flex gap-1.5 flex-wrap pt-0.5">
-                                  {post.store && (
-                                    <span className="text-[10px] font-extrabold 
-                                      px-2 py-0.5 rounded-md bg-[#e6f2e8] 
-                                      text-[#047c1f] border border-[#047c1f]/10">
-                                      🏪 {post.store}
+                              {/* ── RIGHT: IMAGE THUMBNAIL (if exists) ── */}
+                              {getCommunityPostImage(post) && (
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden relative border border-slate-150 shadow-sm bg-slate-50">
+                                  <img
+                                    src={getCommunityPostImage(post)}
+                                    alt={post.title}
+                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                  />
+                                  {/* Category overlay pill */}
+                                  <div className="absolute bottom-1 right-1">
+                                    <span className="text-[8px] font-black bg-black/60 text-white px-1.5 py-0.5 rounded-full backdrop-blur-sm">
+                                      {post.category}
                                     </span>
-                                  )}
-                                  {post.discount && (
-                                    <span className="text-[10px] font-extrabold 
-                                      px-2 py-0.5 rounded-md bg-[#fff9e6] 
-                                      text-amber-800 border border-amber-200/50">
-                                      🏷️ {post.discount}
-                                    </span>
-                                  )}
-                                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-500">
-                                    {post.category}
-                                  </span>
+                                  </div>
                                 </div>
                               )}
+
                             </div>
 
-                            {/* ── RIGHT: IMAGE THUMBNAIL (if exists) ── */}
-                            {getCommunityPostImage(post) && (
-                              <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden relative border border-slate-150 shadow-sm bg-slate-50">
-                                <img
-                                  src={getCommunityPostImage(post)}
-                                  alt={post.title}
-                                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                />
-                                {/* Category overlay pill */}
-                                <div className="absolute bottom-1 right-1">
-                                  <span className="text-[8px] font-black bg-black/60 text-white px-1.5 py-0.5 rounded-full backdrop-blur-sm">
-                                    {post.category}
-                                  </span>
-                                </div>
+                            {/* Action row */}
+                            <div className="flex items-center gap-2 sm:gap-3 pt-3 border-t border-slate-100 mt-3 flex-wrap">
+                              {/* Upvote Pill */}
+                              <div className="flex items-center bg-slate-50 border border-slate-200/60 rounded-full p-0.5 select-none">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleUpvote(post.id, e);
+                                  }}
+                                  className={`p-1.5 rounded-full cursor-pointer transition-all ${isUpvoted
+                                      ? 'bg-[#047c1f] text-white shadow-sm'
+                                      : 'text-slate-400 hover:bg-slate-100 hover:text-slate-700'
+                                    }`}
+                                >
+                                  <TrendingUp className="w-3.5 h-3.5" />
+                                </button>
+                                <span className={`text-[12px] font-black px-1.5 sm:px-2 ${isUpvoted ? 'text-[#047c1f] font-black' : 'text-slate-650'
+                                  }`}>
+                                  {post.upvotes}
+                                </span>
                               </div>
-                            )}
 
-                          </div>
-
-                          {/* Action row */}
-                          <div className="flex items-center gap-2 sm:gap-3 pt-3 border-t border-slate-100 mt-3 flex-wrap">
-                            {/* Upvote Pill */}
-                            <div className="flex items-center bg-slate-50 border border-slate-200/60 rounded-full p-0.5 select-none">
+                              {/* Comments Pill */}
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleUpvote(post.id, e);
+                                  setExpandedPost(post);
                                 }}
-                                className={`p-1.5 rounded-full cursor-pointer transition-all ${
-                                  isUpvoted 
-                                    ? 'bg-[#047c1f] text-white shadow-sm' 
-                                    : 'text-slate-400 hover:bg-slate-100 hover:text-slate-700'
-                                }`}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 text-[11px] text-slate-500 hover:text-[#047c1f] hover:border-[#047c1f]/20 hover:bg-[#e6f2e8]/20 transition-all font-extrabold cursor-pointer"
                               >
-                                <TrendingUp className="w-3.5 h-3.5" />
+                                <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
+                                <span>{post.comments.length} Comments</span>
                               </button>
-                              <span className={`text-[12px] font-black px-1.5 sm:px-2 ${
-                                isUpvoted ? 'text-[#047c1f] font-black' : 'text-slate-650'
-                              }`}>
-                                {post.upvotes}
-                              </span>
+
+                              {/* Share Pill */}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigator.clipboard.writeText(
+                                    `${window.location.origin}#community/${post.id}`
+                                  );
+                                  triggerToast('🔗 Link copied!', 'success');
+                                }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 hover:bg-slate-100 text-[11px] text-slate-500 font-bold hover:text-[#047c1f] transition-all cursor-pointer"
+                              >
+                                <Share2 className="w-3.5 h-3.5 text-slate-400" />
+                                <span className="hidden xs:inline">Share</span>
+                              </button>
+
+                              {/* Read More Link */}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setExpandedPost(post);
+                                }}
+                                className="ml-auto text-[11px] font-black text-[#047c1f] hover:underline cursor-pointer flex items-center gap-0.5"
+                              >
+                                Read more <ChevronRight className="w-3 h-3" />
+                              </button>
                             </div>
-
-                            {/* Comments Pill */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setExpandedPost(post);
-                              }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 text-[11px] text-slate-500 hover:text-[#047c1f] hover:border-[#047c1f]/20 hover:bg-[#e6f2e8]/20 transition-all font-extrabold cursor-pointer"
-                            >
-                              <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
-                              <span>{post.comments.length} Comments</span>
-                            </button>
-
-                            {/* Share Pill */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigator.clipboard.writeText(
-                                  `${window.location.origin}#community/${post.id}`
-                                );
-                                triggerToast('🔗 Link copied!', 'success');
-                              }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 hover:bg-slate-100 text-[11px] text-slate-500 font-bold hover:text-[#047c1f] transition-all cursor-pointer"
-                            >
-                              <Share2 className="w-3.5 h-3.5 text-slate-400" />
-                              <span className="hidden xs:inline">Share</span>
-                            </button>
-
-                            {/* Read More Link */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setExpandedPost(post);
-                              }}
-                              className="ml-auto text-[11px] font-black text-[#047c1f] hover:underline cursor-pointer flex items-center gap-0.5"
-                            >
-                              Read more <ChevronRight className="w-3 h-3" />
-                            </button>
                           </div>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
+                        );
+                      })
+                    )}
+                  </div>
 
                   {/* Subtle scroll hint */}
                   <div className="shrink-0 px-3 py-2 bg-white 
@@ -12287,7 +12494,7 @@ export default function App() {
                   </div>
 
                 </div>
-            )}
+              )}
 
             </div>
 
@@ -12311,7 +12518,7 @@ export default function App() {
                 <p className="text-[11px] text-white/70 font-medium leading-relaxed">
                   G'day! Welcome to the official community hub. Share hot local finds, ask questions, and chat with fellow shoppers across Australia.
                 </p>
-                
+
                 <div className="bg-white/5 rounded-xl p-3 border border-white/10 space-y-2 mt-4 select-none">
                   <div className="flex items-center justify-between">
                     <span className="text-[9px] text-white/50 font-bold uppercase">Members</span>
@@ -12383,16 +12590,15 @@ export default function App() {
             { href: '#community', label: 'Community', Icon: MessageSquare },
             { href: '#profile', label: 'Profile', Icon: User }
           ].map((tab) => {
-            const isActive = currentRoute === tab.href || 
-                             (tab.href === '#home' && (currentRoute === '' || currentRoute === '#home' || !currentRoute));
+            const isActive = currentRoute === tab.href ||
+              (tab.href === '#home' && (currentRoute === '' || currentRoute === '#home' || !currentRoute));
             const TabIcon = tab.Icon;
             return (
               <a
                 key={tab.label}
                 href={tab.href}
-                className={`flex flex-col items-center justify-center flex-1 h-full transition-colors cursor-pointer border-none bg-transparent no-underline ${
-                  isActive ? 'text-[#047c1f]' : 'text-slate-450 hover:text-[#047c1f]'
-                }`}
+                className={`flex flex-col items-center justify-center flex-1 h-full transition-colors cursor-pointer border-none bg-transparent no-underline ${isActive ? 'text-[#047c1f]' : 'text-slate-450 hover:text-[#047c1f]'
+                  }`}
               >
                 <TabIcon className="w-5 h-5 shrink-0" />
                 <span className="text-[10px] font-extrabold mt-1 whitespace-nowrap">{tab.label}</span>
