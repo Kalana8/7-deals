@@ -1171,6 +1171,11 @@ export default function App() {
   const [featuredAdFormImage, setFeaturedAdFormImage] = useState('');
   const [featuredAdFormDesc, setFeaturedAdFormDesc] = useState('');
 
+  // --- Live Exclusive Banner (Carousel Slide) Customizer States ---
+  const [editingBannerSlide, setEditingBannerSlide] = useState(null);
+  const [bannerSlideModalOpen, setBannerSlideModalOpen] = useState(false);
+  const [featuredSubTab, setFeaturedSubTab] = useState('live');
+
   // --- Merchant / Community Deals Report States ---
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [reportingDeal, setReportingDeal] = useState(null);
@@ -2719,6 +2724,13 @@ export default function App() {
   const nextFeatured = () => setFeaturedIndex((prev) => (prev + 1) % 3);
   const prevFeatured = () => setFeaturedIndex((prev) => (prev - 1 + 3) % 3);
 
+  const handleSaveBannerSlide = (updatedDeal) => {
+    setAllDeals(prev => prev.map(d => d.id === updatedDeal.id ? updatedDeal : d));
+    setBannerSlideModalOpen(false);
+    setEditingBannerSlide(null);
+    triggerToast('✓ Exclusive Banner Slide styles & details updated!', 'success');
+  };
+
   // Resolve active deals lists under filter criteria
   const getFilteredDeals = () => {
     const mappedProducts = allProducts.map(mapProductToDeal);
@@ -3903,7 +3915,13 @@ export default function App() {
                     <div className="relative z-10 p-4 sm:p-8 md:p-10 w-full">
 
                       {/* Glassmorphic Blur Bar wrapper */}
-                      <div className="w-full backdrop-blur-md bg-white/10 border border-white/20 rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-7 shadow-2xl relative">
+                      <div
+                        className="w-full backdrop-blur-md border rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-7 shadow-2xl relative transition-all"
+                        style={{
+                          backgroundColor: activeFeatured.bannerBg || 'rgba(255, 255, 255, 0.1)',
+                          borderColor: activeFeatured.bannerBorder || 'rgba(255, 255, 255, 0.2)'
+                        }}
+                      >
 
                         <div className="w-full">
 
@@ -3922,11 +3940,17 @@ export default function App() {
                             </div>
 
                             {/* Title & Description */}
-                            <div>
-                              <h2 className="text-white font-black text-lg sm:text-xl md:text-2xl lg:text-[28px] mb-2 leading-tight tracking-tight drop-shadow-md">
+                            <div style={{ fontFamily: activeFeatured.fontFamily || 'inherit' }}>
+                              <h2
+                                className="font-black text-lg sm:text-xl md:text-2xl lg:text-[28px] mb-2 leading-tight tracking-tight drop-shadow-md transition-all"
+                                style={{ color: activeFeatured.textColor || '#ffffff' }}
+                              >
                                 {activeFeatured.title}
                               </h2>
-                              <p className="text-white/80 text-xs sm:text-sm mb-4 max-w-2xl font-medium drop-shadow leading-relaxed">
+                              <p
+                                className="text-xs sm:text-sm mb-4 max-w-2xl font-medium drop-shadow leading-relaxed transition-all"
+                                style={{ color: activeFeatured.textColor ? `${activeFeatured.textColor}dd` : 'rgba(255, 255, 255, 0.8)' }}
+                              >
                                 {activeFeatured.description}
                               </p>
                             </div>
@@ -9739,151 +9763,383 @@ export default function App() {
                       {adminTab === 'featured' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
 
-                          <div className="border-b border-outline-variant/20 pb-4">
-                            <h3 className="font-black text-2xl text-on-surface font-headline">Exclusive Banner Placements</h3>
-                            <p className="text-[12px] text-on-surface-variant font-medium mt-1">Approve or audit homepage advertisement spotlights</p>
+                          {/* Header */}
+                          <div className="flex items-center justify-between flex-wrap gap-4 border-b border-outline-variant/20 pb-4">
+                            <div>
+                              <h3 className="font-black text-2xl text-on-surface font-headline">Exclusive Banner Placements</h3>
+                              <p className="text-[12px] text-on-surface-variant font-medium mt-1">Manage, style, and customize the live homepage carousel slides</p>
+                            </div>
+                            
+                            {/* Toggle Sub-tab and Create button */}
+                            <div className="flex items-center gap-3">
+                              <div className="bg-surface-container-low p-1 rounded-xl border border-outline-variant/30 flex gap-1 select-none">
+                                <button
+                                  onClick={() => setFeaturedSubTab('live')}
+                                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-none cursor-pointer ${
+                                    featuredSubTab === 'live'
+                                      ? 'bg-primary text-white shadow-sm'
+                                      : 'text-on-surface-variant hover:text-on-surface'
+                                  }`}
+                                >
+                                  Live Banners ({allDeals.filter(d => d.featured).length})
+                                </button>
+                                <button
+                                  onClick={() => setFeaturedSubTab('requests')}
+                                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-none cursor-pointer ${
+                                    featuredSubTab === 'requests'
+                                      ? 'bg-primary text-white shadow-sm'
+                                      : 'text-on-surface-variant hover:text-on-surface'
+                                  }`}
+                                >
+                                  Partner Requests ({featuredRequests.length})
+                                </button>
+                              </div>
+
+                              <button
+                                onClick={() => {
+                                  // Create new custom featured deal
+                                  const newId = 'd_featured_' + Date.now();
+                                  const newFeaturedDeal = {
+                                    id: newId,
+                                    brand: 'Custom Partner',
+                                    logo: 'CP',
+                                    logoBg: 'bg-emerald-700 text-white',
+                                    title: 'Custom Spotlight Title — 50% Off Everything!',
+                                    code: 'SPOTLIGHT50',
+                                    originalPrice: 200.00,
+                                    salePrice: 100.00,
+                                    discount: '50% OFF',
+                                    saving: 'Save $100',
+                                    expiry: 3,
+                                    expiryDays: 3,
+                                    category: 'Tech',
+                                    state: 'National',
+                                    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60',
+                                    description: 'A premium customizable spotlight deal. Change anything instantly!',
+                                    featured: true,
+                                    brandColor: '#006e2a',
+                                    bannerBg: 'rgba(0, 110, 42, 0.45)',
+                                    textColor: '#ffffff',
+                                    fontFamily: 'Outfit',
+                                    peopleGrabbed: 312,
+                                    freeShipping: true
+                                  };
+                                  setAllDeals(prev => [newFeaturedDeal, ...prev]);
+                                  setEditingBannerSlide(newFeaturedDeal);
+                                  setBannerSlideModalOpen(true);
+                                  triggerToast('Custom banner slide created! Customize details now.', 'success');
+                                }}
+                                className="px-3.5 py-1.5 bg-[#047c1f] text-white hover:bg-[#047c1f]/95 text-xs font-bold rounded-lg border-none flex items-center gap-1.5 cursor-pointer shadow-sm transition-transform active:scale-95"
+                              >
+                                <span className="material-symbols-outlined text-[16px]">add_circle</span>
+                                Create Banner
+                              </button>
+                            </div>
                           </div>
 
-                          <div className="bg-white rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden">
-                            <div className="overflow-x-auto">
-                              <table className="hidden md:table w-full text-[13px] text-left border-collapse">
-                                <thead className="bg-surface-container-low border-b border-outline-variant/30">
-                                  <tr>
-                                    {['Voucher Title', 'Advertising Budget', 'Spotlight Duration', 'Date Requested', 'Status', 'Pitch Details', 'Actions'].map(h => (
-                                      <th key={h} className="px-4 py-3.5 font-black text-[11px] text-on-surface-variant uppercase tracking-wider">{h}</th>
+                          {/* SUBTAB 1: LIVE BANNERS MANAGER */}
+                          {featuredSubTab === 'live' && (
+                            <div className="space-y-6">
+                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                {allDeals.filter(d => d.featured).map((slide) => (
+                                  <div key={slide.id} className="bg-white rounded-2xl border border-outline-variant/30 shadow-md p-5 flex flex-col justify-between space-y-4">
+                                    
+                                    {/* Slide Mini Visual Preview */}
+                                    <div className="relative w-full rounded-xl overflow-hidden aspect-[21/9] shadow-inner bg-slate-900 flex flex-col justify-end p-3 border border-outline-variant/20 select-none">
+                                      <div className="absolute inset-0 z-0">
+                                        <img
+                                          src={slide.image}
+                                          alt={slide.title}
+                                          className="w-full h-full object-cover opacity-50"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+                                      </div>
+                                      
+                                      <div 
+                                        className="relative z-10 backdrop-blur-md rounded-lg p-2.5 border text-left"
+                                        style={{
+                                          backgroundColor: slide.bannerBg || 'rgba(255, 255, 255, 0.1)',
+                                          borderColor: slide.bannerBorder || 'rgba(255, 255, 255, 0.2)',
+                                          fontFamily: slide.fontFamily || 'inherit'
+                                        }}
+                                      >
+                                        <div className="flex justify-between items-start gap-2">
+                                          <span className="bg-amber-500 text-black text-[7px] font-black uppercase px-1 rounded-sm">★ Spotlight</span>
+                                          <span className="text-[7px] text-white/50 font-bold font-mono">CODE: {slide.code}</span>
+                                        </div>
+                                        <h4 
+                                          className="font-black text-[10px] leading-tight mt-1 line-clamp-1"
+                                          style={{ color: slide.textColor || '#ffffff' }}
+                                        >
+                                          {slide.title}
+                                        </h4>
+                                        <p 
+                                          className="text-[7px] line-clamp-1 mt-0.5"
+                                          style={{ color: slide.textColor ? `${slide.textColor}cc` : 'rgba(255, 255, 255, 0.7)' }}
+                                        >
+                                          {slide.description}
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    {/* Slide Text Properties */}
+                                    <div className="space-y-2">
+                                      <div className="flex justify-between items-center gap-2">
+                                        <h4 className="font-black font-headline text-sm text-on-surface line-clamp-1">{slide.title}</h4>
+                                        <span className="bg-primary/10 text-primary text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider shrink-0 select-none">
+                                          {slide.brand}
+                                        </span>
+                                      </div>
+                                      
+                                      <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-on-surface-variant border-t border-dashed border-outline-variant/30 pt-2.5 font-medium">
+                                        <div>
+                                          <span className="text-[9px] uppercase tracking-wider block text-on-surface-variant/70">Voucher Code</span>
+                                          <span className="font-mono font-bold text-on-surface">{slide.code}</span>
+                                        </div>
+                                        <div>
+                                          <span className="text-[9px] uppercase tracking-wider block text-on-surface-variant/70">Promo Pricing</span>
+                                          <span className="text-primary font-black">${slide.salePrice.toFixed(2)} <span className="text-[9px] font-bold line-through text-on-surface-variant/65">${slide.originalPrice.toFixed(2)}</span></span>
+                                        </div>
+                                        <div>
+                                          <span className="text-[9px] uppercase tracking-wider block text-on-surface-variant/70">Slide Typography</span>
+                                          <span className="font-bold text-on-surface">{slide.fontFamily || 'Default Sans'}</span>
+                                        </div>
+                                        <div>
+                                          <span className="text-[9px] uppercase tracking-wider block text-on-surface-variant/70">Banner Style</span>
+                                          <div className="flex items-center gap-1.5 mt-0.5 select-none">
+                                            <span 
+                                              className="w-3.5 h-3.5 rounded-full border border-outline-variant/30 inline-block shadow-inner" 
+                                              style={{ backgroundColor: slide.bannerBg || 'rgba(255,255,255,0.1)' }} 
+                                              title="Banner background fill"
+                                            />
+                                            <span 
+                                              className="w-3.5 h-3.5 rounded-full border border-outline-variant/30 inline-block shadow-inner" 
+                                              style={{ backgroundColor: slide.textColor || '#ffffff' }} 
+                                              title="Text color fill"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    {/* Action Buttons */}
+                                    <div className="flex items-center gap-2 border-t border-outline-variant/20 pt-3">
+                                      <button
+                                        onClick={() => {
+                                          setEditingBannerSlide(slide);
+                                          setBannerSlideModalOpen(true);
+                                        }}
+                                        className="flex-1 py-1.5 bg-primary text-white hover:bg-primary/95 text-xs font-bold rounded-lg border-none flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                                      >
+                                        <span className="material-symbols-outlined text-[15px]">palette</span>
+                                        Edit Slide & Style
+                                      </button>
+                                      
+                                      <button
+                                        onClick={() => {
+                                          setAllDeals(prev => prev.map(d => d.id === slide.id ? { ...d, featured: false } : d));
+                                          triggerToast('Banner slide removed from home slideshow.', 'info');
+                                        }}
+                                        className="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                                        title="Remove from Carousel"
+                                      >
+                                        <span className="material-symbols-outlined text-[15px]">heart_broken</span>
+                                        Remove
+                                      </button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+
+                              {/* Promoted Existing Deals database */}
+                              <div className="bg-surface-container border border-outline-variant/30 rounded-2xl p-5 text-left">
+                                <h4 className="font-headline font-bold text-sm text-on-surface flex items-center gap-1.5 border-b border-outline-variant/20 pb-2.5">
+                                  <span className="material-symbols-outlined text-[18px] text-primary">publish</span>
+                                  Promote Deal from Database to Hero Carousel Slider
+                                </h4>
+                                <p className="text-xs text-on-surface-variant font-medium mt-1 mb-4">Select any general database deal to instantly spotlight it on the home page hero carousel</p>
+                                
+                                <div className="space-y-3.5 max-h-[220px] overflow-y-auto pr-1 no-scrollbar">
+                                  {allDeals.filter(d => !d.featured).slice(0, 10).map((deal) => (
+                                    <div key={deal.id} className="bg-white border border-outline-variant/30 p-3 rounded-xl flex items-center justify-between shadow-sm">
+                                      <div className="flex items-center gap-3">
+                                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-white text-xs font-black ${deal.logoBg || 'bg-slate-900'}`}>
+                                          {deal.logo}
+                                        </div>
+                                        <div>
+                                          <p className="font-bold text-xs text-on-surface line-clamp-1">{deal.title}</p>
+                                          <p className="text-[10px] text-on-surface-variant font-medium mt-0.5">{deal.brand} · {deal.category} · <span className="text-[#047c1f] font-black">${deal.salePrice}</span></p>
+                                        </div>
+                                      </div>
+                                      
+                                      <button
+                                        onClick={() => {
+                                          setAllDeals(prev => prev.map(d => d.id === deal.id ? { 
+                                            ...d, 
+                                            featured: true,
+                                            bannerBg: 'rgba(26, 26, 46, 0.55)',
+                                            textColor: '#ffffff',
+                                            fontFamily: 'Outfit'
+                                          } : d));
+                                          triggerToast('✓ Deal promoted to hero carousel spotlight!', 'success');
+                                        }}
+                                        className="px-3 py-1.5 bg-[#006e2a] hover:bg-[#00c853] text-white text-[11px] font-extrabold rounded-lg border-none flex items-center gap-1 cursor-pointer transition-colors"
+                                      >
+                                        <span className="material-symbols-outlined text-[13px]">publish</span>
+                                        Spotlight
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* SUBTAB 2: PARTNER PLACEMENTS REQUESTS */}
+                          {featuredSubTab === 'requests' && (
+                            <div className="bg-white rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden">
+                              <div className="overflow-x-auto">
+                                <table className="hidden md:table w-full text-[13px] text-left border-collapse">
+                                  <thead className="bg-surface-container-low border-b border-outline-variant/30">
+                                    <tr>
+                                      {['Voucher Title', 'Advertising Budget', 'Spotlight Duration', 'Date Requested', 'Status', 'Pitch Details', 'Actions'].map(h => (
+                                        <th key={h} className="px-4 py-3.5 font-black text-[11px] text-on-surface-variant uppercase tracking-wider">{h}</th>
+                                      ))}
+                                    </tr>
+                                  </thead>
+                                  <tbody className="divide-y divide-outline-variant/20 font-semibold text-on-surface">
+                                    {featuredRequests.map(r => (
+                                      <tr key={r.id} className="hover:bg-surface-container-low/50 transition-colors">
+                                        <td className="px-4 py-3.5 font-bold text-on-surface max-w-xs truncate">{r.dealTitle}</td>
+                                        <td className="px-4 py-3.5 text-primary font-black">{r.budget}</td>
+                                        <td className="px-4 py-3.5 font-bold">{r.duration || '7 days'}</td>
+                                        <td className="px-4 py-3.5 font-semibold text-on-surface-variant text-[12px]">{r.requestedDate}</td>
+                                        <td className="px-4 py-3.5">
+                                          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black border tracking-wider uppercase select-none ${r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
+                                            r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
+                                              'bg-amber-50 text-amber-600 border-amber-200'
+                                            }`}>
+                                            {r.status}
+                                          </span>
+                                        </td>
+                                        <td className="px-4 py-3.5 text-xs text-on-surface-variant font-medium max-w-xs truncate" title={r.message}>{r.message}</td>
+                                        <td className="px-4 py-3.5">
+                                          <div className="flex items-center gap-2 text-xs">
+                                            {r.status === 'Pending' && (
+                                              <>
+                                                <button
+                                                  onClick={() => {
+                                                    setFeaturedRequests(prev => prev.map(x => x.id === r.id ? { ...x, status: 'Approved' } : x));
+                                                    triggerToast('✓ Featured request approved!', 'success');
+                                                  }}
+                                                  className="px-2.5 py-1 rounded bg-[#e6f2e8] text-[#047c1f] hover:bg-[#d4edd9] font-black border border-[#047c1f]/20 cursor-pointer transition-colors text-[11px]"
+                                                >
+                                                  Approve
+                                                </button>
+                                                <button
+                                                  onClick={() => {
+                                                    setFeaturedRequests(prev => prev.map(x => x.id === r.id ? { ...x, status: 'Declined' } : x));
+                                                    triggerToast('Featured request declined.', 'warning');
+                                                  }}
+                                                  className="px-2.5 py-1 rounded bg-red-50 text-red-600 hover:bg-red-100 font-black border border-red-200 cursor-pointer transition-colors text-[11px]"
+                                                >
+                                                  Decline
+                                                </button>
+                                              </>
+                                            )}
+                                            <button
+                                              onClick={() => {
+                                                setFeaturedRequests(prev => prev.filter(x => x.id !== r.id));
+                                                triggerToast('Featured banner request entry removed.', 'info');
+                                              }}
+                                              className="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-variant text-on-surface font-bold border border-outline-variant/30 cursor-pointer transition-colors text-[11px]"
+                                            >
+                                              Delete Log
+                                            </button>
+                                          </div>
+                                        </td>
+                                      </tr>
                                     ))}
-                                  </tr>
-                                </thead>
-                                <tbody className="divide-y divide-outline-variant/20 font-semibold text-on-surface">
+                                    {featuredRequests.length === 0 && (
+                                      <tr>
+                                        <td colSpan={7} className="py-8 text-center text-on-surface-variant/60 font-semibold">
+                                          No landing page advertising requests found.
+                                        </td>
+                                      </tr>
+                                    )}
+                                  </tbody>
+                                </table>
+
+                                {/* Mobile viewports card list stack */}
+                                <div className="block md:hidden divide-y divide-outline-variant/20">
                                   {featuredRequests.map(r => (
-                                    <tr key={r.id} className="hover:bg-surface-container-low/50 transition-colors">
-                                      <td className="px-4 py-3.5 font-bold text-on-surface max-w-xs truncate">{r.dealTitle}</td>
-                                      <td className="px-4 py-3.5 text-primary font-black">{r.budget}</td>
-                                      <td className="px-4 py-3.5 font-bold">{r.duration || '7 days'}</td>
-                                      <td className="px-4 py-3.5 font-semibold text-on-surface-variant text-[12px]">{r.requestedDate}</td>
-                                      <td className="px-4 py-3.5">
-                                        <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black border tracking-wider uppercase select-none ${r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
+                                    <div key={r.id} className="p-4 space-y-3 font-semibold text-on-surface">
+                                      <div className="flex justify-between items-start gap-2">
+                                        <div>
+                                          <p className="font-bold text-[13px] text-on-surface line-clamp-2">{r.dealTitle}</p>
+                                          <p className="text-[10px] text-on-surface-variant font-medium mt-1">Requested: {r.requestedDate}</p>
+                                        </div>
+                                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black border tracking-wider uppercase select-none shrink-0 ${r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
                                           r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
                                             'bg-amber-50 text-amber-600 border-amber-200'
                                           }`}>
                                           {r.status}
                                         </span>
-                                      </td>
-                                      <td className="px-4 py-3.5 text-xs text-on-surface-variant font-medium max-w-xs truncate" title={r.message}>{r.message}</td>
-                                      <td className="px-4 py-3.5">
-                                        <div className="flex items-center gap-2 text-xs">
-                                          {r.status === 'Pending' && (
-                                            <>
-                                              <button
-                                                onClick={() => {
-                                                  setFeaturedRequests(prev => prev.map(x => x.id === r.id ? { ...x, status: 'Approved' } : x));
-                                                  triggerToast('✓ Featured request approved!', 'success');
-                                                }}
-                                                className="px-2.5 py-1 rounded bg-[#e6f2e8] text-[#047c1f] hover:bg-[#d4edd9] font-black border border-[#047c1f]/20 cursor-pointer transition-colors text-[11px]"
-                                              >
-                                                Approve
-                                              </button>
-                                              <button
-                                                onClick={() => {
-                                                  setFeaturedRequests(prev => prev.map(x => x.id === r.id ? { ...x, status: 'Declined' } : x));
-                                                  triggerToast('Featured request declined.', 'warning');
-                                                }}
-                                                className="px-2.5 py-1 rounded bg-red-50 text-red-600 hover:bg-red-100 font-black border border-red-200 cursor-pointer transition-colors text-[11px]"
-                                              >
-                                                Decline
-                                              </button>
-                                            </>
-                                          )}
-                                          <button
-                                            onClick={() => {
-                                              setFeaturedRequests(prev => prev.filter(x => x.id !== r.id));
-                                              triggerToast('Featured banner request entry removed.', 'info');
-                                            }}
-                                            className="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-variant text-on-surface font-bold border border-outline-variant/30 cursor-pointer transition-colors text-[11px]"
-                                          >
-                                            Delete Log
-                                          </button>
+                                      </div>
+                                      
+                                      <div className="grid grid-cols-2 gap-2 text-xs border-t border-b border-outline-variant/10 py-2">
+                                        <div>
+                                          <span className="text-[9px] text-on-surface-variant uppercase tracking-wider block">Budget</span>
+                                          <span className="text-primary font-black text-xs">{r.budget}</span>
                                         </div>
-                                      </td>
-                                    </tr>
-                                  ))}
-                                  {featuredRequests.length === 0 && (
-                                    <tr>
-                                      <td colSpan={7} className="py-8 text-center text-on-surface-variant/60 font-semibold">
-                                        No landing page advertising requests found.
-                                      </td>
-                                    </tr>
-                                  )}
-                                </tbody>
-                              </table>
-
-                              {/* Mobile viewports card list stack */}
-                              <div className="block md:hidden divide-y divide-outline-variant/20">
-                                {featuredRequests.map(r => (
-                                  <div key={r.id} className="p-4 space-y-3 font-semibold text-on-surface">
-                                    <div className="flex justify-between items-start gap-2">
-                                      <div>
-                                        <p className="font-bold text-[13px] text-on-surface line-clamp-2">{r.dealTitle}</p>
-                                        <p className="text-[10px] text-on-surface-variant font-medium mt-1">Requested: {r.requestedDate}</p>
+                                        <div>
+                                          <span className="text-[9px] text-on-surface-variant uppercase tracking-wider block">Duration</span>
+                                          <span className="font-bold text-xs">{r.duration || '7 days'}</span>
+                                        </div>
                                       </div>
-                                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black border tracking-wider uppercase select-none shrink-0 ${r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
-                                        r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
-                                          'bg-amber-50 text-amber-600 border-amber-200'
-                                        }`}>
-                                        {r.status}
-                                      </span>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-2 text-xs border-t border-b border-outline-variant/10 py-2">
-                                      <div>
-                                        <span className="text-[9px] text-on-surface-variant uppercase tracking-wider block">Budget</span>
-                                        <span className="text-primary font-black text-xs">{r.budget}</span>
-                                      </div>
-                                      <div>
-                                        <span className="text-[9px] text-on-surface-variant uppercase tracking-wider block">Duration</span>
-                                        <span className="font-bold text-xs">{r.duration || '7 days'}</span>
-                                      </div>
-                                    </div>
-                                    {r.message && (
-                                      <div className="text-xs bg-surface-container/50 p-2.5 rounded-lg border border-outline-variant/10">
-                                        <span className="text-[9px] text-on-surface-variant uppercase tracking-wider block mb-1">Pitch Details</span>
-                                        <p className="text-on-surface-variant font-medium leading-relaxed">{r.message}</p>
-                                      </div>
-                                    )}
-                                    <div className="flex gap-2 pt-1">
-                                      {r.status === 'Pending' && (
-                                        <>
-                                          <button
-                                            onClick={() => {
-                                              setFeaturedRequests(prev => prev.map(x => x.id === r.id ? { ...x, status: 'Approved' } : x));
-                                              triggerToast('✓ Featured request approved!', 'success');
-                                            }}
-                                            className="flex-1 py-2 rounded-lg bg-[#e6f2e8] text-[#047c1f] hover:bg-[#d4edd9] font-black border border-[#047c1f]/20 cursor-pointer text-center text-xs transition-colors"
-                                          >
-                                            Approve
-                                          </button>
-                                          <button
-                                            onClick={() => {
-                                              setFeaturedRequests(prev => prev.map(x => x.id === r.id ? { ...x, status: 'Declined' } : x));
-                                              triggerToast('Featured request declined.', 'warning');
-                                            }}
-                                            className="flex-1 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 font-black border border-red-200 cursor-pointer text-center text-xs transition-colors"
-                                          >
-                                            Decline
-                                          </button>
-                                        </>
+                                      
+                                      {r.message && (
+                                        <div className="text-xs bg-surface-container/50 p-2.5 rounded-lg border border-outline-variant/10">
+                                          <span className="text-[9px] text-on-surface-variant uppercase tracking-wider block mb-1">Pitch Details</span>
+                                          <p className="text-on-surface-variant font-medium leading-relaxed">{r.message}</p>
+                                        </div>
                                       )}
-                                      <button
-                                        onClick={() => {
-                                          setFeaturedRequests(prev => prev.filter(x => x.id !== r.id));
-                                          triggerToast('Featured banner request entry removed.', 'info');
-                                        }}
-                                        className="flex-1 py-2 rounded-lg bg-surface-container hover:bg-surface-variant text-on-surface font-bold border border-outline-variant/30 cursor-pointer text-center text-xs transition-colors"
-                                      >
-                                        Delete Log
-                                      </button>
+                                      
+                                      <div className="flex gap-2 pt-1">
+                                        {r.status === 'Pending' && (
+                                          <>
+                                            <button
+                                              onClick={() => {
+                                                setFeaturedRequests(prev => prev.map(x => x.id === r.id ? { ...x, status: 'Approved' } : x));
+                                                triggerToast('✓ Featured request approved!', 'success');
+                                              }}
+                                              className="flex-1 py-2 rounded-lg bg-[#e6f2e8] text-[#047c1f] hover:bg-[#d4edd9] font-black border border-[#047c1f]/20 cursor-pointer text-center text-xs transition-colors"
+                                            >
+                                              Approve
+                                            </button>
+                                            <button
+                                              onClick={() => {
+                                                setFeaturedRequests(prev => prev.map(x => x.id === r.id ? { ...x, status: 'Declined' } : x));
+                                                triggerToast('Featured request declined.', 'warning');
+                                              }}
+                                              className="flex-1 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 font-black border border-red-200 cursor-pointer text-center text-xs transition-colors"
+                                            >
+                                              Decline
+                                            </button>
+                                          </>
+                                        )}
+                                        <button
+                                          onClick={() => {
+                                            setFeaturedRequests(prev => prev.filter(x => x.id !== r.id));
+                                            triggerToast('Featured banner request entry removed.', 'info');
+                                          }}
+                                          className="flex-1 py-2 rounded-lg bg-surface-container hover:bg-surface-variant text-on-surface font-bold border border-outline-variant/30 cursor-pointer text-center text-xs transition-colors"
+                                        >
+                                          Delete Log
+                                        </button>
+                                      </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  ))}
                                 {featuredRequests.length === 0 && (
                                   <div className="py-8 text-center text-on-surface-variant/60 font-semibold text-xs">
                                     No landing page advertising requests found.
@@ -9892,6 +10148,7 @@ export default function App() {
                               </div>
                             </div>
                           </div>
+                        )}
 
                         </div>
                       )}
