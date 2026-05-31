@@ -10008,10 +10008,10 @@ export default function App() {
                     <nav className="flex-1 space-y-1">
                       {[
                         { key: 'overview', label: 'Mod Overview', icon: 'dashboard' },
-                        { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
                         { key: 'community_deals', label: 'Community deals', icon: 'storefront' },
                         { key: 'community', label: 'Manage coupons', icon: 'sell' },
                         { key: 'coupons', label: 'Featured ads', icon: 'ads_click' },
+                        { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
                         { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
                       ].map((tab) => (
                         <button
@@ -11016,10 +11016,10 @@ export default function App() {
                   <div className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-[#e8e8e8] z-[990] flex items-center gap-1.5 px-3 overflow-x-auto no-scrollbar shadow-[0_-4px_20px_rgba(0,0,0,0.06)] select-none">
                     {[
                       { key: 'overview', label: 'Overview', icon: 'dashboard' },
-                      { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
                       { key: 'community_deals', label: 'Community deals', icon: 'storefront' },
                       { key: 'community', label: 'Manage coupons', icon: 'sell' },
                       { key: 'coupons', label: 'Featured ads', icon: 'ads_click' },
+                      { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
                       { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
                     ].map((tab) => {
                       const isActive = moderatorTab === tab.key;
