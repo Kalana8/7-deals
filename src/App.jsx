@@ -7793,7 +7793,7 @@ export default function App() {
                     </div>
 
                     {/* Nav items */}
-                    <nav className="flex-1 space-y-1">
+                    <nav className="flex-1 space-y-1 overflow-y-auto no-scrollbar">
                       {[
                         { key: 'overview', label: 'Overview', icon: 'dashboard' },
                         { key: 'users', label: 'Partner Accounts', icon: 'store' },
@@ -7805,6 +7805,11 @@ export default function App() {
                         { key: 'deals', label: 'All Deals', icon: 'payments' },
                         { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
                         { key: 'notifications', label: 'Notifications', icon: 'notifications' },
+                        { key: 'community_deals', label: 'Community Deals', icon: 'storefront' },
+                        { key: 'community', label: 'Manage Coupons', icon: 'sell' },
+                        { key: 'coupons', label: 'Featured Ads', icon: 'ads_click' },
+                        { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
+                        { key: 'billboard', label: 'Billboard Notice', icon: 'campaign' },
                       ].map((tab) => (
                         <button
                           key={tab.key}
@@ -7829,6 +7834,11 @@ export default function App() {
                           {tab.key === 'moderators' && (
                             <span className="ml-auto bg-surface-container-high text-on-surface-variant text-[10px] font-extrabold px-2 py-0.5 rounded-full">
                               {adminModerators.length}
+                            </span>
+                          )}
+                          {tab.key === 'flagged' && flaggedDeals.filter(d => d.status === 'Pending').length > 0 && (
+                            <span className="ml-auto bg-error text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full animate-pulse">
+                              {flaggedDeals.filter(d => d.status === 'Pending').length}
                             </span>
                           )}
                         </button>
@@ -7899,6 +7909,11 @@ export default function App() {
                             { key: 'deals', label: 'All Deals', icon: 'payments' },
                             { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
                             { key: 'notifications', label: 'Notifications', icon: 'notifications' },
+                            { key: 'community_deals', label: 'Community Deals', icon: 'storefront' },
+                            { key: 'community', label: 'Manage Coupons', icon: 'sell' },
+                            { key: 'coupons', label: 'Featured Ads', icon: 'ads_click' },
+                            { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
+                            { key: 'billboard', label: 'Billboard Notice', icon: 'campaign' },
                           ].map((tab) => (
                             <button
                               key={tab.key}
@@ -7928,6 +7943,11 @@ export default function App() {
                               {tab.key === 'moderators' && (
                                 <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${adminTab === tab.key ? 'bg-white text-[#047c1f]' : 'bg-surface-container-high text-on-surface-variant'}`}>
                                   {adminModerators.length}
+                                </span>
+                              )}
+                              {tab.key === 'flagged' && flaggedDeals.filter(d => d.status === 'Pending').length > 0 && (
+                                <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${adminTab === tab.key ? 'bg-white text-[#047c1f]' : 'bg-error text-white'}`}>
+                                  {flaggedDeals.filter(d => d.status === 'Pending').length}
                                 </span>
                               )}
                             </button>
@@ -7989,7 +8009,13 @@ export default function App() {
                                         adminTab === 'categories' ? 'Categories' :
                                           adminTab === 'deals' ? 'All Deals' :
                                             adminTab === 'stock' ? 'Stock' :
-                                              'Notifications'}
+                                              adminTab === 'notifications' ? 'Notifications' :
+                                                adminTab === 'community_deals' ? 'Community Deals' :
+                                                  adminTab === 'community' ? 'Manage Coupons' :
+                                                    adminTab === 'coupons' ? 'Featured Ads' :
+                                                      adminTab === 'flagged' ? 'Flagged Queue' :
+                                                        adminTab === 'billboard' ? 'Billboard Notice' :
+                                                          'Notifications'}
                             </span>
                           </h1>
                           <p className="hidden sm:block text-xs text-on-surface-variant mt-1 font-semibold">
@@ -10678,6 +10704,698 @@ export default function App() {
                         </div>
                       )}
 
+                      {/* ══════════════════════════════════════
+                          TAB: FLAGGED QUEUE
+                      ══════════════════════════════════════ */}
+                      {adminTab === 'flagged' && (
+                        <div className="space-y-6 animate-in fade-in duration-300 text-left">
+                          <div className="flex items-center justify-between flex-wrap gap-4">
+                            <div>
+                              <h3 className="font-headline font-bold text-xl text-on-surface">Flagged Complaints Moderation Queue</h3>
+                            </div>
+                            <button
+                              onClick={() => {
+                                setFlaggedDeals(prev => prev.map(f => ({ ...f, status: 'Approved' })));
+                                triggerToast('✓ Cleared flagged deals queue!', 'success');
+                              }}
+                              className="px-4 py-2.5 rounded-xl bg-primary hover:opacity-90 text-white font-bold text-xs cursor-pointer border-none shadow-sm transition-opacity"
+                            >
+                              Approve All Pending
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {flaggedDeals.filter(f => f.status === 'Pending').map(flag => (
+                              <div key={flag.id} className="bg-white rounded-xl border border-outline-variant/30 p-5 custom-shadow space-y-4 flex flex-col justify-between hover:shadow-md transition-shadow text-left">
+                                <div className="space-y-2">
+                                  <div className="flex justify-between items-center">
+                                    <span className="px-2.5 py-1 bg-error/10 text-error border border-error/20 rounded-lg font-bold text-[10px] uppercase tracking-wide">
+                                      Spam Reported
+                                    </span>
+                                    <span className="text-[10px] text-on-surface-variant/70 font-semibold">{flag.time}</span>
+                                  </div>
+                                  <h4 className="font-bold text-sm text-on-surface leading-snug pt-1">{flag.title}</h4>
+                                  <div className="bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/20 text-xs">
+                                    <p className="text-on-surface-variant/60 font-bold uppercase text-[9px] tracking-wider">Reporter Comment</p>
+                                    <p className="font-bold text-on-surface mt-1">{flag.reporter} flagged this post:</p>
+                                    <p className="text-on-surface-variant italic font-semibold mt-1">"{flag.reason}"</p>
+                                  </div>
+                                </div>
+
+                                <div className="flex gap-2 pt-3 border-t border-outline-variant/10">
+                                  <button
+                                    onClick={() => {
+                                      setFlaggedDeals(prev => prev.map(x => x.id === flag.id ? { ...x, status: 'Approved' } : x));
+                                      triggerToast('✓ Deal approved and reports dismissed!', 'success');
+                                    }}
+                                    className="px-3.5 py-2.5 rounded-xl bg-primary hover:opacity-90 text-white font-bold text-xs flex-1 cursor-pointer border-none shadow-sm transition-opacity"
+                                  >
+                                    Approve Deal
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setFlaggedDeals(prev => prev.map(x => x.id === flag.id ? { ...x, status: 'Declined' } : x));
+                                      setAllDeals(prev => prev.filter(d => d.title !== flag.title));
+                                      triggerToast('✕ Spam deal deleted from platform!', 'warning');
+                                    }}
+                                    className="px-3.5 py-2.5 rounded-xl bg-error hover:opacity-90 text-white font-bold text-xs flex-1 cursor-pointer border-none shadow-sm transition-opacity"
+                                  >
+                                    Delete Spam
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+
+                            {flaggedDeals.filter(f => f.status === 'Pending').length === 0 && (
+                              <div className="col-span-full py-16 text-center text-on-surface-variant/70 bg-white border border-outline-variant/30 rounded-xl custom-shadow">
+                                <span className="text-4xl block mb-2">🎉</span>
+                                <p className="text-sm font-bold text-on-surface">Good on ya, mate! Flagged deals queue is clean!</p>
+                                <p className="text-xs font-semibold mt-1">No active complaints or user dispute claims currently logged.</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ══════════════════════════════════════
+                          TAB: MANAGE COUPONS (Active Ticker)
+                      ══════════════════════════════════════ */}
+                      {adminTab === 'community' && (
+                        <div className="space-y-6 animate-in fade-in duration-300 text-left">
+                          <div className="flex justify-between items-center flex-wrap gap-4 border-b border-outline-variant/20 pb-4">
+                            <div>
+                              <h3 className="font-headline font-bold text-xl text-on-surface">Manage Active Coupon Tickers</h3>
+                              <p className="text-xs text-on-surface-variant mt-1 font-semibold">Add, edit, or remove coupons displayed in the scrolling home header.</p>
+                            </div>
+                            <button
+                              onClick={() => {
+                                setEditingCoupon(null);
+                                setEditingCouponIndex(-1);
+                                setEditingCouponRow('A');
+                                setCouponFormBrand('');
+                                setCouponFormCode('');
+                                setCouponFormDiscount('');
+                                setCouponFormExpiryDays(3);
+                                setCouponFormBg('');
+                                setCouponModalOpen(true);
+                              }}
+                              className="px-4 py-2 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-[#047c1f]/10 cursor-pointer border-none transition-colors"
+                            >
+                              <Plus className="w-4 h-4 text-[#fdc800]" /> Add Coupon Ticker
+                            </button>
+                          </div>
+
+                          {/* Row A Section */}
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                              <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider">Row A: Left-Scrolling Tickers ({tickerPillsA.length})</h4>
+                            </div>
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                              {tickerPillsA.map((pill, idx) => (
+                                <div key={`admin-pill-a-${idx}`} className="p-4 bg-white border border-outline-variant/30 rounded-2xl shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-slate-350 transition-colors">
+                                  <div className="flex items-center">
+                                    <div
+                                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border shadow-sm select-none"
+                                      style={{
+                                        backgroundColor: pill.bg || (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                                        borderColor: "rgba(255,255,255,0.2)",
+                                        opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
+                                      }}
+                                    >
+                                      {renderBrandDot(pill.brand)}
+                                      <span className="font-bold text-xs" style={{ color: "rgba(255,255,255,0.95)" }}>{pill.brand}</span>
+                                      <span className="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-[#fdc800] text-black">
+                                        {pill.code}
+                                      </span>
+                                      <span className="font-bold text-xs" style={{ color: "#fdc800" }}>{pill.discount}</span>
+                                      <TickerCountdown expiryTs={PILL_EXPIRY_TIMESTAMPS[pill.code]} />
+                                    </div>
+                                  </div>
+
+                                  <div className="flex gap-2 shrink-0 md:justify-end">
+                                    <button
+                                      onClick={() => {
+                                        setEditingCoupon(pill);
+                                        setEditingCouponIndex(idx);
+                                        setEditingCouponRow('A');
+                                        setCouponFormBrand(pill.brand);
+                                        setCouponFormCode(pill.code);
+                                        setCouponFormDiscount(pill.discount);
+                                        setCouponFormExpiryDays(pill.expiryDays || 3);
+                                        setCouponFormBg(pill.bg || '');
+                                        setCouponModalOpen(true);
+                                      }}
+                                      className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] cursor-pointer border-none transition-colors"
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        if (confirm(`Remove ${pill.brand} (${pill.code}) ticker coupon?`)) {
+                                          setTickerPillsA(prev => prev.filter((_, i) => i !== idx));
+                                          triggerToast('✕ Ticker coupon removed.', 'warning');
+                                        }
+                                      }}
+                                      className="px-3 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 text-error font-bold text-[11px] cursor-pointer border-none transition-colors"
+                                    >
+                                      Remove
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Row B Section */}
+                          <div className="space-y-4 pt-4 border-t border-outline-variant/20">
+                            <div className="flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                              <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider">Row B: Right-Scrolling Tickers ({tickerPillsB.length})</h4>
+                            </div>
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                              {tickerPillsB.map((pill, idx) => (
+                                <div key={`admin-pill-b-${idx}`} className="p-4 bg-white border border-outline-variant/30 rounded-2xl shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-slate-350 transition-colors">
+                                  <div className="flex items-center">
+                                    <div
+                                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border shadow-sm select-none"
+                                      style={{
+                                        backgroundColor: pill.bg || (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                                        borderColor: "rgba(255,255,255,0.2)",
+                                        opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
+                                      }}
+                                    >
+                                      {renderBrandDot(pill.brand)}
+                                      <span className="font-bold text-xs" style={{ color: "rgba(255,255,255,0.95)" }}>{pill.brand}</span>
+                                      <span className="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-[#fdc800] text-black">
+                                        {pill.code}
+                                      </span>
+                                      <span className="font-bold text-xs" style={{ color: "#fdc800" }}>{pill.discount}</span>
+                                      <TickerCountdown expiryTs={PILL_EXPIRY_TIMESTAMPS[pill.code]} />
+                                    </div>
+                                  </div>
+
+                                  <div className="flex gap-2 shrink-0 md:justify-end">
+                                    <button
+                                      onClick={() => {
+                                        setEditingCoupon(pill);
+                                        setEditingCouponIndex(idx);
+                                        setEditingCouponRow('B');
+                                        setCouponFormBrand(pill.brand);
+                                        setCouponFormCode(pill.code);
+                                        setCouponFormDiscount(pill.discount);
+                                        setCouponFormExpiryDays(pill.expiryDays || 3);
+                                        setCouponFormBg(pill.bg || '');
+                                        setCouponModalOpen(true);
+                                      }}
+                                      className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] cursor-pointer border-none transition-colors"
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        if (confirm(`Remove ${pill.brand} (${pill.code}) ticker coupon?`)) {
+                                          setTickerPillsB(prev => prev.filter((_, i) => i !== idx));
+                                          triggerToast('✕ Ticker coupon removed.', 'warning');
+                                        }
+                                      }}
+                                      className="px-3 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 text-error font-bold text-[11px] cursor-pointer border-none transition-colors"
+                                    >
+                                      Remove
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ══════════════════════════════════════
+                          TAB: COMMUNITY DEALS MANAGER
+                      ══════════════════════════════════════ */}
+                      {adminTab === 'community_deals' && (
+                        <div className="space-y-8 animate-in fade-in duration-300 text-left">
+                          
+                          {/* Top Metric Cards */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="bg-white rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                                <span className="material-symbols-outlined text-[24px]">local_fire_department</span>
+                              </div>
+                              <div>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Feed Campaigns</p>
+                                <h4 className="text-2xl font-black text-slate-800 leading-none mt-1">{allDeals.length}</h4>
+                              </div>
+                            </div>
+                            
+                            <div className="bg-white rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center text-error animate-pulse">
+                                <span className="material-symbols-outlined text-[24px]">warning</span>
+                              </div>
+                              <div>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Active Flagged Deals</p>
+                                <h4 className="text-2xl font-black text-slate-800 leading-none mt-1">
+                                  {allDeals.filter(d => d.flagged).length}
+                                </h4>
+                              </div>
+                            </div>
+
+                            <div className="bg-white rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500">
+                                <span className="material-symbols-outlined text-[24px]">visibility_off</span>
+                              </div>
+                              <div>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Hidden Campaigns</p>
+                                <h4 className="text-2xl font-black text-slate-800 leading-none mt-1">
+                                  {allDeals.filter(d => d.hidden).length}
+                                </h4>
+                              </div>
+                            </div>
+
+                            <div className="bg-white rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-[#fdc800]/10 flex items-center justify-center text-amber-600">
+                                <span className="material-symbols-outlined text-[24px]">chat_bubble_outline</span>
+                              </div>
+                              <div>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Merchant Reports</p>
+                                <h4 className="text-2xl font-black text-slate-800 leading-none mt-1">
+                                  {merchantReports.filter(r => r.status !== 'Resolved').length} Active
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Split layout: Deals Grid & Reports History */}
+                          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                            
+                            {/* Deals Grid Panel */}
+                            <div className="xl:col-span-2 space-y-6">
+                              <div className="border-b border-outline-variant/20 pb-3 flex justify-between items-center">
+                                <h3 className="font-headline font-bold text-lg text-on-surface">Trending Feed Deals</h3>
+                                <span className="text-xs text-on-surface-variant font-semibold bg-surface-container px-2.5 py-1 rounded-full border border-outline-variant/10">
+                                  {allDeals.filter(d => !d.hidden).length} Visible in Feed
+                                </span>
+                              </div>
+
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {allDeals.map((deal) => (
+                                  <div 
+                                    key={deal.id} 
+                                    className={`bg-white rounded-2xl border p-4 flex flex-col justify-between space-y-4 transition-all ${
+                                      deal.hidden 
+                                        ? 'border-dashed border-slate-300 opacity-60' 
+                                        : deal.flagged 
+                                          ? 'border-[#e53935]/40 shadow-sm shadow-red-500/5' 
+                                          : 'border-outline-variant/30 shadow-sm hover:shadow-md'
+                                    }`}
+                                  >
+                                    {/* Brand info and Status Badges */}
+                                    <div className="flex justify-between items-start">
+                                      <div className="flex items-center gap-2">
+                                        <div className={`w-8 h-8 rounded-lg ${deal.logoBg || 'bg-[#047c1f] text-white'} font-black text-xs flex items-center justify-center shrink-0`}>
+                                          {deal.logo || deal.brand.substring(0,2).toUpperCase()}
+                                        </div>
+                                        <div>
+                                          <h4 className="font-bold text-slate-800 leading-none text-xs">{deal.brand}</h4>
+                                          <p className="text-[9px] text-slate-400 font-bold mt-0.5">{deal.category} • {deal.state}</p>
+                                        </div>
+                                      </div>
+
+                                      <div className="flex gap-1.5">
+                                        {deal.flagged && (
+                                          <span className="bg-[#e53935]/10 text-[#e53935] text-[8px] font-black px-2 py-0.5 rounded border border-[#e53935]/20 uppercase tracking-wider animate-pulse flex items-center gap-0.5">
+                                            <span className="material-symbols-outlined text-[10px]">warning</span> Flagged
+                                          </span>
+                                        )}
+                                        {deal.hidden && (
+                                          <span className="bg-slate-100 text-slate-500 text-[8px] font-black px-2 py-0.5 rounded border border-slate-200 uppercase tracking-wider flex items-center gap-0.5">
+                                            <span className="material-symbols-outlined text-[10px]">visibility_off</span> Hidden
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    {/* Campaign details */}
+                                    <div className="space-y-1">
+                                      <p className="font-bold text-slate-800 text-sm leading-snug line-clamp-2" title={deal.title}>
+                                        {deal.title}
+                                      </p>
+                                      <div className="flex items-baseline gap-2 pt-1">
+                                        <span className="text-sm font-black text-slate-800">${deal.salePrice ? deal.salePrice.toFixed(2) : '0.00'}</span>
+                                        {deal.originalPrice && (
+                                          <span className="text-[10px] text-slate-400 font-bold line-through">${deal.originalPrice.toFixed(2)}</span>
+                                        )}
+                                        <span className="text-[10px] font-black text-secondary uppercase bg-secondary/10 px-1.5 rounded ml-auto">
+                                          {deal.discount}
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    {/* Campaign Controls */}
+                                    <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
+                                      {/* Flag/Unflag */}
+                                      <button
+                                        onClick={() => {
+                                          const nextFlag = !deal.flagged;
+                                          setAllDeals(prev => prev.map(d => d.id === deal.id ? { ...d, flagged: nextFlag } : d));
+                                          triggerToast(nextFlag ? '🚨 Deal marked as FLAGGED!' : '✓ Deal flag removed.', nextFlag ? 'error' : 'success');
+                                        }}
+                                        className={`py-1.5 rounded-xl font-bold text-[10px] cursor-pointer border transition-colors flex items-center justify-center gap-1 ${
+                                          deal.flagged 
+                                            ? 'bg-red-50 hover:bg-red-100 border-red-200 text-red-600' 
+                                            : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'
+                                        }`}
+                                      >
+                                        <span className="material-symbols-outlined text-xs">warning</span>
+                                        {deal.flagged ? 'Unflag' : 'Flag Campaign'}
+                                      </button>
+
+                                      {/* Hide/Show */}
+                                      <button
+                                        onClick={() => {
+                                          const nextHidden = !deal.hidden;
+                                          setAllDeals(prev => prev.map(d => d.id === deal.id ? { ...d, hidden: nextHidden } : d));
+                                          triggerToast(nextHidden ? '👁 Campaign hidden from homepage feed.' : '👁 Campaign restored to homepage feed.', nextHidden ? 'warning' : 'success');
+                                        }}
+                                        className={`py-1.5 rounded-xl font-bold text-[10px] cursor-pointer border transition-colors flex items-center justify-center gap-1 ${
+                                          deal.hidden 
+                                            ? 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700' 
+                                            : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'
+                                        }`}
+                                      >
+                                        <span className="material-symbols-outlined text-xs">
+                                          {deal.hidden ? 'visibility' : 'visibility_off'}
+                                        </span>
+                                        {deal.hidden ? 'Show Feed' : 'Hide Feed'}
+                                      </button>
+
+                                      {/* Contact Brand Support */}
+                                      <button
+                                        onClick={() => {
+                                          setReportingDeal(deal);
+                                          setReportRecipient(`${deal.brand} Merchant Team`);
+                                          setReportMessage(`Hi Team,\n\nWe noticed a complaint on your "${deal.title}" deal campaign. Please verify if stock levels or pricing matches current active in-store catalogs.\n\nWarm regards,\nEditorial moderation desk.`);
+                                          setReportModalOpen(true);
+                                        }}
+                                        className="py-1.5 rounded-xl font-bold text-[10px] bg-slate-900 hover:bg-black text-white cursor-pointer border-none transition-colors flex items-center justify-center gap-1 col-span-2"
+                                      >
+                                        <span className="material-symbols-outlined text-xs">chat_bubble</span>
+                                        Report to Brand Owner
+                                      </button>
+                                      
+                                      {/* Delete campaign */}
+                                      <button
+                                        onClick={() => {
+                                          if (confirm(`Are you absolutely sure you want to delete the ${deal.brand} campaign permanently from feed?`)) {
+                                            setAllDeals(prev => prev.filter(d => d.id !== deal.id));
+                                            triggerToast('✕ Campaign permanently deleted.', 'warning');
+                                          }
+                                        }}
+                                        className="py-1 rounded-xl bg-error/10 hover:bg-error/20 text-error font-extrabold text-[9px] cursor-pointer border-none transition-colors col-span-2"
+                                      >
+                                        Delete Campaign Permanently
+                                      </button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Reports and Brand Correspondence History */}
+                            <div className="space-y-6">
+                              <div className="border-b border-outline-variant/20 pb-3">
+                                <h3 className="font-headline font-bold text-lg text-on-surface">Dealer Communication Log</h3>
+                              </div>
+
+                              <div className="space-y-4">
+                                {merchantReports.map((report) => (
+                                  <div key={report.id} className="bg-white rounded-2xl border border-outline-variant/30 p-4 shadow-sm space-y-3 text-left">
+                                    <div className="flex justify-between items-start gap-2">
+                                      <div>
+                                        <h4 className="font-black text-slate-800 text-xs">{report.brand}</h4>
+                                        <span className="text-[9px] text-slate-400 font-bold block mt-0.5">Campaign: {report.title}</span>
+                                      </div>
+                                      
+                                      <span className={`text-[8px] font-black px-2 py-0.5 rounded-full border uppercase tracking-wider ${
+                                        report.status === 'Resolved' 
+                                          ? 'bg-emerald-50 border-emerald-200 text-emerald-600' 
+                                          : 'bg-amber-50 border-amber-200 text-amber-600'
+                                      }`}>
+                                        {report.status}
+                                      </span>
+                                    </div>
+
+                                    <p className="text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 whitespace-pre-wrap leading-relaxed">
+                                      {report.message}
+                                    </p>
+
+                                    <div className="flex justify-between items-center text-[10px] text-slate-400 font-bold pt-1.5 border-t border-slate-50">
+                                      <span>Sent: {report.date}</span>
+                                      {report.status !== 'Resolved' && (
+                                        <button
+                                          onClick={() => {
+                                            setMerchantReports(prev => prev.map(r => r.id === report.id ? { ...r, status: 'Resolved' } : r));
+                                            triggerToast('✓ Conversation marked as resolved.', 'success');
+                                          }}
+                                          className="text-primary hover:underline cursor-pointer border-none bg-transparent font-bold text-[10px]"
+                                        >
+                                          Mark Resolved
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                ))}
+
+                                {merchantReports.length === 0 && (
+                                  <div className="bg-slate-50 rounded-2xl border border-dashed border-slate-200 p-8 text-center text-slate-400 text-xs">
+                                    <span className="material-symbols-outlined text-[32px] block text-slate-300 mb-1">chat</span>
+                                    No dealer messages logged yet.
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ══════════════════════════════════════
+                          TAB: FEATURED ADS (allDeals)
+                      ══════════════════════════════════════ */}
+                      {adminTab === 'coupons' && (
+                        <div className="space-y-6 animate-in fade-in duration-300 text-left">
+                          <div className="flex justify-between items-center flex-wrap gap-4 border-b border-outline-variant/20 pb-4">
+                            <div>
+                              <h3 className="font-headline font-bold text-xl text-on-surface">Active Featured Ads Campaigns</h3>
+                              <p className="text-xs text-on-surface-variant mt-1 font-semibold">Program the premium colorful cards running in the home screen marquee ticker.</p>
+                            </div>
+                            <button
+                              onClick={() => {
+                                setEditingFeaturedAd(null);
+                                setEditingFeaturedAdIndex(-1);
+                                setFeaturedAdFormBrand('');
+                                setFeaturedAdFormTitle('');
+                                setFeaturedAdFormCode('');
+                                setFeaturedAdFormDiscount('');
+                                setFeaturedAdFormSalePrice(0);
+                                setFeaturedAdFormOriginalPrice(0);
+                                setFeaturedAdFormExpiry(3);
+                                setFeaturedAdFormBg('');
+                                setFeaturedAdFormCategory('Tech');
+                                setFeaturedAdFormState('National');
+                                setFeaturedAdFormImage('https://picsum.photos/seed/ads/400/200');
+                                setFeaturedAdFormDesc('');
+                                setFeaturedAdModalOpen(true);
+                              }}
+                              className="px-4 py-2 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-[#047c1f]/10 cursor-pointer border-none transition-colors"
+                            >
+                              <Plus className="w-4 h-4 text-[#fdc800]" /> Add Featured Ad
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {allDeals.map((deal, idx) => {
+                              const logoInitials = deal.logo || (deal.brand ? deal.brand.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'AD');
+                              const cardBgColor = deal.brandColor || deal.bg || TICKER_BRAND_COLORS[deal.brand] || '#047c1f';
+                              
+                              return (
+                                <div key={deal.id || idx} className="bg-white rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between p-4 space-y-4">
+                                  {/* Featured Ad Card Preview exactly matching screenshot */}
+                                  <div 
+                                    className="w-full h-[140px] p-3 rounded-xl text-white flex flex-col justify-between relative overflow-hidden select-none text-left shadow-inner shrink-0"
+                                    style={{ backgroundColor: cardBgColor }}
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      <span className="w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-xs text-white border-2 border-white shrink-0">
+                                        {logoInitials}
+                                      </span>
+                                      <span className="text-[13px] font-bold text-white truncate leading-tight">
+                                        {deal.brand || 'Brand'}
+                                      </span>
+                                    </div>
+
+                                    <div>
+                                      <div className="text-[18px] font-bold font-mono text-white leading-none tracking-tight">
+                                        {deal.code || 'NO CODE'}
+                                      </div>
+                                      <div className="flex justify-between items-center mt-1">
+                                        <span className="text-[13px] text-[#fdc800] font-extrabold">{deal.discount || 'Discount'}</span>
+                                        <span className="text-[11px] text-white font-medium">${deal.salePrice ? deal.salePrice.toFixed(0) : '0'}</span>
+                                      </div>
+                                    </div>
+
+                                    <div className="flex justify-between items-center pt-2 border-t border-white/10">
+                                      <span className="text-[10px] text-white/95 flex items-center gap-1">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                        Exp: {deal.expiry || deal.expiryDays || 3}d
+                                      </span>
+
+                                      <div className="bg-white/20 px-2 py-0.5 rounded text-[9px] font-bold tracking-wider">
+                                        COPY
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* Info and action panel */}
+                                  <div className="space-y-2 flex-1 flex flex-col justify-between">
+                                    <div className="text-xs text-left">
+                                      <p className="font-bold text-slate-800 line-clamp-1">{deal.title}</p>
+                                      <p className="text-[10px] text-slate-500 font-semibold mt-1">Category: {deal.category} • {deal.state}</p>
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <button
+                                        onClick={() => {
+                                          setEditingFeaturedAd(deal);
+                                          setEditingFeaturedAdIndex(idx);
+                                          setFeaturedAdFormBrand(deal.brand || '');
+                                          setFeaturedAdFormTitle(deal.title || '');
+                                          setFeaturedAdFormCode(deal.code || '');
+                                          setFeaturedAdFormDiscount(deal.discount || '');
+                                          setFeaturedAdFormSalePrice(deal.salePrice || 0);
+                                          setFeaturedAdFormOriginalPrice(deal.originalPrice || 0);
+                                          setFeaturedAdFormExpiry(deal.expiry || deal.expiryDays || 3);
+                                          setFeaturedAdFormBg(deal.brandColor || deal.bg || '');
+                                          setFeaturedAdFormCategory(deal.category || 'Tech');
+                                          setFeaturedAdFormState(deal.state || 'National');
+                                          setFeaturedAdFormImage(deal.image || 'https://picsum.photos/seed/ads/400/200');
+                                          setFeaturedAdFormDesc(deal.description || '');
+                                          setFeaturedAdModalOpen(true);
+                                        }}
+                                        className="flex-1 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-[11px] cursor-pointer border-none transition-colors text-center"
+                                      >
+                                        Edit Details
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          if (confirm(`Delete featured ad campaign for ${deal.brand}?`)) {
+                                            setAllDeals(prev => prev.filter((_, i) => i !== idx));
+                                            triggerToast('✕ Campaign deleted.', 'warning');
+                                          }
+                                        }}
+                                        className="py-1.5 px-3 rounded-xl bg-error/10 hover:bg-error/20 text-error font-black text-[11px] cursor-pointer border-none transition-colors"
+                                      >
+                                        Delete
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ══════════════════════════════════════
+                          TAB: BILLBOARD NOTICES
+                      ══════════════════════════════════════ */}
+                      {adminTab === 'billboard' && (
+                        <div className="space-y-6 animate-in fade-in duration-300 text-left">
+                          <div className="flex items-center justify-between flex-wrap gap-4">
+                            <div>
+                              <h3 className="font-headline font-bold text-xl text-on-surface">📢 Announcements Billboard</h3>
+                            </div>
+                            <button
+                              onClick={() => {
+                                const newTitle = prompt('Enter headline banner notice text:');
+                                if (newTitle) {
+                                  const newBannerObj = {
+                                    id: 'ab' + (adminBanners.length + 1),
+                                    title: newTitle,
+                                    type: 'announcement',
+                                    status: 'Active',
+                                    bgColor: '#0d0d0d',
+                                    textColor: '#fdc800',
+                                    link: '',
+                                    startDate: 'Today',
+                                    endDate: '31 Dec 2025'
+                                  };
+                                  setAdminBanners(prev => [...prev, newBannerObj]);
+                                  triggerToast('✓ Billboard announcement scheduled!', 'success');
+                                }
+                              }}
+                              className="px-4 py-2.5 rounded-xl bg-primary hover:opacity-90 text-white font-bold text-xs cursor-pointer border-none shadow-sm transition-opacity"
+                            >
+                              Add New Notice
+                            </button>
+                          </div>
+
+                          <div className="space-y-4">
+                            {adminBanners.map(b => (
+                              <div key={b.id} className="bg-white border border-outline-variant/30 rounded-2xl p-5 custom-shadow space-y-4 text-left">
+                                <div className="flex items-center justify-between flex-wrap gap-2">
+                                  <div className="flex items-center gap-2">
+                                    <span className="bg-surface-container text-on-surface-variant text-[10px] font-black px-2.5 py-0.5 rounded border border-outline-variant/30 uppercase">
+                                      {b.type}
+                                    </span>
+                                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase ${b.status === 'Active' ? 'bg-primary/10 text-primary' : 'bg-surface-container text-on-surface-variant'
+                                      }`}>
+                                      {b.status}
+                                    </span>
+                                  </div>
+                                  <p className="text-xs font-semibold text-on-surface-variant">
+                                    Schedule: {b.startDate} - {b.endDate}
+                                  </p>
+                                </div>
+
+                                <div className="rounded-xl p-4 flex items-center justify-between gap-4 select-none font-bold"
+                                  style={{ backgroundColor: b.bgColor, color: b.textColor }}
+                                >
+                                  <p className="text-sm font-semibold truncate flex-1">{b.title}</p>
+                                  {b.link && (
+                                    <span className="text-[10px] uppercase font-black bg-white/20 px-2 py-0.5 rounded tracking-wider">
+                                      Link: {b.link}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div className="pt-3 border-t border-outline-variant/10 flex justify-end gap-2 text-xs">
+                                  <button
+                                    onClick={() => {
+                                      const newStatus = b.status === 'Active' ? 'Inactive' : 'Active';
+                                      setAdminBanners(prev => prev.map(x => x.id === b.id ? { ...x, status: newStatus } : x));
+                                      triggerToast(`Banner status updated to ${newStatus}`, 'info');
+                                    }}
+                                    className={`px-3.5 py-2 rounded-xl font-bold text-xs cursor-pointer border-none transition-colors ${b.status === 'Active' ? 'bg-amber-600/10 hover:bg-amber-600/20 text-amber-600' : 'bg-primary/10 hover:bg-primary/20 text-primary'
+                                      }`}
+                                  >
+                                    {b.status === 'Active' ? 'Deactivate' : 'Activate'}
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setAdminBanners(prev => prev.filter(x => x.id !== b.id));
+                                      triggerToast('✕ Billboard notice dismissed.', 'warning');
+                                    }}
+                                    className="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-variant text-on-surface font-bold text-xs cursor-pointer border-none transition-colors"
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                     </section>
                   </main>
 
@@ -10694,6 +11412,11 @@ export default function App() {
                       { key: 'deals', label: 'All Deals', icon: 'payments' },
                       { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
                       { key: 'notifications', label: 'Notifications', icon: 'notifications' },
+                      { key: 'community_deals', label: 'Community Deals', icon: 'storefront' },
+                      { key: 'community', label: 'Manage Coupons', icon: 'sell' },
+                      { key: 'coupons', label: 'Featured Ads', icon: 'ads_click' },
+                      { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
+                      { key: 'billboard', label: 'Billboard Notice', icon: 'campaign' },
                     ].map((tab) => {
                       const isActive = adminTab === tab.key;
                       return (
