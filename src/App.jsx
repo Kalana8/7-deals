@@ -1534,6 +1534,90 @@ export default function App() {
     },
   ]);
 
+  // Consumers/Organic Users management states
+  const [selectedConsumerUser, setSelectedConsumerUser] = useState(null);
+  const [consumerUserModalOpen, setConsumerUserModalOpen] = useState(false);
+  const [consumerUsers, setConsumerUsers] = useState([
+    {
+      id: 'cu1',
+      name: 'Lachlan Smith',
+      email: 'lachlan@smith.com.au',
+      tier: 'Gold Saver',
+      avatar: 'LS',
+      avatarBg: 'bg-[#047c1f]',
+      status: 'Active',
+      joined: '12 Jan 2024',
+      location: 'Sydney, NSW',
+      loyaltyPoints: 1250,
+      savedItems: [
+        { id: '1', brand: 'Coles', title: '50% off all Cadbury Family Blocks', discount: '50% OFF', logoBg: 'bg-red-600' },
+        { id: '2', brand: 'Woolworths', title: '$10 off $100 Grocery Voucher', discount: '$10 OFF', logoBg: 'bg-[#006a2f]' }
+      ],
+      orderHistory: [
+        { id: 'ord_1001', date: 'May 28, 2026', item: 'JB Hi-Fi $200 Gift Card', price: 185.00, quantity: 1, status: 'Delivered' },
+        { id: 'ord_1002', date: 'May 15, 2026', item: 'Coles $50 Supermarket Voucher', price: 45.00, quantity: 2, status: 'Delivered' },
+        { id: 'ord_1003', date: 'May 30, 2026', item: 'Woolworths $100 Digital Code', price: 90.00, quantity: 1, status: 'Processing' }
+      ]
+    },
+    {
+      id: 'cu2',
+      name: 'Sienna Williams',
+      email: 'sienna.w@gmail.com',
+      tier: 'Elite Premium',
+      avatar: 'SW',
+      avatarBg: 'bg-indigo-600',
+      status: 'Active',
+      joined: '05 Feb 2024',
+      location: 'Melbourne, VIC',
+      loyaltyPoints: 3400,
+      savedItems: [
+        { id: '3', brand: 'JB Hi-Fi', title: 'Buy 1 Get 1 Free on all vinyl records', discount: 'BOGO FREE', logoBg: 'bg-[#fdc800]' },
+        { id: '4', brand: 'BCF Store', title: '30% off all camping equipment', discount: '30% OFF', logoBg: 'bg-sky-700' }
+      ],
+      orderHistory: [
+        { id: 'ord_2001', date: 'May 24, 2026', item: 'BCF Store $150 Voucher', price: 120.00, quantity: 1, status: 'Delivered' },
+        { id: 'ord_2002', date: 'May 29, 2026', item: 'Kmart $50 Shopping Code', price: 44.00, quantity: 3, status: 'In Transit' }
+      ]
+    },
+    {
+      id: 'cu3',
+      name: 'Oliver Brown',
+      email: 'oliver.brown@outlook.com',
+      tier: 'Basic Saver',
+      avatar: 'OB',
+      avatarBg: 'bg-amber-600',
+      status: 'Active',
+      joined: '18 Apr 2024',
+      location: 'Brisbane, QLD',
+      loyaltyPoints: 450,
+      savedItems: [
+        { id: '5', brand: 'Coles', title: '50% off all Cadbury Family Blocks', discount: '50% OFF', logoBg: 'bg-red-600' }
+      ],
+      orderHistory: [
+        { id: 'ord_3001', date: 'May 10, 2026', item: 'Coles $100 E-Voucher', price: 92.00, quantity: 1, status: 'Delivered' }
+      ]
+    },
+    {
+      id: 'cu4',
+      name: 'Isabella Davis',
+      email: 'isabella.d@optusnet.com.au',
+      tier: 'VIP Spender',
+      avatar: 'ID',
+      avatarBg: 'bg-rose-600',
+      status: 'Frozen',
+      joined: '22 Mar 2024',
+      location: 'Perth, WA',
+      loyaltyPoints: 5200,
+      savedItems: [
+        { id: '6', brand: 'Coles', title: '50% off all Cadbury Family Blocks', discount: '50% OFF', logoBg: 'bg-red-650' },
+        { id: '7', brand: 'JB Hi-Fi', title: 'Buy 1 Get 1 Free on all vinyl records', discount: 'BOGO FREE', logoBg: 'bg-[#fdc800]' }
+      ],
+      orderHistory: [
+        { id: 'ord_4001', date: 'May 02, 2026', item: 'JB Hi-Fi $500 Gift Voucher', price: 460.00, quantity: 1, status: 'Delivered' }
+      ]
+    }
+  ]);
+
   // Moderators management
   const [adminModerators, setAdminModerators] = useState([
     {
@@ -7675,6 +7759,7 @@ export default function App() {
                       {[
                         { key: 'overview', label: 'Overview', icon: 'dashboard' },
                         { key: 'users', label: 'Partner Accounts', icon: 'store' },
+                        { key: 'manage_users', label: 'Manage Users', icon: 'people' },
                         { key: 'moderators', label: 'Moderators', icon: 'shield' },
                         { key: 'banner', label: 'Top Banner', icon: 'campaign' },
                         { key: 'featured', label: 'Exclusive Banner', icon: 'star' },
@@ -7696,6 +7781,11 @@ export default function App() {
                           {tab.key === 'users' && (
                             <span className="ml-auto bg-primary-container text-on-primary-container text-[10px] font-extrabold px-2 py-0.5 rounded-full">
                               {adminUsers.length}
+                            </span>
+                          )}
+                          {tab.key === 'manage_users' && (
+                            <span className="ml-auto bg-primary-container text-on-primary-container text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                              {consumerUsers.length}
                             </span>
                           )}
                           {tab.key === 'moderators' && (
@@ -7763,6 +7853,7 @@ export default function App() {
                           {[
                             { key: 'overview', label: 'Overview', icon: 'dashboard' },
                             { key: 'users', label: 'Partner Accounts', icon: 'store' },
+                            { key: 'manage_users', label: 'Manage Users', icon: 'people' },
                             { key: 'moderators', label: 'Moderators', icon: 'shield' },
                             { key: 'banner', label: 'Top Banner', icon: 'campaign' },
                             { key: 'featured', label: 'Exclusive Banner', icon: 'star' },
@@ -7789,6 +7880,11 @@ export default function App() {
                               {tab.key === 'users' && (
                                 <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${adminTab === tab.key ? 'bg-white text-[#047c1f]' : 'bg-primary-container text-on-primary-container'}`}>
                                   {adminUsers.length}
+                                </span>
+                              )}
+                              {tab.key === 'manage_users' && (
+                                <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${adminTab === tab.key ? 'bg-white text-[#047c1f]' : 'bg-primary-container text-on-primary-container'}`}>
+                                  {consumerUsers.length}
                                 </span>
                               )}
                               {tab.key === 'moderators' && (
@@ -7848,7 +7944,8 @@ export default function App() {
                             <span className="truncate">
                               {adminTab === 'overview' ? 'Overview' :
                                 adminTab === 'users' ? 'Partners' :
-                                  adminTab === 'moderators' ? 'Mods' :
+                                  adminTab === 'manage_users' ? 'Manage Users' :
+                                    adminTab === 'moderators' ? 'Mods' :
                                     adminTab === 'banner' ? 'Banner' :
                                       adminTab === 'featured' ? 'Exclusive Banner' :
                                         adminTab === 'categories' ? 'Categories' :
@@ -8823,6 +8920,433 @@ export default function App() {
                             </div>
                           </div>
 
+                        </div>
+                      )}
+
+                      {/* 👥 MANAGE USERS TAB */}
+                      {adminTab === 'manage_users' && (
+                        <div className="space-y-6 animate-in fade-in duration-300 text-left">
+                          
+                          {/* Overview Stats */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="bg-white p-4 rounded-xl border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                                <span className="material-symbols-outlined text-2xl">people</span>
+                              </div>
+                              <div>
+                                <p className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider">Total Consumer Users</p>
+                                <h4 className="text-xl font-bold text-on-surface mt-0.5">{consumerUsers.length}</h4>
+                              </div>
+                            </div>
+                            
+                            <div className="bg-white p-4 rounded-xl border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-lg bg-indigo-100 text-indigo-800 flex items-center justify-center">
+                                <span className="material-symbols-outlined text-2xl">shopping_cart</span>
+                              </div>
+                              <div>
+                                <p className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider">Total Orders Placed</p>
+                                <h4 className="text-xl font-bold text-on-surface mt-0.5">
+                                  {consumerUsers.reduce((sum, u) => sum + u.orderHistory.length, 0)}
+                                </h4>
+                              </div>
+                            </div>
+
+                            <div className="bg-white p-4 rounded-xl border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-lg bg-rose-100 text-rose-800 flex items-center justify-center">
+                                <span className="material-symbols-outlined text-2xl">favorite</span>
+                              </div>
+                              <div>
+                                <p className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider">Total Saved Items</p>
+                                <h4 className="text-xl font-bold text-on-surface mt-0.5">
+                                  {consumerUsers.reduce((sum, u) => sum + u.savedItems.length, 0)}
+                                </h4>
+                              </div>
+                            </div>
+
+                            <div className="bg-white p-4 rounded-xl border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center">
+                                <span className="material-symbols-outlined text-2xl">military_tech</span>
+                              </div>
+                              <div>
+                                <p className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider">Total Loyalty Points</p>
+                                <h4 className="text-xl font-bold text-on-surface mt-0.5">
+                                  {consumerUsers.reduce((sum, u) => sum + u.loyaltyPoints, 0)} pts
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between flex-wrap gap-4 border-b border-outline-variant/20 pb-4">
+                            <div>
+                              <h3 className="font-headline font-bold text-xl text-on-surface">Manage Consumer Users</h3>
+                              <p className="text-xs text-on-surface-variant font-semibold mt-1">Audit profile saved items, order history, status, and award points</p>
+                            </div>
+                          </div>
+
+                          {/* Interactive User Management Table */}
+                          <div className="bg-white rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden">
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-[13px] text-left border-collapse">
+                                <thead className="bg-surface-container-low border-b border-outline-variant/30">
+                                  <tr>
+                                    {['User Details', 'Location & Joined', 'Membership Tier', 'Total Orders', 'Saved Deals', 'Status', 'Actions'].map(h => (
+                                      <th key={h} className="px-4 py-3.5 font-black text-[11px] text-on-surface-variant uppercase tracking-wider">{h}</th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-outline-variant/20 font-semibold text-on-surface">
+                                  {consumerUsers.map(u => (
+                                    <tr key={u.id} className="hover:bg-surface-container-low/50 transition-colors">
+                                      {/* User Details */}
+                                      <td className="px-4 py-4.5">
+                                        <div className="flex items-center gap-3">
+                                          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black ${u.avatarBg || 'bg-primary'}`}>
+                                            {u.avatar}
+                                          </div>
+                                          <div>
+                                            <p className="font-headline font-bold text-on-surface text-sm">{u.name}</p>
+                                            <p className="text-[11px] text-on-surface-variant font-medium mt-0.5">{u.email}</p>
+                                          </div>
+                                        </div>
+                                      </td>
+
+                                      {/* Location & Joined */}
+                                      <td className="px-4 py-4.5 text-xs text-on-surface-variant">
+                                        <div>{u.location}</div>
+                                        <div className="font-medium text-[10px] mt-0.5">Joined: {u.joined}</div>
+                                      </td>
+
+                                      {/* Membership Tier */}
+                                      <td className="px-4 py-4.5">
+                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black tracking-wide uppercase ${
+                                          u.tier.includes('Elite') || u.tier.includes('VIP')
+                                            ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                                            : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                                        }`}>
+                                          <span className="material-symbols-outlined text-[12px]">workspace_premium</span>
+                                          {u.tier}
+                                        </span>
+                                      </td>
+
+                                      {/* Total Orders */}
+                                      <td className="px-4 py-4.5">
+                                        <div className="flex items-center gap-1">
+                                          <span className="material-symbols-outlined text-[16px] text-indigo-500">shopping_bag</span>
+                                          <span className="text-sm font-bold text-on-surface">{u.orderHistory.length}</span>
+                                        </div>
+                                      </td>
+
+                                      {/* Saved Deals */}
+                                      <td className="px-4 py-4.5">
+                                        <div className="flex items-center gap-1">
+                                          <span className="material-symbols-outlined text-[16px] text-rose-500">favorite</span>
+                                          <span className="text-sm font-bold text-on-surface">{u.savedItems.length}</span>
+                                        </div>
+                                      </td>
+
+                                      {/* Status Badge */}
+                                      <td className="px-4 py-4.5">
+                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                          u.status === 'Active' ? 'bg-[#e8f6ec] text-[#047c1f]' : 'bg-rose-100 text-rose-700'
+                                        }`}>
+                                          {u.status}
+                                        </span>
+                                      </td>
+
+                                      {/* Actions */}
+                                      <td className="px-4 py-4.5">
+                                        <div className="flex items-center gap-2">
+                                          <button
+                                            onClick={() => {
+                                              setSelectedConsumerUser(u);
+                                              setConsumerUserModalOpen(true);
+                                            }}
+                                            title="Inspect Order & Saved History"
+                                            className="px-2.5 py-1 bg-[#047c1f] text-white hover:bg-[#047c1f]/95 text-[11px] font-extrabold rounded-lg flex items-center gap-1 transition-colors border-none cursor-pointer"
+                                          >
+                                            <span className="material-symbols-outlined text-[14px]">manage_search</span>
+                                            Inspect
+                                          </button>
+                                          
+                                          <button
+                                            onClick={() => {
+                                              const newStatus = u.status === 'Active' ? 'Frozen' : 'Active';
+                                              setConsumerUsers(prev => prev.map(x => x.id === u.id ? { ...x, status: newStatus } : x));
+                                              triggerToast(`User status set to ${newStatus} successfully`, 'info');
+                                            }}
+                                            title={u.status === 'Active' ? 'Freeze Account' : 'Activate Account'}
+                                            className={`p-1.5 rounded-lg border flex items-center justify-center transition-colors cursor-pointer ${
+                                              u.status === 'Active'
+                                                ? 'bg-rose-50 border-rose-200 text-rose-600 hover:bg-rose-100'
+                                                : 'bg-emerald-50 border-emerald-200 text-emerald-600 hover:bg-emerald-100'
+                                            }`}
+                                          >
+                                            <span className="material-symbols-outlined text-[16px]">
+                                              {u.status === 'Active' ? 'lock' : 'lock_open'}
+                                            </span>
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                          {/* Detailed Consumer User Inspector Modal */}
+                          {consumerUserModalOpen && selectedConsumerUser && (
+                            <div className="fixed inset-0 z-[2100] flex items-center justify-center p-4">
+                              {/* Backdrop */}
+                              <div
+                                onClick={() => {
+                                  setConsumerUserModalOpen(false);
+                                  setSelectedConsumerUser(null);
+                                }}
+                                className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity animate-none"
+                              />
+
+                              {/* Modal Container */}
+                              <div className="relative bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-outline-variant/30 overflow-hidden z-10 flex flex-col max-h-[90vh] animate-none">
+                                
+                                {/* Header */}
+                                <div className="p-6 bg-gradient-to-r from-emerald-800 to-emerald-950 text-white flex items-start justify-between">
+                                  <div className="flex items-center gap-4">
+                                    <div className={`w-14 h-14 rounded-full flex items-center justify-center text-white text-lg font-black shadow-inner ${selectedConsumerUser.avatarBg || 'bg-emerald-600'}`}>
+                                      {selectedConsumerUser.avatar}
+                                    </div>
+                                    <div>
+                                      <div className="flex items-center gap-2.5">
+                                        <h3 className="font-headline font-black text-xl leading-none">{selectedConsumerUser.name}</h3>
+                                        <span className="bg-white/20 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                          {selectedConsumerUser.tier}
+                                        </span>
+                                      </div>
+                                      <p className="text-[12px] text-white/80 font-medium mt-1.5 flex items-center gap-1.5">
+                                        <span className="material-symbols-outlined text-sm">mail</span> {selectedConsumerUser.email}
+                                        <span className="opacity-50">|</span>
+                                        <span className="material-symbols-outlined text-sm">location_on</span> {selectedConsumerUser.location}
+                                        <span className="opacity-50">|</span>
+                                        <span className="material-symbols-outlined text-sm">calendar_month</span> Joined: {selectedConsumerUser.joined}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  
+                                  <button
+                                    onClick={() => {
+                                      setConsumerUserModalOpen(false);
+                                      setSelectedConsumerUser(null);
+                                    }}
+                                    className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white border-none cursor-pointer transition-colors"
+                                  >
+                                    <span className="material-symbols-outlined text-[20px]">close</span>
+                                  </button>
+                                </div>
+
+                                {/* Modal Body (Scrollable) */}
+                                <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                                  
+                                  {/* Stats Row */}
+                                  <div className="grid grid-cols-3 gap-4">
+                                    <div className="bg-emerald-50 border border-emerald-100 p-3.5 rounded-xl text-center">
+                                      <p className="text-[10px] font-black text-emerald-800 uppercase tracking-wider">Loyalty Balance</p>
+                                      <h5 className="text-lg font-black text-emerald-900 mt-1">{selectedConsumerUser.loyaltyPoints} pts</h5>
+                                    </div>
+                                    <div className="bg-indigo-50 border border-indigo-100 p-3.5 rounded-xl text-center">
+                                      <p className="text-[10px] font-black text-indigo-800 uppercase tracking-wider">Purchased Vouchers</p>
+                                      <h5 className="text-lg font-black text-indigo-900 mt-1">{selectedConsumerUser.orderHistory.length} Deals</h5>
+                                    </div>
+                                    <div className="bg-rose-50 border border-rose-100 p-3.5 rounded-xl text-center">
+                                      <p className="text-[10px] font-black text-rose-800 uppercase tracking-wider">Favorites Bookmarked</p>
+                                      <h5 className="text-lg font-black text-rose-900 mt-1">{selectedConsumerUser.savedItems.length} Saved</h5>
+                                    </div>
+                                  </div>
+
+                                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                                    
+                                    {/* Left: Order History (7 cols) */}
+                                    <div className="lg:col-span-7 space-y-3">
+                                      <div className="flex items-center justify-between">
+                                        <h4 className="font-headline font-bold text-sm text-on-surface flex items-center gap-1.5">
+                                          <span className="material-symbols-outlined text-[18px] text-primary">receipt_long</span>
+                                          Total Order History
+                                        </h4>
+                                        <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">
+                                          {selectedConsumerUser.orderHistory.length} orders
+                                        </span>
+                                      </div>
+
+                                      <div className="border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm">
+                                        <table className="w-full text-left text-[12px] border-collapse">
+                                          <thead className="bg-surface-container-low border-b border-outline-variant/30">
+                                            <tr>
+                                              <th className="px-3.5 py-2.5 font-black text-[10px] text-on-surface-variant uppercase">Order Item</th>
+                                              <th className="px-3 py-2.5 font-black text-[10px] text-on-surface-variant uppercase text-center">Qty</th>
+                                              <th className="px-3 py-2.5 font-black text-[10px] text-on-surface-variant uppercase text-right">Price</th>
+                                              <th className="px-3.5 py-2.5 font-black text-[10px] text-on-surface-variant uppercase text-right">Status</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody className="divide-y divide-outline-variant/20 font-semibold text-on-surface">
+                                            {selectedConsumerUser.orderHistory.map((order, idx) => (
+                                              <tr key={idx} className="hover:bg-surface-container-low/30 transition-colors">
+                                                <td className="px-3.5 py-3">
+                                                  <div>{order.item}</div>
+                                                  <div className="text-[9px] text-on-surface-variant font-medium mt-0.5">{order.date} · #{order.id}</div>
+                                                </td>
+                                                <td className="px-3 py-3 text-center text-on-surface-variant">{order.quantity}x</td>
+                                                <td className="px-3 py-3 text-right font-black">${(order.price * order.quantity).toFixed(2)}</td>
+                                                <td className="px-3.5 py-3 text-right">
+                                                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold ${
+                                                    order.status === 'Delivered'
+                                                      ? 'bg-emerald-100 text-emerald-800'
+                                                      : order.status === 'In Transit'
+                                                      ? 'bg-sky-100 text-sky-800'
+                                                      : 'bg-amber-100 text-amber-800'
+                                                  }`}>
+                                                    {order.status}
+                                                  </span>
+                                                </td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+
+                                    {/* Right: Saved & Bookmarked Items (5 cols) */}
+                                    <div className="lg:col-span-5 space-y-3">
+                                      <div className="flex items-center justify-between">
+                                        <h4 className="font-headline font-bold text-sm text-on-surface flex items-center gap-1.5">
+                                          <span className="material-symbols-outlined text-[18px] text-rose-500">favorite</span>
+                                          Saved & Liked Deals
+                                        </h4>
+                                        <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">
+                                          {selectedConsumerUser.savedItems.length} items
+                                        </span>
+                                      </div>
+
+                                      <div className="space-y-2 max-h-[280px] overflow-y-auto pr-1 no-scrollbar">
+                                        {selectedConsumerUser.savedItems.map((item, idx) => (
+                                          <div key={idx} className="bg-surface-container-low border border-outline-variant/30 p-3 rounded-xl flex items-center justify-between hover:border-primary/20 transition-all shadow-sm">
+                                            <div className="flex items-center gap-2.5">
+                                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white text-[10px] font-extrabold ${item.logoBg}`}>
+                                                {item.brand[0]}
+                                              </div>
+                                              <div>
+                                                <p className="font-bold text-[12px] text-on-surface line-clamp-1">{item.title}</p>
+                                                <p className="text-[10px] text-on-surface-variant font-medium mt-0.5">{item.brand}</p>
+                                              </div>
+                                            </div>
+                                            <span className="shrink-0 bg-rose-100 text-rose-800 text-[9px] font-black px-2 py-0.5 rounded border border-rose-350 uppercase">
+                                              {item.discount}
+                                            </span>
+                                          </div>
+                                        ))}
+
+                                        {selectedConsumerUser.savedItems.length === 0 && (
+                                          <div className="text-center py-8 text-on-surface-variant/40 bg-surface-container-low border border-dashed border-outline-variant/30 rounded-xl animate-none">
+                                            <span className="material-symbols-outlined text-3xl">favorite_border</span>
+                                            <p className="text-xs font-semibold mt-1">No items saved yet</p>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* Administrative Control Actions */}
+                                  <div className="bg-surface-container border border-outline-variant/30 p-4.5 rounded-xl space-y-4 text-left">
+                                    <h4 className="font-headline font-bold text-xs text-on-surface uppercase tracking-wider flex items-center gap-1.5">
+                                      <span className="material-symbols-outlined text-[16px] text-primary">admin_panel_settings</span>
+                                      Administrator Quick Console
+                                    </h4>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                      {/* Points Awarder */}
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Award Bonus Points</label>
+                                        <div className="flex gap-2">
+                                          <input
+                                            type="number"
+                                            placeholder="+250"
+                                            id="pointsAwardInput"
+                                            className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent animate-none"
+                                          />
+                                          <button
+                                            onClick={() => {
+                                              const val = parseInt(document.getElementById('pointsAwardInput')?.value || '0');
+                                              if (val <= 0 || isNaN(val)) {
+                                                triggerToast('Please enter a valid points amount', 'error');
+                                                return;
+                                              }
+                                              setConsumerUsers(prev => prev.map(x => x.id === selectedConsumerUser.id ? { ...x, loyaltyPoints: x.loyaltyPoints + val } : x));
+                                              setSelectedConsumerUser(prev => ({ ...prev, loyaltyPoints: prev.loyaltyPoints + val }));
+                                              triggerToast(`Rewarded ${val} loyalty points to ${selectedConsumerUser.name} successfully`, 'success');
+                                              document.getElementById('pointsAwardInput').value = '';
+                                            }}
+                                            className="px-3 py-1.5 bg-[#047c1f] text-white hover:bg-[#047c1f]/90 text-xs font-bold rounded-lg border-none cursor-pointer"
+                                          >
+                                            Reward
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      {/* Account Status Switch */}
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Account Action Status</label>
+                                        <div className="flex gap-2">
+                                          <button
+                                            onClick={() => {
+                                              const newStatus = selectedConsumerUser.status === 'Active' ? 'Frozen' : 'Active';
+                                              setConsumerUsers(prev => prev.map(x => x.id === selectedConsumerUser.id ? { ...x, status: newStatus } : x));
+                                              setSelectedConsumerUser(prev => ({ ...prev, status: newStatus }));
+                                              triggerToast(`User account status is now ${newStatus}`, 'info');
+                                            }}
+                                            className={`w-full py-1.5 rounded-lg border font-bold text-xs cursor-pointer flex items-center justify-center gap-1 transition-colors ${
+                                              selectedConsumerUser.status === 'Active'
+                                                ? 'bg-rose-50 border-rose-200 text-rose-700 hover:bg-rose-100'
+                                                : 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'
+                                            }`}
+                                          >
+                                            <span className="material-symbols-outlined text-[14px]">
+                                              {selectedConsumerUser.status === 'Active' ? 'lock' : 'lock_open'}
+                                            </span>
+                                            {selectedConsumerUser.status === 'Active' ? 'Freeze Member' : 'Activate Member'}
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      {/* Direct Broadcast Message */}
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Send In-App Notification</label>
+                                        <div className="flex gap-2">
+                                          <input
+                                            type="text"
+                                            placeholder="Message to user inbox..."
+                                            id="directMsgInput"
+                                            className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent animate-none"
+                                          />
+                                          <button
+                                            onClick={() => {
+                                              const val = document.getElementById('directMsgInput')?.value;
+                                              if (!val) {
+                                                triggerToast('Please write a message to send', 'error');
+                                                return;
+                                              }
+                                              triggerToast(`Direct notification sent to ${selectedConsumerUser.name}'s inbox.`, 'success');
+                                              document.getElementById('directMsgInput').value = '';
+                                            }}
+                                            className="px-3 py-1.5 bg-primary text-white hover:bg-primary/95 text-xs font-bold rounded-lg border-none cursor-pointer whitespace-nowrap"
+                                          >
+                                            Send Msg
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
 
@@ -9950,6 +10474,7 @@ export default function App() {
                     {[
                       { key: 'overview', label: 'Overview', icon: 'dashboard' },
                       { key: 'users', label: 'Store Accounts', icon: 'store' },
+                      { key: 'manage_users', label: 'Manage Users', icon: 'people' },
                       { key: 'moderators', label: 'Moderators', icon: 'shield' },
                       { key: 'banner', label: 'Top Banner', icon: 'campaign' },
                       { key: 'featured', label: 'Exclusive Banner', icon: 'star' },
