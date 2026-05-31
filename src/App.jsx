@@ -14392,7 +14392,7 @@ export default function App() {
       {communityPanelOpen && (
         <div
           className="fixed inset-0 z-[2000] flex 
-            items-center justify-center p-0 sm:p-6
+            items-center justify-center p-4 sm:p-6
             bg-slate-900/70 backdrop-blur-sm 
             animate-in fade-in duration-200"
           onClick={(e) => {
@@ -14404,12 +14404,12 @@ export default function App() {
           }}
         >
           <div
-            className="bg-[#f6f7f8] rounded-none sm:rounded-2xl
-              border-0 sm:border border-[#e8e8e8] 
+            className="bg-[#f6f7f8] rounded-2xl
+              border border-[#e8e8e8] 
               shadow-2xl flex overflow-hidden 
               animate-in zoom-in-95 duration-300
-              w-full max-w-[920px] h-full sm:h-[660px] 
-              max-h-screen sm:max-h-[calc(100vh-32px)]"
+              w-full max-w-[920px] h-[82vh] sm:h-[660px] 
+              max-h-[calc(100vh-32px)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* ── LEFT COLUMN: existing feed content ── */}
