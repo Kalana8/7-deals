@@ -1105,19 +1105,22 @@ const mapProductToDeal = (p) => {
 };
 
 export default function App() {
+  const [tickerPillsA, setTickerPillsA] = useState(TICKER_PILLS_A);
+  const [tickerPillsB, setTickerPillsB] = useState(TICKER_PILLS_B);
+
   const PILL_EXPIRY_TIMESTAMPS = useMemo(() => {
     const map = {}
-    const allPills = [...TICKER_PILLS_A, ...TICKER_PILLS_B]
+    const allPills = [...tickerPillsA, ...tickerPillsB]
     allPills.forEach(pill => {
       if (!map[pill.code]) {
         const d = new Date()
-        d.setDate(d.getDate() + pill.expiryDays)
+        d.setDate(d.getDate() + (pill.expiryDays ?? 3))
         d.setHours(23, 59, 59, 0)
         map[pill.code] = d.getTime()
       }
     })
     return map
-  }, []);
+  }, [tickerPillsA, tickerPillsB]);
 
   // --- Routing & Auth State ---
   const [currentRoute, setCurrentRoute] = useState('#home');
@@ -1135,6 +1138,16 @@ export default function App() {
   const [isRestockSending, setIsRestockSending] = useState(false);
   const [restockSuccess, setRestockSuccess] = useState(false);
   const [salesReportTimeframe, setSalesReportTimeframe] = useState('Last 30 Days');
+
+  // --- Manage Coupon Ticker Modal States ---
+  const [couponModalOpen, setCouponModalOpen] = useState(false);
+  const [editingCoupon, setEditingCoupon] = useState(null); // null = add new
+  const [editingCouponRow, setEditingCouponRow] = useState('A'); // 'A' or 'B'
+  const [editingCouponIndex, setEditingCouponIndex] = useState(-1); // index inside the row
+  const [couponFormBrand, setCouponFormBrand] = useState('');
+  const [couponFormCode, setCouponFormCode] = useState('');
+  const [couponFormDiscount, setCouponFormDiscount] = useState('');
+  const [couponFormExpiryDays, setCouponFormExpiryDays] = useState(3);
 
   // --- Interface & Data State ---
   const [activeFilter, setActiveFilter] = useState('All');
@@ -3648,7 +3661,7 @@ export default function App() {
                   {/* Row A: Scrolls Left */}
                   <div className="group relative overflow-hidden flex gap-4 sm:gap-8 py-1 select-none h-[34px] sm:h-[42px] items-center">
                     <div className="animate-scroll-55s flex gap-4 sm:gap-8 pr-4 sm:pr-8 items-center shrink-0">
-                      {TICKER_PILLS_A.map((pill, idx) => (
+                      {tickerPillsA.map((pill, idx) => (
                         <div
                           key={`pill-a-orig-${pill.brand}-${idx}`}
                           onClick={(e) => handleCopyCode(pill.code, e)}
@@ -3668,7 +3681,7 @@ export default function App() {
                           <TickerCountdown expiryTs={PILL_EXPIRY_TIMESTAMPS[pill.code]} />
                         </div>
                       ))}
-                      {TICKER_PILLS_A.map((pill, idx) => (
+                      {tickerPillsA.map((pill, idx) => (
                         <div
                           key={`pill-a-dup-${pill.brand}-${idx}`}
                           onClick={(e) => handleCopyCode(pill.code, e)}
@@ -3694,7 +3707,7 @@ export default function App() {
                   {/* Row B: Scrolls Right */}
                   <div className="group relative overflow-hidden flex gap-4 sm:gap-8 py-1 select-none h-[34px] sm:h-[42px] items-center">
                     <div className="animate-scroll-right-65s flex gap-4 sm:gap-8 pr-4 sm:pr-8 items-center shrink-0">
-                      {TICKER_PILLS_B.map((pill, idx) => (
+                      {tickerPillsB.map((pill, idx) => (
                         <div
                           key={`pill-b-orig-${pill.brand}-${idx}`}
                           onClick={(e) => handleCopyCode(pill.code, e)}
@@ -3714,7 +3727,7 @@ export default function App() {
                           <TickerCountdown expiryTs={PILL_EXPIRY_TIMESTAMPS[pill.code]} />
                         </div>
                       ))}
-                      {TICKER_PILLS_B.map((pill, idx) => (
+                      {tickerPillsB.map((pill, idx) => (
                         <div
                           key={`pill-b-dup-${pill.brand}-${idx}`}
                           onClick={(e) => handleCopyCode(pill.code, e)}
@@ -9964,7 +9977,7 @@ export default function App() {
                       {[
                         { key: 'overview', label: 'Mod Overview', icon: 'dashboard' },
                         { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
-                        { key: 'community', label: 'Spotlight Feed', icon: 'chat' },
+                        { key: 'community', label: 'Manage coupons', icon: 'sell' },
                         { key: 'coupons', label: 'Coupons Manager', icon: 'payments' },
                         { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
                       ].map((tab) => (
@@ -10069,14 +10082,14 @@ export default function App() {
                           <h2 className="text-3xl font-headline font-bold text-on-surface">
                             {moderatorTab === 'overview' ? 'Moderator Hub Overview' :
                               moderatorTab === 'flagged' ? 'Flagged Complaints Queue' :
-                                moderatorTab === 'community' ? 'Spotlight Feed Review' :
+                                moderatorTab === 'community' ? 'Manage coupons' :
                                   moderatorTab === 'coupons' ? 'Active Coupons Audit' :
                                     'Announcements Billboard'}
                           </h2>
                           <p className="text-on-surface-variant mt-1 font-semibold">
                             {moderatorTab === 'overview' ? 'Monitor platform complaints, active site coupon indices, and bulletins.' :
                               moderatorTab === 'flagged' ? 'User-reported promotions pending standard editorial review.' :
-                                moderatorTab === 'community' ? 'Manage user posts in the community timeline feed.' :
+                                moderatorTab === 'community' ? 'Audit and manage the active live coupon ticker codes.' :
                                   moderatorTab === 'coupons' ? 'Audit verified store coupon directories currently active.' :
                                     'Program the dynamic header ticker billboard announcements.'}
                           </p>
@@ -10338,55 +10351,158 @@ export default function App() {
                       )}
 
                       {/* ══════════════════════════════════════
-                          TAB: COMMUNITY FEED
+                          TAB: MANAGE COUPONS (Active Ticker)
                       ══════════════════════════════════════ */}
                       {moderatorTab === 'community' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          <div>
-                            <h3 className="font-headline font-bold text-xl text-on-surface">Community Spotlight Feed Moderation</h3>
+                          <div className="flex justify-between items-center flex-wrap gap-4 border-b border-outline-variant/20 pb-4">
+                            <div>
+                              <h3 className="font-headline font-bold text-xl text-on-surface">Manage Active Coupon Tickers</h3>
+                              <p className="text-xs text-on-surface-variant mt-1 font-semibold">Add, edit, or remove coupons displayed in the scrolling home header.</p>
+                            </div>
+                            <button
+                              onClick={() => {
+                                setEditingCoupon(null);
+                                setEditingCouponIndex(-1);
+                                setEditingCouponRow('A');
+                                setCouponFormBrand('');
+                                setCouponFormCode('');
+                                setCouponFormDiscount('');
+                                setCouponFormExpiryDays(3);
+                                setCouponModalOpen(true);
+                              }}
+                              className="px-4 py-2 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-[#047c1f]/10 cursor-pointer border-none transition-colors"
+                            >
+                              <Plus className="w-4 h-4 text-[#fdc800]" /> Add Coupon Ticker
+                            </button>
                           </div>
 
-                          <div className="space-y-3">
-                            {communityDeals.map(post => (
-                              <div key={post.id} className="p-5 bg-white border border-outline-variant/30 rounded-xl custom-shadow flex items-center justify-between gap-4 hover:shadow-md transition-shadow text-left">
-                                <div className="min-w-0">
-                                  <span className="px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 rounded-md font-bold text-[9px] uppercase tracking-wider">
-                                    {post.category}
-                                  </span>
-                                  <h4 className="font-bold text-sm text-on-surface leading-snug mt-1.5 truncate">{post.title}</h4>
-                                  <p className="text-xs text-on-surface-variant mt-1 font-semibold">
-                                    Spotted at <strong className="text-on-surface">{post.store}</strong> by @{post.user} · {post.upvotes} upvotes
-                                  </p>
-                                </div>
+                          {/* Row A Section */}
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                              <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider">Row A: Left-Scrolling Tickers ({tickerPillsA.length})</h4>
+                            </div>
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                              {tickerPillsA.map((pill, idx) => (
+                                <div key={`mod-pill-a-${idx}`} className="p-4 bg-white border border-outline-variant/30 rounded-2xl shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-slate-350 transition-colors">
+                                  {/* Visual Preview styled exactly like the screenshot */}
+                                  <div className="flex items-center">
+                                    <div
+                                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border shadow-sm select-none"
+                                      style={{
+                                        backgroundColor: (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                                        borderColor: "rgba(255,255,255,0.2)",
+                                        opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
+                                      }}
+                                    >
+                                      {renderBrandDot(pill.brand)}
+                                      <span className="font-bold text-xs" style={{ color: "rgba(255,255,255,0.95)" }}>{pill.brand}</span>
+                                      <span className="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-[#fdc800] text-black">
+                                        {pill.code}
+                                      </span>
+                                      <span className="font-bold text-xs" style={{ color: "#fdc800" }}>{pill.discount}</span>
+                                      <TickerCountdown expiryTs={PILL_EXPIRY_TIMESTAMPS[pill.code]} />
+                                    </div>
+                                  </div>
 
-                                <div className="flex gap-2 shrink-0">
-                                  <button
-                                    onClick={() => {
-                                      const newTitle = prompt('Edit post title:', post.title);
-                                      if (newTitle) {
-                                        setCommunityDeals(prev => prev.map(p => p.id === post.id ? { ...p, title: newTitle } : p));
-                                        triggerToast('✓ Community post updated!', 'success');
-                                      }
-                                    }}
-                                    className="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-variant text-on-surface font-bold text-xs cursor-pointer border-none transition-colors"
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      if (confirm('Delete this community post permanently?')) {
-                                        setCommunityDeals(prev => prev.filter(p => p.id !== post.id));
-                                        triggerToast('✕ Community post removed.', 'warning');
-                                      }
-                                    }}
-                                    className="px-3.5 py-2 rounded-xl bg-error/10 hover:bg-error/20 text-error font-bold text-xs cursor-pointer border-none transition-colors"
-                                  >
-                                    Delete
-                                  </button>
+                                  {/* Actions */}
+                                  <div className="flex gap-2 shrink-0 md:justify-end">
+                                    <button
+                                      onClick={() => {
+                                        setEditingCoupon(pill);
+                                        setEditingCouponIndex(idx);
+                                        setEditingCouponRow('A');
+                                        setCouponFormBrand(pill.brand);
+                                        setCouponFormCode(pill.code);
+                                        setCouponFormDiscount(pill.discount);
+                                        setCouponFormExpiryDays(pill.expiryDays || 3);
+                                        setCouponModalOpen(true);
+                                      }}
+                                      className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] cursor-pointer border-none transition-colors"
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        if (confirm(`Remove ${pill.brand} (${pill.code}) ticker coupon?`)) {
+                                          setTickerPillsA(prev => prev.filter((_, i) => i !== idx));
+                                          triggerToast('✕ Ticker coupon removed.', 'warning');
+                                        }
+                                      }}
+                                      className="px-3 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 text-error font-bold text-[11px] cursor-pointer border-none transition-colors"
+                                    >
+                                      Remove
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
+
+                          {/* Row B Section */}
+                          <div className="space-y-4 pt-4 border-t border-outline-variant/20">
+                            <div className="flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                              <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider">Row B: Right-Scrolling Tickers ({tickerPillsB.length})</h4>
+                            </div>
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                              {tickerPillsB.map((pill, idx) => (
+                                <div key={`mod-pill-b-${idx}`} className="p-4 bg-white border border-outline-variant/30 rounded-2xl shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-slate-350 transition-colors">
+                                  {/* Visual Preview styled exactly like the screenshot */}
+                                  <div className="flex items-center">
+                                    <div
+                                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border shadow-sm select-none"
+                                      style={{
+                                        backgroundColor: (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                                        borderColor: "rgba(255,255,255,0.2)",
+                                        opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
+                                      }}
+                                    >
+                                      {renderBrandDot(pill.brand)}
+                                      <span className="font-bold text-xs" style={{ color: "rgba(255,255,255,0.95)" }}>{pill.brand}</span>
+                                      <span className="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-[#fdc800] text-black">
+                                        {pill.code}
+                                      </span>
+                                      <span className="font-bold text-xs" style={{ color: "#fdc800" }}>{pill.discount}</span>
+                                      <TickerCountdown expiryTs={PILL_EXPIRY_TIMESTAMPS[pill.code]} />
+                                    </div>
+                                  </div>
+
+                                  {/* Actions */}
+                                  <div className="flex gap-2 shrink-0 md:justify-end">
+                                    <button
+                                      onClick={() => {
+                                        setEditingCoupon(pill);
+                                        setEditingCouponIndex(idx);
+                                        setEditingCouponRow('B');
+                                        setCouponFormBrand(pill.brand);
+                                        setCouponFormCode(pill.code);
+                                        setCouponFormDiscount(pill.discount);
+                                        setCouponFormExpiryDays(pill.expiryDays || 3);
+                                        setCouponModalOpen(true);
+                                      }}
+                                      className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] cursor-pointer border-none transition-colors"
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        if (confirm(`Remove ${pill.brand} (${pill.code}) ticker coupon?`)) {
+                                          setTickerPillsB(prev => prev.filter((_, i) => i !== idx));
+                                          triggerToast('✕ Ticker coupon removed.', 'warning');
+                                        }
+                                      }}
+                                      className="px-3 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 text-error font-bold text-[11px] cursor-pointer border-none transition-colors"
+                                    >
+                                      Remove
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
                         </div>
                       )}
 
@@ -10603,7 +10719,7 @@ export default function App() {
                     {[
                       { key: 'overview', label: 'Overview', icon: 'dashboard' },
                       { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
-                      { key: 'community', label: 'Spotlight Feed', icon: 'chat' },
+                      { key: 'community', label: 'Manage coupons', icon: 'sell' },
                       { key: 'coupons', label: 'Coupons Manager', icon: 'payments' },
                       { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
                     ].map((tab) => {
@@ -11575,6 +11691,179 @@ export default function App() {
                 className="w-full py-3 rounded-[8px] bg-[#047c1f] hover:bg-[#035a16] text-white font-bold text-sm shadow-md shadow-[#047c1f]/10 transition-colors cursor-pointer"
               >
                 Post to Aussie Feed
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* --- Manage Coupon Ticker Modal --- */}
+      {couponModalOpen && (
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200"
+          onClick={() => setCouponModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-md bg-[#0d0d0d] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200 text-left text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setCouponModalOpen(false)}
+              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent"
+            >
+              <span className="material-symbols-outlined text-[20px]">close</span>
+            </button>
+
+            {/* Modal Title */}
+            <div>
+              <h3 className="font-headline font-black text-lg text-white">
+                {editingCouponIndex === -1 ? 'Add New Coupon Ticker' : 'Edit Coupon Ticker'}
+              </h3>
+              <p className="text-[10px] text-white/50 tracking-wider uppercase font-bold mt-0.5">
+                {editingCouponIndex === -1 ? 'Create dynamic marquee coupon' : 'Modify dynamic marquee coupon'}
+              </p>
+            </div>
+
+            {/* Live Preview Card matching the screenshot */}
+            <div className="space-y-2">
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Live Visual Preview</span>
+              <div className="bg-[#141414] border border-white/5 p-4 rounded-2xl flex items-center justify-center min-h-[60px]">
+                <div
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border shadow-sm select-none transition-all duration-300"
+                  style={{
+                    backgroundColor: (BRAND_PILL_COLORS[couponFormBrand] || DEFAULT_PILL_COLOR).bg,
+                    borderColor: "rgba(255,255,255,0.2)",
+                  }}
+                >
+                  {renderBrandDot(couponFormBrand)}
+                  <span className="font-bold text-xs" style={{ color: "rgba(255,255,255,0.95)" }}>
+                    {couponFormBrand || 'Store Name'}
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-[#fdc800] text-black">
+                    {couponFormCode.toUpperCase() || 'CODE'}
+                  </span>
+                  <span className="font-bold text-xs" style={{ color: "#fdc800" }}>
+                    {couponFormDiscount || 'Discount'}
+                  </span>
+                  <div className="flex items-center gap-1 bg-black/30 px-2 py-0.5 rounded text-[10px] text-white/80 font-bold font-mono">
+                    <span className="material-symbols-outlined text-[10px] leading-none text-amber-400">schedule</span>
+                    <span>{couponFormExpiryDays}d</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Form Fields */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!couponFormBrand.trim() || !couponFormCode.trim() || !couponFormDiscount.trim()) {
+                  triggerToast('⚠️ Please fill in all fields!', 'warning');
+                  return;
+                }
+
+                const updatedCoupon = {
+                  brand: couponFormBrand.trim(),
+                  code: couponFormCode.trim().toUpperCase(),
+                  discount: couponFormDiscount.trim(),
+                  expiryDays: parseInt(couponFormExpiryDays) || 3
+                };
+
+                if (editingCouponIndex === -1) {
+                  // Add new
+                  if (editingCouponRow === 'A') {
+                    setTickerPillsA(prev => [...prev, updatedCoupon]);
+                  } else {
+                    setTickerPillsB(prev => [...prev, updatedCoupon]);
+                  }
+                  triggerToast('✓ Dynamic coupon ticker created!', 'success');
+                } else {
+                  // Edit existing
+                  if (editingCouponRow === 'A') {
+                    setTickerPillsA(prev => prev.map((p, i) => i === editingCouponIndex ? updatedCoupon : p));
+                  } else {
+                    setTickerPillsB(prev => prev.map((p, i) => i === editingCouponIndex ? updatedCoupon : p));
+                  }
+                  triggerToast('✓ Coupon ticker changes saved!', 'success');
+                }
+
+                setCouponModalOpen(false);
+              }}
+              className="space-y-4"
+            >
+              {/* Brand Name Input */}
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Brand Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g., Woolworths, JB Hi-Fi"
+                  value={couponFormBrand}
+                  onChange={(e) => setCouponFormBrand(e.target.value)}
+                  className="w-full bg-[#141414] text-white placeholder-white/30 p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                />
+              </div>
+
+              {/* Coupon Code Input */}
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Coupon Code</label>
+                <input
+                  type="text"
+                  placeholder="e.g., WOOLIES10"
+                  value={couponFormCode}
+                  onChange={(e) => setCouponFormCode(e.target.value)}
+                  className="w-full bg-[#141414] text-white placeholder-white/30 p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-mono font-bold uppercase"
+                />
+              </div>
+
+              {/* Discount Input */}
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Discount Description</label>
+                <input
+                  type="text"
+                  placeholder="e.g., 10% OFF, $800 OFF, BOGO"
+                  value={couponFormDiscount}
+                  onChange={(e) => setCouponFormDiscount(e.target.value)}
+                  className="w-full bg-[#141414] text-white placeholder-white/30 p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                />
+              </div>
+
+              {/* Grid of Expiry & Row choice */}
+              <div className="grid grid-cols-2 gap-4">
+                {/* Expiry Days Slider/Number */}
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Expiry Days</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="30"
+                    value={couponFormExpiryDays}
+                    onChange={(e) => setCouponFormExpiryDays(parseInt(e.target.value) || 1)}
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                  />
+                </div>
+
+                {/* Target Row Selection */}
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Ticker Row</label>
+                  <select
+                    value={editingCouponRow}
+                    onChange={(e) => setEditingCouponRow(e.target.value)}
+                    disabled={editingCouponIndex !== -1} // locked during edits
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold disabled:opacity-55"
+                  >
+                    <option value="A">Row A (Left)</option>
+                    <option value="B">Row B (Right)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full py-3 mt-2 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-black text-xs shadow-md shadow-[#047c1f]/10 cursor-pointer border-none transition-colors uppercase tracking-wider animate-pulse hover:animate-none"
+              >
+                {editingCouponIndex === -1 ? '✓ Create Coupon Ticker' : '✓ Save Changes'}
               </button>
             </form>
           </div>
