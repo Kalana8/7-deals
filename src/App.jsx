@@ -378,6 +378,62 @@ const CATEGORY_NAMES = [
   'Travel', 'Insurance', 'Finance', 'Rental', 'Sports'
 ];
 
+const COMMUNITY_CATEGORY_EMOJIS = {
+  'Tech': '💻',
+  'Auto': '🚗',
+  'Fashion': '👗',
+  'F&D': '🍔',
+  'Groceries': '🛒',
+  'Health & Beauty': '💊',
+  'Home & Garden': '🏠',
+  'Outdoors': '🏕️',
+  'Pets': '🐾',
+  'Travel': '✈️',
+  'Insurance': '🛡️',
+  'Finance': '💰',
+  'Rental': '🔑',
+  'Sports': '⚽'
+};
+
+const COMMUNITY_ADS = [
+  {
+    id: 'ad1',
+    title: 'Vegemite Clearance',
+    sponsor: 'Woolworths',
+    discount: 'Buy 1 Get 1 Free',
+    image: 'https://picsum.photos/seed/vegemite-ad/400/500',
+    link: '#store/woolworths',
+    description: 'BOGO on all Vegemite jars this week at your local Woolies! 🇦🇺'
+  },
+  {
+    id: 'ad2',
+    title: 'Vintec Wine Chillers',
+    sponsor: 'JB Hi-Fi',
+    discount: 'Up to 30% Off',
+    image: 'https://picsum.photos/seed/vintec-ad/400/500',
+    link: '#store/jb-hi-fi',
+    description: 'Keep your wines chilled to perfection this winter season.'
+  },
+  {
+    id: 'ad3',
+    title: 'Aussie Bites Bulk Box',
+    sponsor: 'Coles',
+    discount: '$4.50 Off Box',
+    image: 'https://picsum.photos/seed/aussiebites-ad/400/500',
+    link: '#store/coles',
+    description: 'Spotted bulk box of organic Aussie Bites on special discount.'
+  },
+  {
+    id: 'ad4',
+    title: 'BCF Camping Sale',
+    sponsor: 'BCF Store',
+    discount: '40% Off Tents',
+    image: 'https://picsum.photos/seed/bcf-ad/400/500',
+    link: '#store/bcf',
+    description: 'Get ready for your winter campout with premium gear.'
+  }
+];
+
 const TIMEFRAME_OPTIONS = [
   'Last 24 Hours',
   'Last 48 Hours',
@@ -584,10 +640,10 @@ const DealCard = ({
           </div>
         ) : deal.isProduct ? (
           <div className={`absolute top-2 left-2 sm:top-3 sm:left-3 z-10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-[8.5px] sm:text-[9px] font-bold flex items-center gap-1.5 shadow-md uppercase tracking-wider ${deal.status === 'In stock'
-              ? 'bg-emerald-600 text-white'
-              : deal.status === 'Low stock'
-                ? 'bg-amber-500 text-white'
-                : 'bg-rose-600 text-white'
+            ? 'bg-emerald-600 text-white'
+            : deal.status === 'Low stock'
+              ? 'bg-amber-500 text-white'
+              : 'bg-rose-600 text-white'
             }`}>
             <ShoppingBag className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#fdc800]" /> {deal.status || 'IN STOCK'}
           </div>
@@ -1066,10 +1122,19 @@ export default function App() {
   // --- Routing & Auth State ---
   const [currentRoute, setCurrentRoute] = useState('#home');
   const [currentUser, setCurrentUser] = useState(null); // null = Guest
+  const [currentAdIndex, setCurrentAdIndex] = useState(0);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [postModalOpen, setPostModalOpen] = useState(false);
   const [redirectModalOpen, setRedirectModalOpen] = useState(false);
   const [redirectStoreName, setRedirectStoreName] = useState('');
+
+  // --- Restock Alert & Sales Report Modals State ---
+  const [restockModalOpen, setRestockModalOpen] = useState(false);
+  const [salesReportModalOpen, setSalesReportModalOpen] = useState(false);
+  const [restockSelectedProduct, setRestockSelectedProduct] = useState('linen');
+  const [isRestockSending, setIsRestockSending] = useState(false);
+  const [restockSuccess, setRestockSuccess] = useState(false);
+  const [salesReportTimeframe, setSalesReportTimeframe] = useState('Last 30 Days');
 
   // --- Interface & Data State ---
   const [activeFilter, setActiveFilter] = useState('All');
@@ -1166,6 +1231,102 @@ export default function App() {
       desc: 'Latest Apple silicon for work and study.',
       createdAt: '18 May 2025',
     },
+    {
+      id: 'rp3',
+      name: 'iPad Pro M4 11"',
+      price: 1249.00,
+      stock: 8,
+      category: 'Tech',
+      status: 'Active',
+      image: null,
+      imagePreview: 'https://picsum.photos/seed/tablet/400/300',
+      desc: 'Ultra thin design with OLED display.',
+      createdAt: '20 May 2025',
+    },
+    {
+      id: 'rp4',
+      name: 'Sony Alpha 7 IV Camera',
+      price: 2499.00,
+      stock: 3,
+      category: 'Tech',
+      status: 'Active',
+      image: null,
+      imagePreview: 'https://picsum.photos/seed/camera/400/300',
+      desc: 'Hybrid full-frame mirrorless camera.',
+      createdAt: '22 May 2025',
+    },
+    {
+      id: 'rp5',
+      name: 'Dyson V15 Detect Vacuum',
+      price: 999.00,
+      stock: 15,
+      category: 'Home',
+      status: 'Active',
+      image: null,
+      imagePreview: 'https://picsum.photos/seed/vacuum/400/300',
+      desc: 'Powerful intelligent cordless vacuum cleaner.',
+      createdAt: '24 May 2025',
+    },
+    {
+      id: 'rp6',
+      name: 'Dell XPS 15 Laptop',
+      price: 1899.00,
+      stock: 5,
+      category: 'Tech',
+      status: 'Active',
+      image: null,
+      imagePreview: 'https://picsum.photos/seed/dellxps/400/300',
+      desc: 'Stunning display with high performance processors.',
+      createdAt: '25 May 2025',
+    },
+    {
+      id: 'rp7',
+      name: 'Bose QuietComfort Ultra',
+      price: 349.00,
+      stock: 20,
+      category: 'Tech',
+      status: 'Active',
+      image: null,
+      imagePreview: 'https://picsum.photos/seed/bose/400/300',
+      desc: 'World-class noise cancellation headphones.',
+      createdAt: '26 May 2025',
+    },
+    {
+      id: 'rp8',
+      name: 'Nintendo Switch OLED',
+      price: 449.00,
+      stock: 18,
+      category: 'Tech',
+      status: 'Active',
+      image: null,
+      imagePreview: 'https://picsum.photos/seed/switch/400/300',
+      desc: 'Vibrant OLED screen console for gaming.',
+      createdAt: '27 May 2025',
+    },
+    {
+      id: 'rp9',
+      name: 'Apple Watch Ultra 2',
+      price: 899.00,
+      stock: 6,
+      category: 'Tech',
+      status: 'Active',
+      image: null,
+      imagePreview: 'https://picsum.photos/seed/iwatch/400/300',
+      desc: 'Ultimate sports watch with dual-frequency GPS.',
+      createdAt: '28 May 2025',
+    },
+    {
+      id: 'rp10',
+      name: 'GoPro HERO12 Black',
+      price: 499.00,
+      stock: 10,
+      category: 'Tech',
+      status: 'Active',
+      image: null,
+      imagePreview: 'https://picsum.photos/seed/gopro/400/300',
+      desc: 'Best-in-class image quality with HyperSmooth stabilization.',
+      createdAt: '30 May 2025',
+    }
   ]);
 
   const filteredStockProducts = useMemo(() => {
@@ -1524,6 +1685,13 @@ export default function App() {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentAdIndex((prev) => (prev + 1) % COMMUNITY_ADS.length);
+    }, 4000);
+    return () => clearInterval(timer);
   }, []);
 
   const [visibleDealsCount, setVisibleDealsCount] = useState(() => {
@@ -2662,8 +2830,8 @@ export default function App() {
 
   return (
     <div className={`min-h-screen ${(isConsumerDashboard || isAdminDashboard || isModeratorDashboard)
-        ? 'bg-[#f5f5f5] font-sans text-[#0d0d0d] pt-0'
-        : 'bg-[#f5f5f5] font-sans text-[#0d0d0d] pt-[104px] sm:pt-[152px]'
+      ? 'bg-[#f5f5f5] font-sans text-[#0d0d0d] pt-0'
+      : 'bg-[#f5f5f5] font-sans text-[#0d0d0d] pt-[104px] sm:pt-[152px]'
       } flex flex-col relative overflow-x-hidden 
       selection:bg-[#e6f2e8] selection:text-[#047c1f]`}>
 
@@ -3435,8 +3603,8 @@ export default function App() {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-3 py-2.5 text-sm font-bold rounded-xl transition-all cursor-pointer ${isActive
-                      ? 'bg-[#047c1f]/8 text-[#047c1f]'
-                      : 'text-slate-700 hover:bg-slate-50 hover:text-[#047c1f]'
+                    ? 'bg-[#047c1f]/8 text-[#047c1f]'
+                    : 'text-slate-700 hover:bg-slate-50 hover:text-[#047c1f]'
                     }`}
                 >
                   <LinkIcon className={`w-5 h-5 shrink-0 transition-colors ${isActive ? 'text-[#047c1f]' : 'text-slate-400'
@@ -3604,15 +3772,15 @@ export default function App() {
 
                     {/* 2. Content Overlay with Blur Bar */}
                     <div className="relative z-10 p-4 sm:p-8 md:p-10 w-full">
-                      
+
                       {/* Glassmorphic Blur Bar wrapper */}
                       <div className="w-full backdrop-blur-md bg-white/10 border border-white/20 rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-7 shadow-2xl relative">
-                        
-                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center">
-                          
-                          {/* Left Column (3/4 width on desktop): Main Text & CTAs */}
-                          <div className="lg:col-span-3 space-y-3 sm:space-y-4">
-                            
+
+                        <div className="w-full">
+
+                          {/* Main Text & CTAs */}
+                          <div className="space-y-3 sm:space-y-4">
+
                             {/* Top Row: Badges & Expiry countdown */}
                             <div className="flex flex-wrap items-center gap-2 select-none">
                               <span className="bg-[#eb9d00] text-[#291800] px-3.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-wider">
@@ -3636,7 +3804,7 @@ export default function App() {
 
                             {/* Interactive Pricing, Vouchers & CTAs */}
                             <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-                              
+
                               {/* Price metrics */}
                               <div className="flex items-center justify-between sm:justify-start sm:flex-col text-left gap-2 sm:gap-0 shrink-0">
                                 <span className="text-white/50 text-[9px] line-through font-bold leading-none block sm:hidden">Was ${activeFeatured.originalPrice.toFixed(2)}</span>
@@ -3648,16 +3816,22 @@ export default function App() {
                                 </div>
                               </div>
 
-                              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
-                                {/* Code Copying Pill */}
-                                <div
-                                  onClick={handleFeaturedCopy}
-                                  className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl px-4 py-2 cursor-pointer transition-colors shadow-sm select-none min-h-[38px] sm:min-h-0"
-                                >
-                                  <span className="text-[9px] text-white/60 font-black uppercase">Voucher:</span>
-                                  <span className="font-mono font-black text-xs sm:text-sm text-[#fdc800] tracking-wider">{activeFeatured.code}</span>
-                                  <span className="text-[9px] text-[#00c853] font-bold ml-1 bg-[#00c853]/15 px-1.5 py-0.5 rounded-full">
-                                    {featuredCopied ? "✓ Copied!" : "Copy"}
+                              <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-2.5 w-full sm:w-auto">
+                                {/* Voucher Container with T&Cs text below */}
+                                <div className="flex flex-col gap-1 w-full sm:w-auto">
+                                  {/* Code Copying Pill */}
+                                  <div
+                                    onClick={handleFeaturedCopy}
+                                    className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl px-4 py-2 cursor-pointer transition-colors shadow-sm select-none min-h-[38px] sm:min-h-0 w-full sm:w-auto"
+                                  >
+                                    <span className="text-[9px] text-white/60 font-black uppercase">Voucher:</span>
+                                    <span className="font-mono font-black text-xs sm:text-sm text-[#fdc800] tracking-wider">{activeFeatured.code}</span>
+                                    <span className="text-[9px] text-[#00c853] font-bold ml-1 bg-[#00c853]/15 px-1.5 py-0.5 rounded-full">
+                                      {featuredCopied ? "✓ Copied!" : "Copy"}
+                                    </span>
+                                  </div>
+                                  <span className="text-[10px] text-white/50 font-medium select-none ml-1.5 text-center sm:text-left">
+                                    *T&Cs apply
                                   </span>
                                 </div>
 
@@ -3672,46 +3846,6 @@ export default function App() {
                               </div>
                             </div>
 
-                          </div>
-
-                          {/* Right Column (1/4 width on desktop): T&Cs Sidebar */}
-                          <div className="lg:col-span-1 border-t lg:border-t-0 lg:border-l border-white/15 pt-4 lg:pt-0 lg:pl-6 text-left self-stretch flex flex-col justify-center">
-                            <div className="space-y-2">
-                              <h5 className="text-[10px] sm:text-[11px] font-black uppercase text-[#fdc800] tracking-wider select-none">
-                                Terms & Conditions
-                              </h5>
-                              <ul className="list-none p-0 m-0 space-y-1.5 text-white/70 text-[9px] sm:text-[10px] leading-relaxed">
-                                {(() => {
-                                  const terms = activeFeatured.id === 'd2' ? [
-                                    'Clearance stock at JB Hi-Fi.',
-                                    'Limit 1 unit per customer.',
-                                    'Full brand warranty applies.',
-                                    'Offer valid while stocks last.'
-                                  ] : activeFeatured.id === 'd7' ? [
-                                    'Flights departing Sydney.',
-                                    'Travel dates: Oct-Nov 2026.',
-                                    'Subject to seat availability.',
-                                    '23kg checked bag included.'
-                                  ] : activeFeatured.id === 'd10' ? [
-                                    'Direct purchase from Dyson.',
-                                    '2-year local warranty.',
-                                    'Free standard AU delivery.',
-                                    'Excludes other discount codes.'
-                                  ] : [
-                                    'Terms & conditions apply.',
-                                    'Limited time discount promo.',
-                                    'Subject to stock availability.',
-                                    'See store link for full policy.'
-                                  ];
-                                  return terms.map((t, index) => (
-                                    <li key={index} className="flex items-start gap-1.5">
-                                      <span className="text-[#00c853] font-bold select-none">•</span>
-                                      <span>{t}</span>
-                                    </li>
-                                  ));
-                                })()}
-                              </ul>
-                            </div>
                           </div>
 
                         </div>
@@ -4800,8 +4934,8 @@ export default function App() {
                                   }
                                 }}
                                 className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${productCategoryFilter === cat
-                                    ? 'bg-[#e6f2e8] text-[#047c1f]'
-                                    : 'hover:bg-slate-50 text-slate-700'
+                                  ? 'bg-[#e6f2e8] text-[#047c1f]'
+                                  : 'hover:bg-slate-50 text-slate-700'
                                   }`}
                               >
                                 <span>{cat}</span>
@@ -4823,8 +4957,8 @@ export default function App() {
                                 }
                               }}
                               className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${productStoreFilter === 'All'
-                                  ? 'bg-[#e6f2e8] text-[#047c1f]'
-                                  : 'hover:bg-slate-50 text-slate-700'
+                                ? 'bg-[#e6f2e8] text-[#047c1f]'
+                                : 'hover:bg-slate-50 text-slate-700'
                                 }`}
                             >
                               <span>All Stores</span>
@@ -4840,8 +4974,8 @@ export default function App() {
                                   }
                                 }}
                                 className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${productStoreFilter === st.id
-                                    ? 'bg-[#e6f2e8] text-[#047c1f]'
-                                    : 'hover:bg-slate-50 text-slate-700'
+                                  ? 'bg-[#e6f2e8] text-[#047c1f]'
+                                  : 'hover:bg-slate-50 text-slate-700'
                                   }`}
                               >
                                 <div className="flex items-center gap-2">
@@ -4983,10 +5117,10 @@ export default function App() {
                                   {/* Stock Badge overlay */}
                                   <div className="absolute top-3 right-3">
                                     <span className={`px-2.5 py-1 rounded-full text-[9px] font-extrabold shadow-sm ${p.status === 'In stock'
-                                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
-                                        : p.status === 'Low stock'
-                                          ? 'bg-amber-50 text-amber-700 border border-amber-250/60'
-                                          : 'bg-rose-50 text-rose-700 border border-rose-250/60'
+                                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
+                                      : p.status === 'Low stock'
+                                        ? 'bg-amber-50 text-amber-700 border border-amber-250/60'
+                                        : 'bg-rose-50 text-rose-700 border border-rose-250/60'
                                       }`}>
                                       {p.status}
                                     </span>
@@ -5012,8 +5146,8 @@ export default function App() {
                                       <button
                                         onClick={() => addToCart(p, p.store)}
                                         className={`w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer ${p.stock > 0
-                                            ? 'border border-[#e8e8e8] bg-white hover:border-[#047c1f] hover:text-[#047c1f] text-slate-700 shadow-sm'
-                                            : 'bg-slate-100 text-slate-400 pointer-events-none'
+                                          ? 'border border-[#e8e8e8] bg-white hover:border-[#047c1f] hover:text-[#047c1f] text-slate-700 shadow-sm'
+                                          : 'bg-slate-100 text-slate-400 pointer-events-none'
                                           }`}
                                       >
                                         <span className="material-symbols-outlined text-[16px]">add_shopping_cart</span>
@@ -5024,8 +5158,8 @@ export default function App() {
                                       <button
                                         onClick={() => handleBuyNow(p, p.store)}
                                         className={`w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer border-none ${p.stock > 0
-                                            ? 'bg-[#047c1f] hover:bg-[#036318] text-white shadow-md shadow-[#047c1f]/10'
-                                            : 'bg-slate-200 text-slate-400 pointer-events-none'
+                                          ? 'bg-[#047c1f] hover:bg-[#036318] text-white shadow-md shadow-[#047c1f]/10'
+                                          : 'bg-slate-200 text-slate-400 pointer-events-none'
                                           }`}
                                       >
                                         <span className="material-symbols-outlined text-[16px]">rocket_launch</span>
@@ -5544,8 +5678,8 @@ export default function App() {
                                   <button
                                     onClick={() => setTrackingOrderId(trackingOrderId === order.id ? null : order.id)}
                                     className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${trackingOrderId === order.id
-                                        ? 'bg-[#047c1f] text-white shadow-sm'
-                                        : 'bg-slate-50 hover:bg-[#e6f2e8]/40 border border-[#e8e8e8] text-slate-700 hover:text-[#047c1f] hover:border-[#047c1f]'
+                                      ? 'bg-[#047c1f] text-white shadow-sm'
+                                      : 'bg-slate-50 hover:bg-[#e6f2e8]/40 border border-[#e8e8e8] text-slate-700 hover:text-[#047c1f] hover:border-[#047c1f]'
                                       }`}
                                   >
                                     <span className="material-symbols-outlined text-[16px]">local_shipping</span>
@@ -5603,8 +5737,8 @@ export default function App() {
                                           <div key={sIdx} className="flex gap-4 relative">
                                             {/* Step Circle indicator */}
                                             <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center z-10 shrink-0 mt-1 transition-colors ${isDone
-                                                ? 'bg-[#047c1f] border-[#047c1f] text-white'
-                                                : 'bg-white border-slate-350 text-slate-350'
+                                              ? 'bg-[#047c1f] border-[#047c1f] text-white'
+                                              : 'bg-white border-slate-350 text-slate-350'
                                               }`}>
                                               {isDone && <span className="w-1 h-1 rounded-full bg-white"></span>}
                                             </div>
@@ -5684,8 +5818,8 @@ export default function App() {
                           key={tab.key}
                           onClick={() => setRetailerTab(tab.key)}
                           className={`w-[calc(100%-1rem)] rounded-lg mx-2 my-1 px-4 py-2.5 flex items-center gap-3 transition-transform active:scale-95 text-left font-bold text-sm cursor-pointer border-none focus:outline-none focus:ring-0 ${retailerTab === tab.key
-                              ? 'bg-primary text-white font-semibold shadow-sm'
-                              : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
+                            ? 'bg-primary text-white font-semibold shadow-sm'
+                            : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
                             }`}
                         >
                           <span className="material-symbols-outlined">{tab.icon}</span>
@@ -5772,8 +5906,8 @@ export default function App() {
                                 setMobileDashboardMenuOpen(false);
                               }}
                               className={`w-full rounded-xl px-4 py-3 flex items-center gap-3 transition-all active:scale-98 text-left font-bold text-sm cursor-pointer border-none ${retailerTab === tab.key
-                                  ? 'bg-[#047c1f] text-white shadow-sm shadow-[#047c1f]/20'
-                                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
+                                ? 'bg-[#047c1f] text-white shadow-sm shadow-[#047c1f]/20'
+                                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
                                 }`}
                             >
                               <span className="material-symbols-outlined text-lg leading-none">{tab.icon}</span>
@@ -6010,16 +6144,19 @@ export default function App() {
                             <div className="bg-surface-container-low p-6 rounded-xl custom-shadow flex flex-col justify-between">
                               <div>
                                 <h3 className="font-headline font-bold text-lg text-on-surface mb-4">Most Saved Items</h3>
-                                <div className="space-y-4">
-                                  {retailerProducts.slice(0, 3).map((p, idx) => (
-                                    <div key={p.id} className="flex items-center justify-between p-3 bg-white rounded-lg border border-outline-variant/10">
-                                      <div className="flex items-center gap-3 min-w-0">
-                                        <span className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center text-[10px] font-bold text-primary shrink-0">{idx + 1}</span>
-                                        <span className="font-semibold text-sm text-on-surface truncate">{p.name}</span>
+                                <div className="space-y-4 max-h-[360px] overflow-y-auto no-scrollbar pr-1">
+                                  {retailerProducts.slice(0, 10).map((p, idx) => {
+                                    const saves = [842, 756, 612, 542, 489, 412, 385, 290, 241, 198];
+                                    return (
+                                      <div key={p.id} className="flex items-center justify-between p-3 bg-white rounded-lg border border-outline-variant/10 text-left">
+                                        <div className="flex items-center gap-3 min-w-0">
+                                          <span className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center text-[10px] font-bold text-primary shrink-0">{idx + 1}</span>
+                                          <span className="font-semibold text-sm text-on-surface truncate">{p.name}</span>
+                                        </div>
+                                        <span className="text-xs font-bold text-primary shrink-0">{saves[idx] || 150} saves</span>
                                       </div>
-                                      <span className="text-xs font-bold text-primary shrink-0">{idx === 0 ? '842' : idx === 1 ? '756' : '612'} saves</span>
-                                    </div>
-                                  ))}
+                                    );
+                                  })}
                                   {retailerProducts.length === 0 && (
                                     <p className="text-sm text-on-surface-variant/70 italic py-6">No products saved yet.</p>
                                   )}
@@ -6027,124 +6164,84 @@ export default function App() {
                               </div>
                               <button
                                 onClick={() => setRetailerTab('products')}
-                                className="w-full mt-4 py-2.5 bg-primary text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:opacity-90 transition-opacity border-none cursor-pointer"
+                                className="w-full mt-5 py-2.5 bg-primary text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:opacity-90 transition-opacity border-none cursor-pointer"
                               >
                                 View Catalogue
                               </button>
                             </div>
 
-                            {/* Back-in-Stock Alerts */}
+                            {/* Notify back stock */}
                             <div className="bg-surface-container-low p-6 rounded-xl custom-shadow flex flex-col justify-between">
                               <div>
-                                <h3 className="font-headline font-bold text-lg text-on-surface mb-4">Back-in-Stock Alerts</h3>
-                                <div className="space-y-4">
+                                <h3 className="font-headline font-bold text-lg text-on-surface mb-4">Notify back stock</h3>
+                                <div className="space-y-4 max-h-[360px] overflow-y-auto no-scrollbar pr-1">
                                   {[
-                                    { key: 'linen', label: 'Organic Linen Bedding', initial: true },
-                                    { key: 'toothbrush', label: 'Bamboo Toothbrush Set', initial: false },
-                                    { key: 'bottles', label: 'Glass Spray Bottles', initial: true }
+                                    { key: 'linen', label: 'Organic Linen Bedding', waiting: 384 },
+                                    { key: 'toothbrush', label: 'Bamboo Toothbrush Set', waiting: 192 },
+                                    { key: 'bottles', label: 'Glass Spray Bottles', waiting: 95 },
+                                    { key: 'wraps', label: 'Reusable Beeswax Wraps', waiting: 82 },
+                                    { key: 'bento', label: 'Stainless Steel Bento Box', waiting: 74 },
+                                    { key: 'mug', label: 'Ceramic Travel Coffee Mug', waiting: 67 },
+                                    { key: 'tote', label: 'Organic Cotton Tote Bag', waiting: 58 },
+                                    { key: 'laundry', label: 'Eco Laundry Detergent Sheets', waiting: 51 },
+                                    { key: 'balls', label: 'Natural Wool Dryer Balls', waiting: 43 },
+                                    { key: 'sponge', label: 'Biodegradable Sponge Pack', waiting: 39 }
                                   ].map(item => {
-                                    const isChecked = true; // Simulating active toggle values nicely
                                     return (
-                                      <div key={item.key} className="flex items-center justify-between transition-opacity duration-200">
-                                        <span className="text-sm font-semibold text-on-surface">{item.label}</span>
-                                        <label className="relative inline-flex items-center cursor-pointer">
-                                          <input
-                                            type="checkbox"
-                                            defaultChecked={item.initial}
-                                            onChange={(e) => {
-                                              triggerToast(`Stock alert for ${item.label} updated!`, 'success');
-                                            }}
-                                            className="sr-only peer"
-                                          />
-                                          <div className="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-                                        </label>
+                                      <div key={item.key} className="flex items-center justify-between p-3 bg-white rounded-lg border border-outline-variant/10 text-left">
+                                        <div className="flex flex-col text-left min-w-0">
+                                          <span className="font-semibold text-sm text-on-surface truncate">{item.label}</span>
+                                          <span className="text-[11px] text-on-surface-variant/70 mt-0.5">Restock request active</span>
+                                        </div>
+                                        <span className="text-xs font-bold bg-error/10 text-error px-2.5 py-1 rounded-full shrink-0">
+                                          🔥 {item.waiting} waiting
+                                        </span>
                                       </div>
                                     );
                                   })}
                                 </div>
                               </div>
                               <button
-                                onClick={() => triggerToast('Alert dashboard settings updated.', 'success')}
-                                className="w-full mt-6 py-2 bg-primary/5 text-primary text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-primary/10 transition-colors border-none cursor-pointer"
+                                onClick={() => setRestockModalOpen(true)}
+                                className="w-full mt-5 py-2.5 bg-primary text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:opacity-90 transition-opacity border-none cursor-pointer"
                               >
-                                Manage All Alerts
+                                Send Restock Alert
                               </button>
                             </div>
 
-                            {/* Trending Wishlist */}
-                            <div className="bg-surface-container-low p-6 rounded-xl custom-shadow flex flex-col justify-between">
+                            {/* Top Selling Products */}
+                            <div className="bg-surface-container-low p-6 rounded-xl custom-shadow flex flex-col justify-between text-left">
                               <div>
-                                <h3 className="font-headline font-bold text-lg text-on-surface mb-4">Trending Wishlist</h3>
-                                <div className="flex -space-x-4 overflow-hidden mb-6">
-                                  <img alt="Eco Watch" className="inline-block h-16 w-16 rounded-full ring-4 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq9Wg_rtu0Ajs-9rFm1APjjXEzpy1aXDsF6ig2AXCwvcsoXKICmnZdHPZeV_XRT2a5mG19x2cwsrE9aNzob3QVkEdciLnwshi5WmwUaAP4oTxvtFbHLUrOyP4-_TtP5BHLxytD4trMTF2TPojba2GhLlfJHXwH2bcR-c1BFqc8gqpV8vPY-5cC5Wh06IVCM6kA-Vf4DRrgNQk1WVxLqHeH_P90sOYmjVTYV7PGq3Z9GD_uWM_oAFeW1CBI89Gljub77jxHByNyJ0g" />
-                                  <img alt="Aura Headphones" className="inline-block h-16 w-16 rounded-full ring-4 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATLul632GnVMCBiVRaRFJLtrCT5UZciT_SfObixcpzhkHr6qkRatrOXqvd2CvKHNVhYxtXQB4KrvYp-4DYe7K0TvxXmzcSP3zNPQs3NnqmWMm6Rs3XBAY9E4F5IGHEHYHnTWY2PqhTtCYLipU5_UsQ1Z-v4N8uxRx1vpXQGtGcTh7-l9YGvuYPywMokmMJQW75AHnj9NMyB45jo2YffBTsdPeRYoPh164f7CKzWjNhg46zB6Y9gfO4eyaiWzzIXa7qNKEAAn0l-oQ" />
-                                  <img alt="Leaf Sneaker" className="inline-block h-16 w-16 rounded-full ring-4 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPTfaLyqJPlIDNBU69uEKb6iVD3lkg8rW45UCOFVnzLILpnDuMhOYSRLxIv0dIrZDqLEzek1VESVWQ52uJJ6KZnltLzGIvftQkBGK4kY3X6m0ueDBssQ4BJ12MyrnLjMIidIp8NoyK9ROK8XwsJxCmuWThzwQCmmKhYKo9CFybZ5TrcAel6lAn6cM7Y5K5b64MMwJABxt8s45tvlDdwA7be-mjv4DAtevlHMJgUB541exWWFKK7uFM0HOVA_niR2zNP4ZvG6KeTIU" />
+                                <h3 className="font-headline font-bold text-lg text-on-surface mb-4">Top Selling</h3>
+                                <div className="space-y-4 max-h-[360px] overflow-y-auto no-scrollbar pr-1">
+                                  {[
+                                    { id: 'ts1', name: 'Dyson V15 Detect Vacuum', sales: '1,482 sold' },
+                                    { id: 'ts2', name: 'Apple iPad Pro M4', sales: '985 sold' },
+                                    { id: 'ts3', name: 'Nintendo Switch OLED', sales: '723 sold' },
+                                    { id: 'ts4', name: 'Sony WH-1000XM5 Headphones', sales: '642 sold' },
+                                    { id: 'ts5', name: 'Patagonia Torrentshell Jacket', sales: '580 sold' },
+                                    { id: 'ts6', name: 'Hydro Flask Wide Mouth Bottle', sales: '512 sold' },
+                                    { id: 'ts7', name: 'Kindle Paperwhite 16GB', sales: '485 sold' },
+                                    { id: 'ts8', name: 'Logitech MX Master 3S Mouse', sales: '412 sold' },
+                                    { id: 'ts9', name: 'Anker 737 Power Bank', sales: '389 sold' },
+                                    { id: 'ts10', name: 'Lululemon Align High-Rise Pant', sales: '340 sold' }
+                                  ].map((p, idx) => (
+                                    <div key={p.id} className="flex items-center justify-between p-3 bg-white rounded-lg border border-outline-variant/10 text-left">
+                                      <div className="flex items-center gap-3 min-w-0">
+                                        <span className="w-6 h-6 bg-[#fdc800]/10 rounded-full flex items-center justify-center text-[10px] font-bold text-[#c29600] shrink-0">{idx + 1}</span>
+                                        <span className="font-semibold text-sm text-on-surface truncate">{p.name}</span>
+                                      </div>
+                                      <span className="text-xs font-bold text-primary shrink-0">{p.sales}</span>
+                                    </div>
+                                  ))}
                                 </div>
                               </div>
-                              <div className="flex flex-wrap gap-2 mt-auto">
-                                <span className="px-3 py-1 bg-surface-variant text-[10px] font-bold rounded-full text-on-surface">#sustainable</span>
-                                <span className="px-3 py-1 bg-surface-variant text-[10px] font-bold rounded-full text-on-surface">#trending</span>
-                                <span className="px-3 py-1 bg-surface-variant text-[10px] font-bold rounded-full text-on-surface">#organic_tech</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Horizontal Products Scroll */}
-                          <div>
-                            <div className="flex justify-between items-center mb-6">
-                              <h3 className="text-2xl font-headline font-bold text-on-surface">Top Performing Products</h3>
-                              <button onClick={() => setRetailerTab('products')} className="text-primary font-bold text-sm hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none">
-                                View Product Catalog
-                                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                              <button
+                                onClick={() => setSalesReportModalOpen(true)}
+                                className="w-full mt-5 py-2.5 bg-primary text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:opacity-90 transition-opacity border-none cursor-pointer"
+                              >
+                                View Sales Report
                               </button>
-                            </div>
-                            <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide">
-                              {retailerProducts.map((p, idx) => (
-                                <div key={p.id} className="min-w-[320px] max-w-[320px] bg-white rounded-xl overflow-hidden custom-shadow group cursor-pointer transition-all duration-300 hover:-translate-y-1 text-left flex flex-col justify-between">
-                                  <div>
-                                    <div className="relative h-40 bg-slate-100 overflow-hidden">
-                                      <img
-                                        src={p.imagePreview}
-                                        alt={p.name}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
-                                      />
-                                      <div className="absolute top-3 left-3 px-3 py-1 bg-primary text-white text-[10px] font-bold rounded-full">
-                                        {idx === 0 ? 'Top Seller' : idx === 1 ? 'Featured' : 'Popular'}
-                                      </div>
-                                    </div>
-                                    <div className="p-5">
-                                      <div className="flex justify-between items-start mb-2 gap-2">
-                                        <h4 className="font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-1">{p.name}</h4>
-                                        <span className="text-primary font-bold shrink-0">${p.price.toFixed(2)}</span>
-                                      </div>
-                                      <div className="flex items-center gap-2 mb-4">
-                                        <span className="material-symbols-outlined text-tertiary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                                        <span className="text-xs font-bold text-on-surface">4.9</span>
-                                        <span className="text-xs text-on-surface-variant">({idx * 14 + 86} reviews)</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="px-5 pb-5">
-                                    <div className="flex items-center justify-between text-xs text-on-surface-variant border-t border-outline-variant/10 pt-4">
-                                      <span>{idx * 210 + 540} Sold</span>
-                                      <span className={p.stock <= 5 ? "text-error font-bold" : "text-on-surface-variant"}>
-                                        {p.stock === 0 ? 'Out of Stock' : p.stock <= 5 ? `${p.stock} left` : `${p.stock} in Stock`}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                              {retailerProducts.length === 0 && (
-                                <div className="min-w-full bg-white border border-outline-variant/20 rounded-xl p-10 text-center text-on-surface-variant">
-                                  <p className="font-bold">No products available. Click below to add one!</p>
-                                  <button
-                                    onClick={() => { setRetailerTab('products'); setShowAddProduct(true); }}
-                                    className="mt-4 bg-primary text-white px-6 py-2 rounded-xl font-bold border-none cursor-pointer"
-                                  >
-                                    Add First Product
-                                  </button>
-                                </div>
-                              )}
                             </div>
                           </div>
 
@@ -6165,8 +6262,8 @@ export default function App() {
                               <button
                                 onClick={() => setEditingProfile(!editingProfile)}
                                 className={`px-5 py-2 rounded-full text-xs font-bold cursor-pointer transition-colors border-none ${editingProfile
-                                    ? 'bg-surface-container text-on-surface hover:bg-surface-variant'
-                                    : 'bg-primary text-white hover:opacity-90'
+                                  ? 'bg-surface-container text-on-surface hover:bg-surface-variant'
+                                  : 'bg-primary text-white hover:opacity-90'
                                   }`}
                               >
                                 {editingProfile ? '✕ Cancel' : '✏️ Edit Profile'}
@@ -6481,8 +6578,8 @@ export default function App() {
                                     <img src={p.imagePreview} alt={p.name} className="w-full h-full object-cover" />
                                     <div className="absolute top-2.5 right-2.5">
                                       <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full border shadow-sm ${p.status === 'Active'
-                                          ? 'bg-primary/10 text-primary border-primary/20'
-                                          : 'bg-surface-variant text-on-surface-variant border-outline-variant/30'
+                                        ? 'bg-primary/10 text-primary border-primary/20'
+                                        : 'bg-surface-variant text-on-surface-variant border-outline-variant/30'
                                         }`}>
                                         {p.status}
                                       </span>
@@ -6671,8 +6768,8 @@ export default function App() {
                                     key={filter}
                                     onClick={() => setStockFilter(filter)}
                                     className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border-none cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${stockFilter === filter
-                                        ? 'bg-primary text-white shadow-sm'
-                                        : 'bg-surface-container text-on-surface-variant hover:bg-surface-variant/40'
+                                      ? 'bg-primary text-white shadow-sm'
+                                      : 'bg-surface-container text-on-surface-variant hover:bg-surface-variant/40'
                                       }`}
                                   >
                                     <span>{filter}</span>
@@ -7406,10 +7503,10 @@ export default function App() {
                                       <td className="py-4 px-4 font-medium text-on-surface-variant/80">{fr.requestedDate}</td>
                                       <td className="py-4 px-4">
                                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase border tracking-wider shadow-sm ${fr.status === 'Approved'
-                                            ? 'bg-primary/10 text-primary border-primary/20'
-                                            : fr.status === 'Declined'
-                                              ? 'bg-error/10 text-error border-error/20'
-                                              : 'bg-surface-variant text-on-surface-variant border-outline-variant/30 animate-pulse'
+                                          ? 'bg-primary/10 text-primary border-primary/20'
+                                          : fr.status === 'Declined'
+                                            ? 'bg-error/10 text-error border-error/20'
+                                            : 'bg-surface-variant text-on-surface-variant border-outline-variant/30 animate-pulse'
                                           }`}>
                                           {fr.status === 'Approved' ? '✓ Approved' : fr.status === 'Declined' ? '✕ Declined' : '⏳ Pending'}
                                         </span>
@@ -7444,10 +7541,10 @@ export default function App() {
                                     <div className="flex justify-between items-start gap-2">
                                       <h4 className="font-bold text-on-surface text-sm max-w-[200px]">{fr.dealTitle}</h4>
                                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase border tracking-wider shadow-sm ${fr.status === 'Approved'
-                                          ? 'bg-primary/10 text-primary border-primary/20'
-                                          : fr.status === 'Declined'
-                                            ? 'bg-error/10 text-[#B71C1C] border-error/20'
-                                            : 'bg-surface-variant text-on-surface-variant border-outline-variant/30 animate-pulse'
+                                        ? 'bg-primary/10 text-primary border-primary/20'
+                                        : fr.status === 'Declined'
+                                          ? 'bg-error/10 text-[#B71C1C] border-error/20'
+                                          : 'bg-surface-variant text-on-surface-variant border-outline-variant/30 animate-pulse'
                                         }`}>
                                         {fr.status === 'Approved' ? '✓ Approved' : fr.status === 'Declined' ? '✕ Declined' : '⏳ Pending'}
                                       </span>
@@ -7545,8 +7642,8 @@ export default function App() {
                           key={tab.key}
                           onClick={() => setAdminTab(tab.key)}
                           className={`w-[calc(100%-1rem)] rounded-lg mx-2 my-1 px-4 py-2.5 flex items-center gap-3 transition-transform active:scale-95 text-left font-bold text-sm cursor-pointer border-none focus:outline-none focus:ring-0 ${adminTab === tab.key
-                              ? 'bg-primary text-white font-semibold shadow-sm'
-                              : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
+                            ? 'bg-primary text-white font-semibold shadow-sm'
+                            : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
                             }`}
                         >
                           <span className="material-symbols-outlined text-[18px]">{tab.icon}</span>
@@ -7636,8 +7733,8 @@ export default function App() {
                                 setMobileAdminMenuOpen(false);
                               }}
                               className={`w-full rounded-xl px-4 py-3 flex items-center justify-between transition-all active:scale-98 text-left font-bold text-sm cursor-pointer border-none ${adminTab === tab.key
-                                  ? 'bg-[#047c1f] text-white shadow-sm shadow-[#047c1f]/20'
-                                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
+                                ? 'bg-[#047c1f] text-white shadow-sm shadow-[#047c1f]/20'
+                                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
                                 }`}
                             >
                               <div className="flex items-center gap-3">
@@ -8559,8 +8656,8 @@ export default function App() {
                                       <td className="px-4 py-3.5 font-bold text-primary text-center">{u.dealsCount || 0} deals</td>
                                       <td className="px-4 py-3.5">
                                         <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full border tracking-wide uppercase ${u.status === 'Active' ? 'bg-primary/10 text-primary border-primary/20' :
-                                            u.status === 'Pending' ? 'bg-amber-600/10 text-amber-600 border-amber-600/20' :
-                                              'bg-error/10 text-error border-error/20'
+                                          u.status === 'Pending' ? 'bg-amber-600/10 text-amber-600 border-amber-600/20' :
+                                            'bg-error/10 text-error border-error/20'
                                           }`}>
                                           {u.status}
                                         </span>
@@ -8619,8 +8716,8 @@ export default function App() {
                                       </div>
 
                                       <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full border tracking-wide uppercase ${u.status === 'Active' ? 'bg-primary/10 text-primary border-primary/20' :
-                                          u.status === 'Pending' ? 'bg-amber-600/10 text-amber-600 border-amber-600/20' :
-                                            'bg-error/10 text-error border-error/20'
+                                        u.status === 'Pending' ? 'bg-amber-600/10 text-amber-600 border-amber-600/20' :
+                                          'bg-error/10 text-error border-error/20'
                                         }`}>
                                         {u.status}
                                       </span>
@@ -9097,8 +9194,8 @@ export default function App() {
                                       <td className="px-4 py-3.5 font-semibold text-on-surface-variant text-[12px]">{r.requestedDate}</td>
                                       <td className="px-4 py-3.5">
                                         <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black border tracking-wider uppercase select-none ${r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
-                                            r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
-                                              'bg-amber-50 text-amber-600 border-amber-200'
+                                          r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
+                                            'bg-amber-50 text-amber-600 border-amber-200'
                                           }`}>
                                           {r.status}
                                         </span>
@@ -9161,8 +9258,8 @@ export default function App() {
                                         <p className="text-[10px] text-on-surface-variant font-medium mt-1">Requested: {r.requestedDate}</p>
                                       </div>
                                       <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black border tracking-wider uppercase select-none shrink-0 ${r.status === 'Approved' ? 'bg-primary/10 text-primary border-primary/20' :
-                                          r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
-                                            'bg-amber-50 text-amber-600 border-amber-200'
+                                        r.status === 'Declined' ? 'bg-red-50 text-red-600 border-red-200' :
+                                          'bg-amber-50 text-amber-600 border-amber-200'
                                         }`}>
                                         {r.status}
                                       </span>
@@ -9875,8 +9972,8 @@ export default function App() {
                           key={tab.key}
                           onClick={() => setModeratorTab(tab.key)}
                           className={`w-[calc(100%-1rem)] rounded-lg mx-2 my-1 px-4 py-2.5 flex items-center gap-3 transition-transform active:scale-95 text-left font-bold text-sm cursor-pointer border-none focus:outline-none focus:ring-0 ${moderatorTab === tab.key
-                              ? 'bg-primary text-white font-semibold shadow-sm'
-                              : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
+                            ? 'bg-primary text-white font-semibold shadow-sm'
+                            : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 bg-transparent'
                             }`}
                         >
                           <span className="material-symbols-outlined text-[18px]">{tab.icon}</span>
@@ -11484,6 +11581,260 @@ export default function App() {
         </div>
       )}
 
+      {/* 3a. Send Restock Alert Modal */}
+      {restockModalOpen && (
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => {
+            setRestockModalOpen(false);
+            setRestockSuccess(false);
+          }}
+        >
+          <div
+            className="w-full max-w-lg bg-[#faf6f0] rounded-2xl border border-outline-variant/30 p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200 text-left"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => {
+                setRestockModalOpen(false);
+                setRestockSuccess(false);
+              }}
+              className="absolute right-4 top-4 p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors cursor-pointer border-none bg-transparent"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="space-y-1">
+              <h3 className="font-headline font-bold text-2xl text-on-surface">📢 Send Restock Alert</h3>
+              <p className="text-xs text-on-surface-variant font-semibold">Notify customers waiting for out-of-stock items</p>
+            </div>
+
+            {(() => {
+              const restockItems = [
+                { key: 'linen', label: 'Organic Linen Bedding', waiting: 384 },
+                { key: 'toothbrush', label: 'Bamboo Toothbrush Set', waiting: 192 },
+                { key: 'bottles', label: 'Glass Spray Bottles', waiting: 95 },
+                { key: 'wraps', label: 'Reusable Beeswax Wraps', waiting: 82 },
+                { key: 'bento', label: 'Stainless Steel Bento Box', waiting: 74 },
+                { key: 'mug', label: 'Ceramic Travel Coffee Mug', waiting: 67 },
+                { key: 'tote', label: 'Organic Cotton Tote Bag', waiting: 58 },
+                { key: 'laundry', label: 'Eco Laundry Detergent Sheets', waiting: 51 },
+                { key: 'balls', label: 'Natural Wool Dryer Balls', waiting: 43 },
+                { key: 'sponge', label: 'Biodegradable Sponge Pack', waiting: 39 }
+              ];
+              const selectedItem = restockItems.find(x => x.key === restockSelectedProduct) || restockItems[0];
+
+              return restockSuccess ? (
+                <div className="space-y-6 text-center py-6 animate-in fade-in duration-300">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto">
+                    <span className="material-symbols-outlined text-4xl">check_circle</span>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-headline font-bold text-lg text-on-surface">Alert Queue Dispatched!</h4>
+                    <p className="text-sm text-on-surface-variant max-w-sm mx-auto leading-relaxed">
+                      Restock notifications have been sent to all registered subscribers waiting for this item.
+                    </p>
+                  </div>
+                  <div className="bg-primary/5 p-4 rounded-xl border border-primary/20 text-xs font-semibold text-primary max-w-xs mx-auto">
+                    📨 Emails Sent: {selectedItem.waiting} subscribers
+                  </div>
+                  <button
+                    onClick={() => {
+                      setRestockModalOpen(false);
+                      setRestockSuccess(false);
+                    }}
+                    className="w-full py-3 rounded-xl bg-primary hover:opacity-95 text-white font-bold text-sm shadow-md transition-all cursor-pointer border-none"
+                  >
+                    Back to Dashboard
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="space-y-1.5 flex flex-col">
+                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Select Product</label>
+                    <select
+                      value={restockSelectedProduct}
+                      onChange={(e) => setRestockSelectedProduct(e.target.value)}
+                      className="w-full bg-white border border-outline-variant/30 rounded-xl px-4 py-3 text-sm font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    >
+                      {restockItems.map(item => (
+                        <option key={item.key} value={item.key}>{item.label} ({item.waiting} waiting)</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="space-y-1.5 flex flex-col">
+                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Alert Message</label>
+                    <textarea
+                      rows={4}
+                      value={`Good news! Our popular ${selectedItem.label} is back in stock. Order now before it runs out again!`}
+                      onChange={() => { }}
+                      className="w-full bg-white border border-outline-variant/30 rounded-xl px-4 py-3 text-sm font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
+                    />
+                  </div>
+
+                  <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/20 flex justify-between items-center text-xs font-semibold">
+                    <span className="text-on-surface-variant">Waiting Subscribers:</span>
+                    <span className="text-error font-extrabold text-sm">
+                      {selectedItem.waiting} customers
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setIsRestockSending(true);
+                      setTimeout(() => {
+                        setIsRestockSending(false);
+                        setRestockSuccess(true);
+                        triggerToast('✓ Restock notifications dispatched!', 'success');
+                      }, 1500);
+                    }}
+                    disabled={isRestockSending}
+                    className="w-full py-3 rounded-xl bg-primary hover:opacity-95 disabled:opacity-50 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer border-none"
+                  >
+                    {isRestockSending ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Sending Alerts...</span>
+                      </>
+                    ) : (
+                      <span>Send Restock Alerts</span>
+                    )}
+                  </button>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      )}
+
+      {/* 3b. Sales Report Modal */}
+      {salesReportModalOpen && (
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setSalesReportModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-2xl bg-[#faf6f0] rounded-2xl border border-outline-variant/30 p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200 text-left max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSalesReportModalOpen(false)}
+              className="absolute right-4 top-4 p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors cursor-pointer border-none bg-transparent"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex justify-between items-start sm:items-center flex-col sm:flex-row gap-4 border-b border-outline-variant/20 pb-4">
+              <div className="space-y-1">
+                <h3 className="font-headline font-bold text-2xl text-on-surface">📊 Sales Performance Report</h3>
+                <p className="text-xs text-on-surface-variant font-semibold">Detailed merchant channel sales overview</p>
+              </div>
+              <select
+                value={salesReportTimeframe}
+                onChange={(e) => {
+                  setSalesReportTimeframe(e.target.value);
+                  triggerToast(`Sales report loaded for ${e.target.value}`, 'success');
+                }}
+                className="bg-white border border-outline-variant/30 rounded-xl px-3 py-1.5 text-xs font-bold text-on-surface-variant focus:outline-none"
+              >
+                <option>Last 7 Days</option>
+                <option>Last 30 Days</option>
+                <option>Last 12 Months</option>
+              </select>
+            </div>
+
+            {/* KPI Cards Grid */}
+            <div className="grid grid-cols-3 gap-4">
+              <div className="bg-white p-4 rounded-xl border border-outline-variant/10">
+                <p className="text-[10px] font-bold text-on-surface-variant/75 uppercase tracking-wider">Total Revenue</p>
+                <p className="text-xl font-headline font-extrabold text-primary mt-1">
+                  {salesReportTimeframe === 'Last 7 Days' ? '$6,842.00' : salesReportTimeframe === 'Last 30 Days' ? '$24,842.00' : '$298,120.00'}
+                </p>
+              </div>
+              <div className="bg-white p-4 rounded-xl border border-outline-variant/10">
+                <p className="text-[10px] font-bold text-on-surface-variant/75 uppercase tracking-wider">Net Profit</p>
+                <p className="text-xl font-headline font-extrabold text-primary mt-1">
+                  {salesReportTimeframe === 'Last 7 Days' ? '$2,460.00' : salesReportTimeframe === 'Last 30 Days' ? '$8,940.00' : '$107,320.00'}
+                </p>
+              </div>
+              <div className="bg-white p-4 rounded-xl border border-outline-variant/10">
+                <p className="text-[10px] font-bold text-on-surface-variant/75 uppercase tracking-wider">Conversion</p>
+                <p className="text-xl font-headline font-extrabold text-on-surface mt-1">
+                  {salesReportTimeframe === 'Last 7 Days' ? '3.1%' : salesReportTimeframe === 'Last 30 Days' ? '3.4%' : '3.6%'}
+                </p>
+              </div>
+            </div>
+
+            {/* Sparkline Bar Visualization */}
+            <div className="bg-white p-4 rounded-xl border border-outline-variant/10 space-y-3">
+              <h4 className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Revenue Trend</h4>
+              <div className="h-16 flex items-end gap-2 pt-4">
+                {[45, 60, 55, 75, 90, 80, 95, 110, 85, 100, 115, 130].map((h, i) => (
+                  <div
+                    key={i}
+                    style={{ height: `${h}%` }}
+                    className="flex-1 bg-primary/20 hover:bg-primary rounded-t transition-all relative group cursor-pointer"
+                  >
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[9px] px-1.5 py-0.5 rounded shadow opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none mb-1 font-bold">
+                      ${(h * 150).toLocaleString()}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Sales Table */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Product Sales Breakdown</h4>
+              <div className="overflow-hidden border border-outline-variant/10 rounded-xl bg-white">
+                <table className="w-full text-sm border-collapse text-left">
+                  <thead>
+                    <tr className="bg-surface-container border-b border-outline-variant/10 text-on-surface-variant text-xs font-bold uppercase tracking-wider select-none">
+                      <th className="px-4 py-3">Product Name</th>
+                      <th className="px-4 py-3 text-right">Units Sold</th>
+                      <th className="px-4 py-3 text-right">Revenue</th>
+                      <th className="px-4 py-3 text-right">Profit</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-outline-variant/10 font-semibold">
+                    {[
+                      { name: 'Sony WH-1000XM5 Headphones', sold: 68, rev: 27132, profit: 9496 },
+                      { name: 'MacBook Air M3 13"', sold: 18, rev: 28782, profit: 10073 },
+                      { name: 'iPad Pro M4 11"', sold: 12, rev: 14988, profit: 5245 },
+                      { name: 'Organic Linen Bedding', sold: 45, rev: 8955, profit: 3134 }
+                    ].map((item, idx) => (
+                      <tr key={idx} className="hover:bg-slate-50">
+                        <td className="px-4 py-3 text-on-surface font-semibold text-xs truncate max-w-[200px]">{item.name}</td>
+                        <td className="px-4 py-3 text-right text-xs text-on-surface-variant">{item.sold}</td>
+                        <td className="px-4 py-3 text-right text-xs text-primary font-bold">${item.rev.toLocaleString()}</td>
+                        <td className="px-4 py-3 text-right text-xs text-[#00c853] font-bold">${item.profit.toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="flex gap-3 border-t border-outline-variant/20 pt-4">
+              <button
+                onClick={() => triggerToast('✓ CSV report downloaded successfully!', 'success')}
+                className="flex-1 py-2.5 bg-primary text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:opacity-90 transition-opacity border-none cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <span className="material-symbols-outlined text-sm">download</span>
+                Export CSV
+              </button>
+              <button
+                onClick={() => setSalesReportModalOpen(false)}
+                className="px-6 py-2.5 bg-surface-container hover:bg-surface-variant/40 border border-outline-variant/30 text-on-surface-variant font-bold text-xs uppercase tracking-widest rounded-xl transition-colors border-none cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {communityPanelOpen && (
         <div
           className="fixed inset-0 z-[2000] flex 
@@ -12187,8 +12538,8 @@ export default function App() {
               {/* ── MAIN FEED VIEW ── */}
               {!expandedPost && !showCreatePost && (
                 <div className="flex-1 flex flex-col min-w-0">
-                  {/* Sort, Search, and Category bar */}
-                  <div className="bg-white border-b border-[#e8e8e8] px-3 sm:px-4 py-2.5 flex items-center gap-2.5 shrink-0 flex-wrap">
+                  {/* Sort and Search bar */}
+                  <div className="bg-white border-b border-[#e8e8e8]/50 px-3 sm:px-4 py-2.5 flex items-center justify-between gap-2.5 shrink-0 flex-wrap">
                     {/* Sort segmented controls */}
                     <div className="flex items-center bg-slate-100 p-0.5 rounded-full border border-slate-200/40">
                       {[
@@ -12200,8 +12551,8 @@ export default function App() {
                           key={tab.key}
                           onClick={() => setCommunitySort(tab.key)}
                           className={`px-3 py-1 rounded-full text-[11px] sm:text-[12px] font-bold cursor-pointer transition-all duration-250 ${communitySort === tab.key
-                              ? 'bg-white text-[#047c1f] shadow-sm font-black border-none'
-                              : 'text-slate-500 hover:text-slate-800'
+                            ? 'bg-white text-[#047c1f] shadow-sm font-black border-none'
+                            : 'text-slate-500 hover:text-slate-800'
                             }`}
                         >
                           {tab.label}
@@ -12209,24 +12560,8 @@ export default function App() {
                       ))}
                     </div>
 
-                    {/* Category select dropdown */}
-                    <div className="relative">
-                      <select
-                        value={communityCategoryFilter}
-                        onChange={(e) => setCommunityCategoryFilter(e.target.value)}
-                        className="bg-white hover:bg-slate-50 border border-slate-200 rounded-full pl-8 pr-8 py-1.5 text-[11px] font-bold text-slate-655 cursor-pointer appearance-none focus:outline-none focus:ring-2 focus:ring-[#047c1f]/10 focus:border-[#047c1f] transition-all"
-                      >
-                        <option value="All">📁 All Categories</option>
-                        {CATEGORIES.slice(1).map(c => (
-                          <option key={c} value={c}>{c}</option>
-                        ))}
-                      </select>
-                      <Grid className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                      <ChevronDown className="w-3 h-3 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    </div>
-
                     {/* Search input */}
-                    <div className="relative flex-1 min-w-[140px] max-w-full sm:max-w-[200px] ml-0 sm:ml-auto w-full sm:w-auto">
+                    <div className="relative flex-1 min-w-[140px] max-w-full sm:max-w-[200px] ml-auto w-full sm:w-auto">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                       <input
                         type="text"
@@ -12244,6 +12579,32 @@ export default function App() {
                         </button>
                       )}
                     </div>
+                  </div>
+
+                  {/* Horizontal Scrollable Categories Line */}
+                  <div className="bg-white border-b border-[#e8e8e8] px-3 sm:px-4 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0 select-none">
+                    {CATEGORY_NAMES.map((c) => {
+                      const emoji = COMMUNITY_CATEGORY_EMOJIS[c] || '🏷️';
+                      const isSelected = communityCategoryFilter === c;
+                      return (
+                        <button
+                          key={c}
+                          onClick={() => setCommunityCategoryFilter(isSelected ? 'All' : c)}
+                          className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all duration-150 cursor-pointer border flex items-center gap-1.5 whitespace-nowrap ${isSelected
+                            ? 'bg-[#047c1f] border-[#047c1f] text-white shadow-sm font-extrabold'
+                            : 'bg-slate-50 hover:bg-slate-105 border-slate-200 text-slate-600'
+                            }`}
+                        >
+                          <span className="text-[12px]">{emoji}</span>
+                          <span>{c}</span>
+                          {isSelected && (
+                            <span className="ml-0.5 hover:text-white/80 p-0.5 rounded-full bg-white/20">
+                              <X className="w-2.5 h-2.5" />
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
 
                   {/* Filter status row */}
@@ -12301,8 +12662,7 @@ export default function App() {
                       </div>
                     ) : (
                       filteredAndSortedCommunityDeals.map((post) => {
-                        const isUpvoted =
-                          upvotedPosts.has(post.id);
+                        const isUpvoted = upvotedPosts.has(post.id);
                         return (
                           <div
                             key={post.id}
@@ -12322,7 +12682,6 @@ export default function App() {
                             <div className="flex gap-4 items-start">
                               {/* ── LEFT: CONTENT ── */}
                               <div className="flex-1 min-w-0 space-y-2.5">
-
                                 {/* Meta row */}
                                 <div className="flex items-center gap-2 
                                 text-[10px] sm:text-[11px] text-slate-400 font-bold 
@@ -12338,7 +12697,6 @@ export default function App() {
                                   </span>
                                   <span className="text-slate-300">·</span>
                                   <span>{post.time}</span>
-
                                   {post.state && (
                                     <span className="px-2 py-0.5 rounded-full 
                                     bg-slate-100 text-slate-500 font-extrabold 
@@ -12346,7 +12704,6 @@ export default function App() {
                                       {post.state}
                                     </span>
                                   )}
-
                                   {post.upvotes > 50 && (
                                     <span className="px-2 py-0.5 rounded-full 
                                     bg-[#fdc800] text-[#0d0d0d] font-extrabold 
@@ -12355,7 +12712,6 @@ export default function App() {
                                     </span>
                                   )}
                                 </div>
-
                                 {/* Title & snippet */}
                                 <div className="space-y-1">
                                   <h4 className="text-[14px] sm:text-[15px] font-extrabold 
@@ -12369,10 +12725,10 @@ export default function App() {
                                     </p>
                                   )}
                                 </div>
-
-                                {/* Store, discount and category badges */}
-                                {(post.store || post.discount) && (
-                                  <div className="flex gap-1.5 flex-wrap pt-0.5">
+                                {/* Store, discount and category badges + Actions row */}
+                                <div className="flex items-center justify-between gap-3 pt-1 mt-2.5 flex-wrap w-full">
+                                  {/* Badges (Left) */}
+                                  <div className="flex gap-1.5 flex-wrap">
                                     {post.store && (
                                       <span className="text-[10px] font-extrabold 
                                       px-2 py-0.5 rounded-md bg-[#e6f2e8] 
@@ -12391,7 +12747,51 @@ export default function App() {
                                       {post.category}
                                     </span>
                                   </div>
-                                )}
+                                  {/* Actions (Right) */}
+                                  <div className="flex items-center gap-1.5 select-none ml-auto shrink-0">
+                                    <div className="flex items-center bg-slate-50 border border-slate-200/60 rounded-full p-0.5 select-none h-[26px]">
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleUpvote(post.id, e);
+                                        }}
+                                        className={`p-1 rounded-full cursor-pointer transition-all ${isUpvoted
+                                          ? 'bg-[#047c1f] text-white shadow-sm'
+                                          : 'text-slate-400 hover:bg-slate-100 hover:text-slate-700'
+                                          }`}
+                                      >
+                                        <TrendingUp className="w-3.5 h-3.5" />
+                                      </button>
+                                      <span className={`text-[11px] font-black pr-2 pl-0.5 ${isUpvoted ? 'text-[#047c1f] font-black' : 'text-slate-650'}`}>
+                                        {post.upvotes}
+                                      </span>
+                                    </div>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setExpandedPost(post);
+                                      }}
+                                      className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200/60 text-[11px] text-slate-555 hover:text-[#047c1f] hover:border-[#047c1f]/20 hover:bg-[#e6f2e8]/20 transition-all font-extrabold cursor-pointer h-[26px]"
+                                    >
+                                      <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
+                                      <span className="ml-0.5">{post.comments.length}</span>
+                                    </button>
+                                    {/* Share Pill */}
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigator.clipboard.writeText(
+                                          `${window.location.origin}#community/${post.id}`
+                                        );
+                                        triggerToast('🔗 Link copied!', 'success');
+                                      }}
+                                      className="p-1 rounded-full bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-550 hover:text-[#047c1f] transition-all cursor-pointer flex items-center justify-center shrink-0 w-[26px] h-[26px]"
+                                      title="Share"
+                                    >
+                                      <Share2 className="w-3.5 h-3.5 text-slate-400" />
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
 
                               {/* ── RIGHT: IMAGE THUMBNAIL (if exists) ── */}
@@ -12410,68 +12810,6 @@ export default function App() {
                                   </div>
                                 </div>
                               )}
-
-                            </div>
-
-                            {/* Action row */}
-                            <div className="flex items-center gap-2 sm:gap-3 pt-3 border-t border-slate-100 mt-3 flex-wrap">
-                              {/* Upvote Pill */}
-                              <div className="flex items-center bg-slate-50 border border-slate-200/60 rounded-full p-0.5 select-none">
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleUpvote(post.id, e);
-                                  }}
-                                  className={`p-1.5 rounded-full cursor-pointer transition-all ${isUpvoted
-                                      ? 'bg-[#047c1f] text-white shadow-sm'
-                                      : 'text-slate-400 hover:bg-slate-100 hover:text-slate-700'
-                                    }`}
-                                >
-                                  <TrendingUp className="w-3.5 h-3.5" />
-                                </button>
-                                <span className={`text-[12px] font-black px-1.5 sm:px-2 ${isUpvoted ? 'text-[#047c1f] font-black' : 'text-slate-650'
-                                  }`}>
-                                  {post.upvotes}
-                                </span>
-                              </div>
-
-                              {/* Comments Pill */}
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setExpandedPost(post);
-                                }}
-                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 text-[11px] text-slate-500 hover:text-[#047c1f] hover:border-[#047c1f]/20 hover:bg-[#e6f2e8]/20 transition-all font-extrabold cursor-pointer"
-                              >
-                                <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
-                                <span>{post.comments.length} Comments</span>
-                              </button>
-
-                              {/* Share Pill */}
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigator.clipboard.writeText(
-                                    `${window.location.origin}#community/${post.id}`
-                                  );
-                                  triggerToast('🔗 Link copied!', 'success');
-                                }}
-                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 hover:bg-slate-100 text-[11px] text-slate-500 font-bold hover:text-[#047c1f] transition-all cursor-pointer"
-                              >
-                                <Share2 className="w-3.5 h-3.5 text-slate-400" />
-                                <span className="hidden xs:inline">Share</span>
-                              </button>
-
-                              {/* Read More Link */}
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setExpandedPost(post);
-                                }}
-                                className="ml-auto text-[11px] font-black text-[#047c1f] hover:underline cursor-pointer flex items-center gap-0.5"
-                              >
-                                Read more <ChevronRight className="w-3 h-3" />
-                              </button>
                             </div>
                           </div>
                         );
@@ -12498,42 +12836,76 @@ export default function App() {
 
             </div>
 
-            {/* ── RIGHT COLUMN: image + info panel ── */}
-            <div className="hidden md:flex w-[220px] shrink-0 bg-gradient-to-b from-[#0d0d0d] to-[#1a2e1a] flex-col overflow-hidden border-l border-[#047c1f]/30">
-              {/* Community image */}
-              <div className="relative h-[200px] overflow-hidden shrink-0">
-                <img
-                  src="https://picsum.photos/seed/aussie-community/400/300"
-                  alt="Aussie Community"
-                  className="w-full h-full object-cover opacity-60"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0d0d0d] p-4 flex flex-col justify-end">
-                  <span className="text-[10px] text-[#fdc800] font-black uppercase tracking-wider">r/7deals</span>
-                  <h3 className="text-white font-extrabold text-sm leading-tight mt-0.5">Aussie Feed 🦘</h3>
+            {/* ── RIGHT COLUMN: Looping Advertisements Full Panel ── */}
+            <div className="hidden md:flex w-[220px] shrink-0 bg-[#0d0d0d] flex-col overflow-hidden border-l border-[#047c1f]/30 select-none">
+              <a
+                href={COMMUNITY_ADS[currentAdIndex].link}
+                className="flex-1 flex flex-col justify-between p-4 relative group no-underline"
+              >
+                {/* Top: Sponsor Header */}
+                <div className="flex items-center justify-between z-10 shrink-0">
+                  <span className="text-[9px] font-black text-[#fdc800] bg-[#fdc800]/10 border border-[#fdc800]/25 px-2 py-0.5 rounded uppercase tracking-wider">
+                    Partner Sponsor
+                  </span>
+                  <span className="text-[10px] text-white/50 font-extrabold font-mono">
+                    Ad {currentAdIndex + 1}/{COMMUNITY_ADS.length}
+                  </span>
                 </div>
-              </div>
 
-              {/* Info text & Stats */}
-              <div className="p-4 flex-1 flex flex-col justify-between text-left text-white/90">
-                <p className="text-[11px] text-white/70 font-medium leading-relaxed">
-                  G'day! Welcome to the official community hub. Share hot local finds, ask questions, and chat with fellow shoppers across Australia.
-                </p>
+                {/* Middle: Featured Image (fully visible) */}
+                <div className="my-4 relative h-[350px] w-full overflow-hidden rounded-xl bg-slate-900 border border-white/10 shrink-0 shadow-md">
+                  <img
+                    key={`ad-img-${currentAdIndex}`}
+                    src={COMMUNITY_ADS[currentAdIndex].image}
+                    alt={COMMUNITY_ADS[currentAdIndex].title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 animate-in fade-in duration-300"
+                  />
+                </div>
 
-                <div className="bg-white/5 rounded-xl p-3 border border-white/10 space-y-2 mt-4 select-none">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[9px] text-white/50 font-bold uppercase">Members</span>
-                    <span className="text-[12px] font-black text-[#fdc800]">12.4k</span>
+                {/* Bottom: Ad Main Details */}
+                <div
+                  key={`ad-content-${currentAdIndex}`}
+                  className="flex-1 flex flex-col justify-between text-left animate-in fade-in slide-in-from-bottom-2 duration-300"
+                >
+                  <div className="space-y-3">
+                    <div className="space-y-1">
+                      <span className="text-[10px] text-[#fdc800] font-black tracking-wide uppercase">
+                        {COMMUNITY_ADS[currentAdIndex].sponsor}
+                      </span>
+                      <h3 className="text-white font-black text-[14px] leading-snug tracking-tight">
+                        {COMMUNITY_ADS[currentAdIndex].title}
+                      </h3>
+                    </div>
+
+                    {/* Main discount badge */}
+                    <div className="inline-block bg-[#fdc800] text-black text-[10px] font-black px-2.5 py-1 rounded-xl shadow-lg border border-[#fdc800]/20 scale-100 group-hover:scale-105 transition-transform duration-200">
+                      {COMMUNITY_ADS[currentAdIndex].discount}
+                    </div>
+
+                    <p className="text-[11px] text-white/70 leading-relaxed font-semibold">
+                      {COMMUNITY_ADS[currentAdIndex].description}
+                    </p>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[9px] text-white/50 font-bold uppercase">Online Now</span>
-                    <span className="text-[12px] font-black text-emerald-400">247</span>
+
+                  <div className="space-y-3 mt-auto">
+                    {/* Action Button */}
+                    <div className="w-full py-2 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white text-center font-bold text-[11px] shadow-md transition-all duration-200 group-hover:bg-[#035a16]">
+                      Shop Spotted Deal →
+                    </div>
+
+                    {/* Dot Indicators */}
+                    <div className="flex justify-center gap-1.5 pt-1">
+                      {COMMUNITY_ADS.map((_, idx) => (
+                        <div
+                          key={`ad-dot-${idx}`}
+                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === currentAdIndex ? 'bg-[#fdc800] w-3.5' : 'bg-white/20'
+                            }`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
-
-                <div className="text-[9px] text-white/40 font-bold text-center mt-auto pt-4">
-                  🇦🇺 Proudly Australian
-                </div>
-              </div>
+              </a>
             </div>
 
           </div>
@@ -12541,7 +12913,7 @@ export default function App() {
       )}
 
       {/* Floating Action Button: Aussie Community */}
-      {currentUser && currentRoute === '#home' && (
+      {currentRoute === '#home' && (
         <button
           onClick={() => setCommunityPanelOpen(true)}
           className="fixed bottom-20 sm:bottom-6 right-6 z-[996] bg-[#047c1f] hover:bg-[#035a16] text-white pl-4 pr-5 py-3 rounded-full flex items-center gap-2.5 shadow-xl border-2 border-[#fdc800] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer font-bold text-sm"

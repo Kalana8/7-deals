@@ -131,13 +131,13 @@
   .animate-scroll-55s {
     display: flex;
     width: max-content;
-    animation: scroll-left 110s linear infinite;
+    animation: scroll-left 180s linear infinite;
   }
 
   .animate-scroll-right-65s {
     display: flex;
     width: max-content;
-    animation: scroll-right 125s linear infinite;
+    animation: scroll-right 200s linear infinite;
   }
   
   .animation-paused {
