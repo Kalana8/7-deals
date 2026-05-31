@@ -768,7 +768,7 @@ const DealCard = ({
 
 const TickerCard = ({ retailer, matchingDeal, handleCopyCode, idx, isDup }) => {
   const [btnHovered, setBtnHovered] = useState(false);
-  const bgColor = TICKER_BRAND_COLORS[retailer.name] || '#047c1f';
+  const bgColor = matchingDeal?.brandColor || matchingDeal?.bg || TICKER_BRAND_COLORS[retailer.name] || '#047c1f';
 
   const handleClick = () => {
     const storeLinkMap = {
@@ -1149,6 +1149,23 @@ export default function App() {
   const [couponFormDiscount, setCouponFormDiscount] = useState('');
   const [couponFormExpiryDays, setCouponFormExpiryDays] = useState(3);
   const [couponFormBg, setCouponFormBg] = useState('');
+
+  // --- Featured Ads (Ticker Card) Modal States ---
+  const [featuredAdModalOpen, setFeaturedAdModalOpen] = useState(false);
+  const [editingFeaturedAd, setEditingFeaturedAd] = useState(null); // null = add new
+  const [editingFeaturedAdIndex, setEditingFeaturedAdIndex] = useState(-1);
+  const [featuredAdFormBrand, setFeaturedAdFormBrand] = useState('');
+  const [featuredAdFormTitle, setFeaturedAdFormTitle] = useState('');
+  const [featuredAdFormCode, setFeaturedAdFormCode] = useState('');
+  const [featuredAdFormDiscount, setFeaturedAdFormDiscount] = useState('');
+  const [featuredAdFormSalePrice, setFeaturedAdFormSalePrice] = useState(0);
+  const [featuredAdFormOriginalPrice, setFeaturedAdFormOriginalPrice] = useState(0);
+  const [featuredAdFormExpiry, setFeaturedAdFormExpiry] = useState(3);
+  const [featuredAdFormBg, setFeaturedAdFormBg] = useState('');
+  const [featuredAdFormCategory, setFeaturedAdFormCategory] = useState('Tech');
+  const [featuredAdFormState, setFeaturedAdFormState] = useState('National');
+  const [featuredAdFormImage, setFeaturedAdFormImage] = useState('');
+  const [featuredAdFormDesc, setFeaturedAdFormDesc] = useState('');
 
   // --- Interface & Data State ---
   const [activeFilter, setActiveFilter] = useState('All');
@@ -9979,7 +9996,7 @@ export default function App() {
                         { key: 'overview', label: 'Mod Overview', icon: 'dashboard' },
                         { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
                         { key: 'community', label: 'Manage coupons', icon: 'sell' },
-                        { key: 'coupons', label: 'Coupons Manager', icon: 'payments' },
+                        { key: 'coupons', label: 'Featured ads', icon: 'ads_click' },
                         { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
                       ].map((tab) => (
                         <button
@@ -10084,14 +10101,14 @@ export default function App() {
                             {moderatorTab === 'overview' ? 'Moderator Hub Overview' :
                               moderatorTab === 'flagged' ? 'Flagged Complaints Queue' :
                                 moderatorTab === 'community' ? 'Manage coupons' :
-                                  moderatorTab === 'coupons' ? 'Active Coupons Audit' :
+                                  moderatorTab === 'coupons' ? 'Featured Ads Campaign Hub' :
                                     'Announcements Billboard'}
                           </h2>
                           <p className="text-on-surface-variant mt-1 font-semibold">
                             {moderatorTab === 'overview' ? 'Monitor platform complaints, active site coupon indices, and bulletins.' :
                               moderatorTab === 'flagged' ? 'User-reported promotions pending standard editorial review.' :
                                 moderatorTab === 'community' ? 'Audit and manage the active live coupon ticker codes.' :
-                                  moderatorTab === 'coupons' ? 'Audit verified store coupon directories currently active.' :
+                                  moderatorTab === 'coupons' ? 'Manage and schedule premium brand featured ads.' :
                                     'Program the dynamic header ticker billboard announcements.'}
                           </p>
                         </div>
@@ -10511,115 +10528,127 @@ export default function App() {
                       )}
 
                       {/* ══════════════════════════════════════
-                          TAB: COUPONS MANAGER
+                          TAB: FEATURED ADS (allDeals)
                       ══════════════════════════════════════ */}
                       {moderatorTab === 'coupons' && (
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
-                          <div>
-                            <h3 className="font-headline font-bold text-xl text-on-surface">Live Business Coupons Directory</h3>
+                          <div className="flex justify-between items-center flex-wrap gap-4 border-b border-outline-variant/20 pb-4">
+                            <div>
+                              <h3 className="font-headline font-bold text-xl text-on-surface">Active Featured Ads Campaigns</h3>
+                              <p className="text-xs text-on-surface-variant mt-1 font-semibold">Program the premium colorful cards running in the home screen marquee ticker.</p>
+                            </div>
+                            <button
+                              onClick={() => {
+                                setEditingFeaturedAd(null);
+                                setEditingFeaturedAdIndex(-1);
+                                setFeaturedAdFormBrand('');
+                                setFeaturedAdFormTitle('');
+                                setFeaturedAdFormCode('');
+                                setFeaturedAdFormDiscount('');
+                                setFeaturedAdFormSalePrice(0);
+                                setFeaturedAdFormOriginalPrice(0);
+                                setFeaturedAdFormExpiry(3);
+                                setFeaturedAdFormBg('');
+                                setFeaturedAdFormCategory('Tech');
+                                setFeaturedAdFormState('National');
+                                setFeaturedAdFormImage('https://picsum.photos/seed/ads/400/200');
+                                setFeaturedAdFormDesc('');
+                                setFeaturedAdModalOpen(true);
+                              }}
+                              className="px-4 py-2 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-[#047c1f]/10 cursor-pointer border-none transition-colors"
+                            >
+                              <Plus className="w-4 h-4 text-[#fdc800]" /> Add Featured Ad
+                            </button>
                           </div>
 
-                          <div className="bg-white rounded-xl border border-outline-variant/30 overflow-hidden custom-shadow text-left">
-                            <div className="overflow-x-auto">
-                              <table className="hidden md:table w-full border-collapse">
-                                <thead>
-                                  <tr className="bg-surface-container-low border-b border-outline-variant/30 text-[11px] font-black text-on-surface-variant uppercase tracking-wider text-left">
-                                    <th className="py-3 px-4">Coupon Title</th>
-                                    <th className="py-3 px-4">Brand</th>
-                                    <th className="py-3 px-4">Category</th>
-                                    <th className="py-3 px-4">Discount</th>
-                                    <th className="py-3 px-4">Code</th>
-                                    <th className="py-3 px-4 text-right">Actions</th>
-                                  </tr>
-                                </thead>
-                                <tbody className="divide-y divide-outline-variant/20 text-xs font-semibold text-on-surface-variant">
-                                  {allDeals.map(deal => (
-                                    <tr key={deal.id} className="hover:bg-surface-container-low/50">
-                                      <td className="py-3.5 px-4 font-bold text-on-surface">{deal.title}</td>
-                                      <td className="py-3.5 px-4">{deal.brand || 'Store'}</td>
-                                      <td className="py-3.5 px-4">{deal.category}</td>
-                                      <td className="py-3.5 px-4 text-primary font-extrabold">{deal.salePrice ? `$${deal.salePrice.toFixed(2)} AUD` : 'Coupon'}</td>
-                                      <td className="py-3.5 px-4 font-mono font-bold text-primary">{deal.code}</td>
-                                      <td className="py-3.5 px-4 text-right">
-                                        <div className="flex gap-2 justify-end">
-                                          <button
-                                            onClick={() => {
-                                              const newTitle = prompt('Edit coupon title:', deal.title);
-                                              if (newTitle) {
-                                                setAllDeals(prev => prev.map(d => d.id === deal.id ? { ...d, title: newTitle } : d));
-                                                triggerToast('✓ Deal content updated!', 'success');
-                                              }
-                                            }}
-                                            className="px-2.5 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-bold border-none cursor-pointer transition-colors"
-                                          >
-                                            Edit
-                                          </button>
-                                          <button
-                                            onClick={() => {
-                                              setAllDeals(prev => prev.filter(d => d.id !== deal.id));
-                                              triggerToast('✕ Deal deleted from catalog.', 'warning');
-                                            }}
-                                            className="px-2.5 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 text-error font-bold border-none cursor-pointer transition-colors"
-                                          >
-                                            Delete
-                                          </button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-
-                              {/* Mobile viewports card list stack */}
-                              <div className="block md:hidden divide-y divide-outline-variant/20">
-                                {allDeals.map(deal => (
-                                  <div key={deal.id} className="p-4 space-y-3 font-semibold text-on-surface-variant text-xs">
-                                    <div className="flex justify-between items-start gap-2">
-                                      <div>
-                                        <p className="font-bold text-sm text-on-surface line-clamp-2">{deal.title}</p>
-                                        <p className="text-[10px] text-on-surface-variant font-medium mt-1">Brand: {deal.brand || 'Store'}</p>
-                                      </div>
-                                      <span className="bg-surface-container text-on-surface-variant text-[10px] font-bold px-2 py-0.5 rounded border border-outline-variant/20 select-none">
-                                        {deal.category}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {allDeals.map((deal, idx) => {
+                              const logoInitials = deal.logo || (deal.brand ? deal.brand.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'AD');
+                              const cardBgColor = deal.brandColor || deal.bg || TICKER_BRAND_COLORS[deal.brand] || '#047c1f';
+                              
+                              return (
+                                <div key={deal.id || idx} className="bg-white rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between p-4 space-y-4">
+                                  {/* Featured Ad Card Preview exactly matching screenshot */}
+                                  <div 
+                                    className="w-full h-[140px] p-3 rounded-xl text-white flex flex-col justify-between relative overflow-hidden select-none text-left shadow-inner shrink-0"
+                                    style={{ backgroundColor: cardBgColor }}
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      <span className="w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-xs text-white border-2 border-white shrink-0">
+                                        {logoInitials}
+                                      </span>
+                                      <span className="text-[13px] font-bold text-white truncate leading-tight">
+                                        {deal.brand || 'Brand'}
                                       </span>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-2 text-xs border-t border-b border-outline-variant/10 py-2">
-                                      <div>
-                                        <span className="text-[9px] text-on-surface-variant uppercase tracking-wider block">Discount Value</span>
-                                        <span className="text-primary font-extrabold text-xs block truncate">{deal.salePrice ? `$${deal.salePrice.toFixed(2)} AUD` : 'Coupon'}</span>
+
+                                    <div>
+                                      <div className="text-[18px] font-bold font-mono text-white leading-none tracking-tight">
+                                        {deal.code || 'NO CODE'}
                                       </div>
-                                      <div>
-                                        <span className="text-[9px] text-on-surface-variant uppercase tracking-wider block">Promo Code</span>
-                                        <span className="font-mono font-bold text-primary text-xs block truncate">{deal.code}</span>
+                                      <div className="flex justify-between items-center mt-1">
+                                        <span className="text-[13px] text-[#fdc800] font-extrabold">{deal.discount || 'Discount'}</span>
+                                        <span className="text-[11px] text-white font-medium">${deal.salePrice ? deal.salePrice.toFixed(0) : '0'}</span>
                                       </div>
                                     </div>
-                                    <div className="flex gap-2 pt-1">
+
+                                    <div className="flex justify-between items-center pt-2 border-t border-white/10">
+                                      <span className="text-[10px] text-white/95 flex items-center gap-1">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                        Exp: {deal.expiry || deal.expiryDays || 3}d
+                                      </span>
+
+                                      <div className="bg-white/20 px-2 py-0.5 rounded text-[9px] font-bold tracking-wider">
+                                        COPY
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* Info and action panel */}
+                                  <div className="space-y-2 flex-1 flex flex-col justify-between">
+                                    <div className="text-xs text-left">
+                                      <p className="font-bold text-slate-800 line-clamp-1">{deal.title}</p>
+                                      <p className="text-[10px] text-slate-500 font-semibold mt-1">Category: {deal.category} • {deal.state}</p>
+                                    </div>
+                                    <div className="flex gap-2">
                                       <button
                                         onClick={() => {
-                                          const newTitle = prompt('Edit coupon title:', deal.title);
-                                          if (newTitle) {
-                                            setAllDeals(prev => prev.map(d => d.id === deal.id ? { ...d, title: newTitle } : d));
-                                            triggerToast('✓ Deal content updated!', 'success');
-                                          }
+                                          setEditingFeaturedAd(deal);
+                                          setEditingFeaturedAdIndex(idx);
+                                          setFeaturedAdFormBrand(deal.brand || '');
+                                          setFeaturedAdFormTitle(deal.title || '');
+                                          setFeaturedAdFormCode(deal.code || '');
+                                          setFeaturedAdFormDiscount(deal.discount || '');
+                                          setFeaturedAdFormSalePrice(deal.salePrice || 0);
+                                          setFeaturedAdFormOriginalPrice(deal.originalPrice || 0);
+                                          setFeaturedAdFormExpiry(deal.expiry || deal.expiryDays || 3);
+                                          setFeaturedAdFormBg(deal.brandColor || deal.bg || '');
+                                          setFeaturedAdFormCategory(deal.category || 'Tech');
+                                          setFeaturedAdFormState(deal.state || 'National');
+                                          setFeaturedAdFormImage(deal.image || 'https://picsum.photos/seed/ads/400/200');
+                                          setFeaturedAdFormDesc(deal.description || '');
+                                          setFeaturedAdModalOpen(true);
                                         }}
-                                        className="flex-1 py-2 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-bold border-none cursor-pointer transition-colors text-center text-xs"
+                                        className="flex-1 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-[11px] cursor-pointer border-none transition-colors text-center"
                                       >
-                                        Edit
+                                        Edit Details
                                       </button>
                                       <button
                                         onClick={() => {
-                                          setAllDeals(prev => prev.filter(d => d.id !== deal.id));
-                                          triggerToast('✕ Deal deleted from catalog.', 'warning');
+                                          if (confirm(`Delete featured ad campaign for ${deal.brand}?`)) {
+                                            setAllDeals(prev => prev.filter((_, i) => i !== idx));
+                                            triggerToast('✕ Campaign deleted.', 'warning');
+                                          }
                                         }}
-                                        className="flex-1 py-2 rounded-lg bg-error/10 hover:bg-error/20 text-error font-bold border-none cursor-pointer transition-colors text-center text-xs"
+                                        className="py-1.5 px-3 rounded-xl bg-error/10 hover:bg-error/20 text-error font-black text-[11px] cursor-pointer border-none transition-colors"
                                       >
                                         Delete
                                       </button>
                                     </div>
                                   </div>
-                                ))}
-                              </div>
-                            </div>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       )}
@@ -10724,7 +10753,7 @@ export default function App() {
                       { key: 'overview', label: 'Overview', icon: 'dashboard' },
                       { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
                       { key: 'community', label: 'Manage coupons', icon: 'sell' },
-                      { key: 'coupons', label: 'Coupons Manager', icon: 'payments' },
+                      { key: 'coupons', label: 'Featured ads', icon: 'ads_click' },
                       { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
                     ].map((tab) => {
                       const isActive = moderatorTab === tab.key;
@@ -11932,6 +11961,350 @@ export default function App() {
                 className="w-full py-3 mt-2 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-black text-xs shadow-md shadow-[#047c1f]/10 cursor-pointer border-none transition-colors uppercase tracking-wider animate-pulse hover:animate-none"
               >
                 {editingCouponIndex === -1 ? '✓ Create Coupon Ticker' : '✓ Save Changes'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* --- Manage Featured Ad Modal --- */}
+      {featuredAdModalOpen && (
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
+          onClick={() => setFeaturedAdModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-lg bg-[#0d0d0d] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative my-8 animate-in zoom-in-95 duration-200 text-left text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setFeaturedAdModalOpen(false)}
+              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent"
+            >
+              <span className="material-symbols-outlined text-[20px]">close</span>
+            </button>
+
+            {/* Modal Title */}
+            <div>
+              <h3 className="font-headline font-black text-lg text-white">
+                {editingFeaturedAdIndex === -1 ? 'Add New Featured Ad Campaign' : 'Edit Featured Ad Campaign'}
+              </h3>
+              <p className="text-[10px] text-white/50 tracking-wider uppercase font-bold mt-0.5">
+                {editingFeaturedAdIndex === -1 ? 'Program premium colorful ticker card' : 'Modify premium colorful ticker card'}
+              </p>
+            </div>
+
+            {/* Live Preview Card matching the screenshot style */}
+            <div className="space-y-2">
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Live Visual Card Preview</span>
+              <div className="bg-[#141414] border border-white/5 p-6 rounded-2xl flex items-center justify-center min-h-[160px]">
+                <div
+                  className="w-[200px] h-[140px] p-3 rounded-xl text-white flex flex-col justify-between relative overflow-hidden select-none text-left shadow-inner transition-all duration-300 shrink-0"
+                  style={{
+                    backgroundColor: featuredAdFormBg || TICKER_BRAND_COLORS[featuredAdFormBrand] || '#047c1f'
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-xs text-white border-2 border-white shrink-0">
+                      {featuredAdFormBrand ? featuredAdFormBrand.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'AD'}
+                    </span>
+                    <span className="text-[13px] font-bold text-white truncate leading-tight">
+                      {featuredAdFormBrand || 'Brand Name'}
+                    </span>
+                  </div>
+
+                  <div>
+                    <div className="text-[18px] font-bold font-mono text-white leading-none tracking-tight">
+                      {featuredAdFormCode.toUpperCase() || 'PROMOCODE'}
+                    </div>
+                    <div className="flex justify-between items-center mt-1">
+                      <span className="text-[13px] text-[#fdc800] font-extrabold">{featuredAdFormDiscount || 'Discount'}</span>
+                      <span className="text-[11px] text-white font-medium">${parseFloat(featuredAdFormSalePrice || 0).toFixed(0)}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2 border-t border-white/10">
+                    <span className="text-[10px] text-white/95 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      Exp: {featuredAdFormExpiry}d
+                    </span>
+
+                    <div className="bg-white/20 px-2 py-0.5 rounded text-[9px] font-bold tracking-wider">
+                      COPY
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Form Fields */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!featuredAdFormBrand.trim() || !featuredAdFormTitle.trim() || !featuredAdFormCode.trim() || !featuredAdFormDiscount.trim()) {
+                  triggerToast('⚠️ Please fill in all required fields (Brand, Title, Code, Discount)!', 'warning');
+                  return;
+                }
+
+                const logoInit = featuredAdFormBrand.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+
+                const finalAd = {
+                  id: editingFeaturedAdIndex === -1 ? `d_custom_${Date.now()}` : editingFeaturedAd.id,
+                  brand: featuredAdFormBrand.trim(),
+                  logo: logoInit,
+                  logoBg: `bg-slate-900 text-white`,
+                  title: featuredAdFormTitle.trim(),
+                  code: featuredAdFormCode.trim().toUpperCase(),
+                  originalPrice: parseFloat(featuredAdFormOriginalPrice) || 0,
+                  salePrice: parseFloat(featuredAdFormSalePrice) || 0,
+                  discount: featuredAdFormDiscount.trim(),
+                  expiry: parseInt(featuredAdFormExpiry) || 3,
+                  expiryDays: parseInt(featuredAdFormExpiry) || 3,
+                  category: featuredAdFormCategory,
+                  state: featuredAdFormState,
+                  image: featuredAdFormImage.trim() || 'https://picsum.photos/seed/ads/400/200',
+                  description: featuredAdFormDesc.trim(),
+                  brandColor: featuredAdFormBg.trim() || undefined,
+                  bg: featuredAdFormBg.trim() || undefined
+                };
+
+                if (editingFeaturedAdIndex === -1) {
+                  // Add new
+                  setAllDeals(prev => [finalAd, ...prev]);
+                  triggerToast('✓ Featured Ad campaign created!', 'success');
+                } else {
+                  // Edit existing
+                  setAllDeals(prev => prev.map((item, idx) => idx === editingFeaturedAdIndex ? finalAd : item));
+                  triggerToast('✓ Featured Ad campaign saved!', 'success');
+                }
+
+                setFeaturedAdModalOpen(false);
+              }}
+              className="space-y-4 max-h-[40vh] overflow-y-auto pr-2 no-scrollbar"
+            >
+              <div className="grid grid-cols-2 gap-4">
+                {/* Brand Name */}
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Brand Name</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Woolworths"
+                    value={featuredAdFormBrand}
+                    onChange={(e) => setFeaturedAdFormBrand(e.target.value)}
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                  />
+                </div>
+
+                {/* Coupon Code */}
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Promo Code</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. WOOLIES10"
+                    value={featuredAdFormCode}
+                    onChange={(e) => setFeaturedAdFormCode(e.target.value)}
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-mono font-bold uppercase"
+                  />
+                </div>
+              </div>
+
+              {/* Title */}
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Campaign Ad Title</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Half Price Cadbury Blocks & Kettle Chips"
+                  value={featuredAdFormTitle}
+                  onChange={(e) => setFeaturedAdFormTitle(e.target.value)}
+                  className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                {/* Discount */}
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Discount Text</label>
+                  <input
+                    type="text"
+                    placeholder="50% OFF"
+                    value={featuredAdFormDiscount}
+                    onChange={(e) => setFeaturedAdFormDiscount(e.target.value)}
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                  />
+                </div>
+
+                {/* Sale Price */}
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Sale Price ($)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    placeholder="3.00"
+                    value={featuredAdFormSalePrice}
+                    onChange={(e) => setFeaturedAdFormSalePrice(e.target.value)}
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                  />
+                </div>
+
+                {/* Original Price */}
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Original Price ($)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    placeholder="6.00"
+                    value={featuredAdFormOriginalPrice}
+                    onChange={(e) => setFeaturedAdFormOriginalPrice(e.target.value)}
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                  />
+                </div>
+              </div>
+
+              {/* Background Color Picker */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Card Background Color</label>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { name: 'Woolies Green', bg: '#006B3C' },
+                    { name: 'Navy', bg: '#1A1A2E' },
+                    { name: 'Charcoal', bg: '#1a1a1a' },
+                    { name: 'Crimson', bg: '#B71C1C' },
+                    { name: 'Royal Blue', bg: '#1565C0' },
+                    { name: 'Orange', bg: '#D84315' },
+                    { name: 'Purple', bg: '#4A148C' }
+                  ].map((color) => {
+                    const isSelected = featuredAdFormBg === color.bg;
+                    return (
+                      <button
+                        key={color.bg}
+                        type="button"
+                        onClick={() => setFeaturedAdFormBg(color.bg)}
+                        title={color.name}
+                        className="w-6 h-6 rounded-full cursor-pointer relative border border-white/20 hover:scale-105 active:scale-95 transition-transform"
+                        style={{ backgroundColor: color.bg }}
+                      >
+                        {isSelected && (
+                          <span className="absolute inset-0 flex items-center justify-center text-white text-[10px] font-bold">
+                            ✓
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                  <button
+                    type="button"
+                    onClick={() => setFeaturedAdFormBg('')}
+                    className={`px-2.5 py-0.5 rounded-md text-[9px] font-bold cursor-pointer border hover:bg-white/10 transition-colors uppercase ${
+                      featuredAdFormBg === '' ? 'border-[#047c1f] text-[#047c1f]' : 'border-white/10 text-white/60'
+                    }`}
+                  >
+                    Default
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-white/20">
+                    <input
+                      type="color"
+                      value={featuredAdFormBg || '#000000'}
+                      onChange={(e) => setFeaturedAdFormBg(e.target.value)}
+                      className="absolute inset-0 w-full h-full p-0 border-0 cursor-pointer scale-150"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Custom Hex (e.g. #006B3C)"
+                    value={featuredAdFormBg}
+                    onChange={(e) => setFeaturedAdFormBg(e.target.value)}
+                    className="flex-1 bg-[#141414] text-white placeholder-white/30 p-2 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-mono font-bold"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                {/* Expiry Days */}
+                <div className="space-y-1 col-span-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Expiry Days</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="60"
+                    value={featuredAdFormExpiry}
+                    onChange={(e) => setFeaturedAdFormExpiry(parseInt(e.target.value) || 1)}
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                  />
+                </div>
+
+                {/* Category */}
+                <div className="space-y-1 col-span-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Category</label>
+                  <select
+                    value={featuredAdFormCategory}
+                    onChange={(e) => setFeaturedAdFormCategory(e.target.value)}
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                  >
+                    <option value="Groceries">Groceries</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Fashion">Fashion</option>
+                    <option value="F&D">Food & Drink</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Home">Home & Garden</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Outdoors">Outdoors</option>
+                    <option value="Health & Beauty">Health & Beauty</option>
+                  </select>
+                </div>
+
+                {/* State */}
+                <div className="space-y-1 col-span-1">
+                  <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">State</label>
+                  <select
+                    value={featuredAdFormState}
+                    onChange={(e) => setFeaturedAdFormState(e.target.value)}
+                    className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                  >
+                    <option value="National">National</option>
+                    <option value="NSW">NSW</option>
+                    <option value="VIC">VIC</option>
+                    <option value="QLD">QLD</option>
+                    <option value="WA">WA</option>
+                    <option value="SA">SA</option>
+                    <option value="TAS">TAS</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Image URL */}
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Image URL</label>
+                <input
+                  type="text"
+                  placeholder="https://picsum.photos/..."
+                  value={featuredAdFormImage}
+                  onChange={(e) => setFeaturedAdFormImage(e.target.value)}
+                  className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
+                />
+              </div>
+
+              {/* Description */}
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Ad Description</label>
+                <textarea
+                  rows="2"
+                  placeholder="Weekly discount campaign details..."
+                  value={featuredAdFormDesc}
+                  onChange={(e) => setFeaturedAdFormDesc(e.target.value)}
+                  className="w-full bg-[#141414] text-white p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold resize-none no-scrollbar"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full py-3 mt-2 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-black text-xs shadow-md shadow-[#047c1f]/10 cursor-pointer border-none transition-colors uppercase tracking-wider font-sans"
+              >
+                {editingFeaturedAdIndex === -1 ? '✓ Create Featured Ad' : '✓ Save Campaign Details'}
               </button>
             </form>
           </div>
