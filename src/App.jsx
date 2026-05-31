@@ -634,7 +634,11 @@ const DealCard = ({
     >
       {/* Card Top Block / Image Container */}
       <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-        {isExpired ? (
+        {deal.flagged ? (
+          <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 bg-[#e53935] text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-[8.5px] sm:text-[9px] font-bold flex items-center gap-1.5 shadow-md uppercase tracking-wider animate-pulse select-none">
+            <span className="material-symbols-outlined text-[12px]">warning</span> FLAGGED
+          </div>
+        ) : isExpired ? (
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 bg-slate-600 text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-[8.5px] sm:text-[9px] font-bold flex items-center gap-1 shadow-md uppercase tracking-wider">
             <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> EXPIRED
           </div>
@@ -1166,6 +1170,16 @@ export default function App() {
   const [featuredAdFormState, setFeaturedAdFormState] = useState('National');
   const [featuredAdFormImage, setFeaturedAdFormImage] = useState('');
   const [featuredAdFormDesc, setFeaturedAdFormDesc] = useState('');
+
+  // --- Merchant / Community Deals Report States ---
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [reportingDeal, setReportingDeal] = useState(null);
+  const [reportMessage, setReportMessage] = useState('');
+  const [reportRecipient, setReportRecipient] = useState('');
+  const [merchantReports, setMerchantReports] = useState([
+    { id: 'rep1', brand: 'JB Hi-Fi Support', title: 'Samsung 65" QLED 4K Smart TV', message: 'The promotion is showing as active on our end, but user reports claim the coupon code JBHIFI20 is returning an invalid error page. Please check store API integration.', date: 'May 30, 2026', status: 'Pending Merchant Reply' },
+    { id: 'rep2', brand: 'Woolworths Merchant Team', title: 'Half Price Cadbury Blocks & Kettle Chips', message: 'Pricing check passed. Weekly catalog update verified.', date: 'May 28, 2026', status: 'Resolved' }
+  ]);
 
   // --- Interface & Data State ---
   const [activeFilter, setActiveFilter] = useState('All');
@@ -2691,7 +2705,7 @@ export default function App() {
         deal.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         deal.brand.toLowerCase().includes(searchQuery.toLowerCase());
 
-      return matchesCategory && matchesLocation && matchesDiscount && matchesExpiry && matchesSearch;
+      return !deal.hidden && matchesCategory && matchesLocation && matchesDiscount && matchesExpiry && matchesSearch;
     });
 
     // Sort logic
@@ -9995,6 +10009,7 @@ export default function App() {
                       {[
                         { key: 'overview', label: 'Mod Overview', icon: 'dashboard' },
                         { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
+                        { key: 'community_deals', label: 'Community deals', icon: 'storefront' },
                         { key: 'community', label: 'Manage coupons', icon: 'sell' },
                         { key: 'coupons', label: 'Featured ads', icon: 'ads_click' },
                         { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
@@ -10100,16 +10115,18 @@ export default function App() {
                           <h2 className="text-3xl font-headline font-bold text-on-surface">
                             {moderatorTab === 'overview' ? 'Moderator Hub Overview' :
                               moderatorTab === 'flagged' ? 'Flagged Complaints Queue' :
-                                moderatorTab === 'community' ? 'Manage coupons' :
-                                  moderatorTab === 'coupons' ? 'Featured Ads Campaign Hub' :
-                                    'Announcements Billboard'}
+                                moderatorTab === 'community_deals' ? 'Community Deals Dashboard' :
+                                  moderatorTab === 'community' ? 'Manage coupons' :
+                                    moderatorTab === 'coupons' ? 'Featured Ads Campaign Hub' :
+                                      'Announcements Billboard'}
                           </h2>
                           <p className="text-on-surface-variant mt-1 font-semibold">
                             {moderatorTab === 'overview' ? 'Monitor platform complaints, active site coupon indices, and bulletins.' :
                               moderatorTab === 'flagged' ? 'User-reported promotions pending standard editorial review.' :
-                                moderatorTab === 'community' ? 'Audit and manage the active live coupon ticker codes.' :
-                                  moderatorTab === 'coupons' ? 'Manage and schedule premium brand featured ads.' :
-                                    'Program the dynamic header ticker billboard announcements.'}
+                                moderatorTab === 'community_deals' ? 'Review, moderate, and contact registered dealer authors for trending feed deals.' :
+                                  moderatorTab === 'community' ? 'Audit and manage the active live coupon ticker codes.' :
+                                    moderatorTab === 'coupons' ? 'Manage and schedule premium brand featured ads.' :
+                                      'Program the dynamic header ticker billboard announcements.'}
                           </p>
                         </div>
                         <div className="flex gap-3 shrink-0">
@@ -10528,6 +10545,254 @@ export default function App() {
                       )}
 
                       {/* ══════════════════════════════════════
+                          TAB: COMMUNITY DEALS MANAGER
+                      ══════════════════════════════════════ */}
+                      {moderatorTab === 'community_deals' && (
+                        <div className="space-y-8 animate-in fade-in duration-300 text-left">
+                          
+                          {/* Top Metric Cards */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="bg-white rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                                <span className="material-symbols-outlined text-[24px]">local_fire_department</span>
+                              </div>
+                              <div>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Feed Campaigns</p>
+                                <h4 className="text-2xl font-black text-slate-800 leading-none mt-1">{allDeals.length}</h4>
+                              </div>
+                            </div>
+                            
+                            <div className="bg-white rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center text-error animate-pulse">
+                                <span className="material-symbols-outlined text-[24px]">warning</span>
+                              </div>
+                              <div>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Active Flagged Deals</p>
+                                <h4 className="text-2xl font-black text-slate-800 leading-none mt-1">
+                                  {allDeals.filter(d => d.flagged).length}
+                                </h4>
+                              </div>
+                            </div>
+
+                            <div className="bg-white rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500">
+                                <span className="material-symbols-outlined text-[24px]">visibility_off</span>
+                              </div>
+                              <div>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Hidden Campaigns</p>
+                                <h4 className="text-2xl font-black text-slate-800 leading-none mt-1">
+                                  {allDeals.filter(d => d.hidden).length}
+                                </h4>
+                              </div>
+                            </div>
+
+                            <div className="bg-white rounded-2xl p-5 border border-outline-variant/30 shadow-sm flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-[#fdc800]/10 flex items-center justify-center text-amber-600">
+                                <span className="material-symbols-outlined text-[24px]">chat_bubble_outline</span>
+                              </div>
+                              <div>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Merchant Reports</p>
+                                <h4 className="text-2xl font-black text-slate-800 leading-none mt-1">
+                                  {merchantReports.filter(r => r.status !== 'Resolved').length} Active
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Split layout: Deals Grid & Reports History */}
+                          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                            
+                            {/* Deals Grid Panel */}
+                            <div className="xl:col-span-2 space-y-6">
+                              <div className="border-b border-outline-variant/20 pb-3 flex justify-between items-center">
+                                <h3 className="font-headline font-bold text-lg text-on-surface">Trending Feed Deals</h3>
+                                <span className="text-xs text-on-surface-variant font-semibold bg-surface-container px-2.5 py-1 rounded-full border border-outline-variant/10">
+                                  {allDeals.filter(d => !d.hidden).length} Visible in Feed
+                                </span>
+                              </div>
+
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {allDeals.map((deal) => (
+                                  <div 
+                                    key={deal.id} 
+                                    className={`bg-white rounded-2xl border p-4 flex flex-col justify-between space-y-4 transition-all ${
+                                      deal.hidden 
+                                        ? 'border-dashed border-slate-300 opacity-60' 
+                                        : deal.flagged 
+                                          ? 'border-[#e53935]/40 shadow-sm shadow-red-500/5' 
+                                          : 'border-outline-variant/30 shadow-sm hover:shadow-md'
+                                    }`}
+                                  >
+                                    {/* Brand info and Status Badges */}
+                                    <div className="flex justify-between items-start">
+                                      <div className="flex items-center gap-2">
+                                        <div className={`w-8 h-8 rounded-lg ${deal.logoBg || 'bg-[#047c1f] text-white'} font-black text-xs flex items-center justify-center shrink-0`}>
+                                          {deal.logo || deal.brand.substring(0,2).toUpperCase()}
+                                        </div>
+                                        <div>
+                                          <h4 className="font-bold text-slate-800 leading-none text-xs">{deal.brand}</h4>
+                                          <p className="text-[9px] text-slate-400 font-bold mt-0.5">{deal.category} • {deal.state}</p>
+                                        </div>
+                                      </div>
+
+                                      <div className="flex gap-1.5">
+                                        {deal.flagged && (
+                                          <span className="bg-[#e53935]/10 text-[#e53935] text-[8px] font-black px-2 py-0.5 rounded border border-[#e53935]/20 uppercase tracking-wider animate-pulse flex items-center gap-0.5">
+                                            <span className="material-symbols-outlined text-[10px]">warning</span> Flagged
+                                          </span>
+                                        )}
+                                        {deal.hidden && (
+                                          <span className="bg-slate-100 text-slate-500 text-[8px] font-black px-2 py-0.5 rounded border border-slate-200 uppercase tracking-wider flex items-center gap-0.5">
+                                            <span className="material-symbols-outlined text-[10px]">visibility_off</span> Hidden
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    {/* Campaign details */}
+                                    <div className="space-y-1">
+                                      <p className="font-bold text-slate-800 text-sm leading-snug line-clamp-2" title={deal.title}>
+                                        {deal.title}
+                                      </p>
+                                      <div className="flex items-baseline gap-2 pt-1">
+                                        <span className="text-sm font-black text-slate-800">${deal.salePrice ? deal.salePrice.toFixed(2) : '0.00'}</span>
+                                        {deal.originalPrice && (
+                                          <span className="text-[10px] text-slate-400 font-bold line-through">${deal.originalPrice.toFixed(2)}</span>
+                                        )}
+                                        <span className="text-[10px] font-black text-secondary uppercase bg-secondary/10 px-1.5 rounded ml-auto">
+                                          {deal.discount}
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    {/* Campaign Controls */}
+                                    <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
+                                      {/* Flag/Unflag */}
+                                      <button
+                                        onClick={() => {
+                                          const nextFlag = !deal.flagged;
+                                          setAllDeals(prev => prev.map(d => d.id === deal.id ? { ...d, flagged: nextFlag } : d));
+                                          triggerToast(nextFlag ? '🚨 Deal marked as FLAGGED!' : '✓ Deal flag removed.', nextFlag ? 'error' : 'success');
+                                        }}
+                                        className={`py-1.5 rounded-xl font-bold text-[10px] cursor-pointer border transition-colors flex items-center justify-center gap-1 ${
+                                          deal.flagged 
+                                            ? 'bg-red-50 hover:bg-red-100 border-red-200 text-red-600' 
+                                            : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'
+                                        }`}
+                                      >
+                                        <span className="material-symbols-outlined text-xs">warning</span>
+                                        {deal.flagged ? 'Unflag' : 'Flag Campaign'}
+                                      </button>
+
+                                      {/* Hide/Show */}
+                                      <button
+                                        onClick={() => {
+                                          const nextHidden = !deal.hidden;
+                                          setAllDeals(prev => prev.map(d => d.id === deal.id ? { ...d, hidden: nextHidden } : d));
+                                          triggerToast(nextHidden ? '👁 Campaign hidden from homepage feed.' : '👁 Campaign restored to homepage feed.', nextHidden ? 'warning' : 'success');
+                                        }}
+                                        className={`py-1.5 rounded-xl font-bold text-[10px] cursor-pointer border transition-colors flex items-center justify-center gap-1 ${
+                                          deal.hidden 
+                                            ? 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700' 
+                                            : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'
+                                        }`}
+                                      >
+                                        <span className="material-symbols-outlined text-xs">
+                                          {deal.hidden ? 'visibility' : 'visibility_off'}
+                                        </span>
+                                        {deal.hidden ? 'Show Feed' : 'Hide Feed'}
+                                      </button>
+
+                                      {/* Contact Brand Support */}
+                                      <button
+                                        onClick={() => {
+                                          setReportingDeal(deal);
+                                          setReportRecipient(`${deal.brand} Merchant Team`);
+                                          setReportMessage(`Hi Team,\n\nWe noticed a complaint on your "${deal.title}" deal campaign. Please verify if stock levels or pricing matches current active in-store catalogs.\n\nWarm regards,\nEditorial moderation desk.`);
+                                          setReportModalOpen(true);
+                                        }}
+                                        className="py-1.5 rounded-xl font-bold text-[10px] bg-slate-900 hover:bg-black text-white cursor-pointer border-none transition-colors flex items-center justify-center gap-1 col-span-2"
+                                      >
+                                        <span className="material-symbols-outlined text-xs">chat_bubble</span>
+                                        Report to Brand Owner
+                                      </button>
+                                      
+                                      {/* Delete campaign */}
+                                      <button
+                                        onClick={() => {
+                                          if (confirm(`Are you absolutely sure you want to delete the ${deal.brand} campaign permanently from feed?`)) {
+                                            setAllDeals(prev => prev.filter(d => d.id !== deal.id));
+                                            triggerToast('✕ Campaign permanently deleted.', 'warning');
+                                          }
+                                        }}
+                                        className="py-1 rounded-xl bg-error/10 hover:bg-error/20 text-error font-extrabold text-[9px] cursor-pointer border-none transition-colors col-span-2"
+                                      >
+                                        Delete Campaign Permanently
+                                      </button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Reports and Brand Correspondence History */}
+                            <div className="space-y-6">
+                              <div className="border-b border-outline-variant/20 pb-3">
+                                <h3 className="font-headline font-bold text-lg text-on-surface">Dealer Communication Log</h3>
+                              </div>
+
+                              <div className="space-y-4">
+                                {merchantReports.map((report) => (
+                                  <div key={report.id} className="bg-white rounded-2xl border border-outline-variant/30 p-4 shadow-sm space-y-3 text-left">
+                                    <div className="flex justify-between items-start gap-2">
+                                      <div>
+                                        <h4 className="font-black text-slate-800 text-xs">{report.brand}</h4>
+                                        <span className="text-[9px] text-slate-400 font-bold block mt-0.5">Campaign: {report.title}</span>
+                                      </div>
+                                      
+                                      <span className={`text-[8px] font-black px-2 py-0.5 rounded-full border uppercase tracking-wider ${
+                                        report.status === 'Resolved' 
+                                          ? 'bg-emerald-50 border-emerald-200 text-emerald-600' 
+                                          : 'bg-amber-50 border-amber-200 text-amber-600'
+                                      }`}>
+                                        {report.status}
+                                      </span>
+                                    </div>
+
+                                    <p className="text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 whitespace-pre-wrap leading-relaxed">
+                                      {report.message}
+                                    </p>
+
+                                    <div className="flex justify-between items-center text-[10px] text-slate-400 font-bold pt-1.5 border-t border-slate-50">
+                                      <span>Sent: {report.date}</span>
+                                      {report.status !== 'Resolved' && (
+                                        <button
+                                          onClick={() => {
+                                            setMerchantReports(prev => prev.map(r => r.id === report.id ? { ...r, status: 'Resolved' } : r));
+                                            triggerToast('✓ Conversation marked as resolved.', 'success');
+                                          }}
+                                          className="text-primary hover:underline cursor-pointer border-none bg-transparent font-bold text-[10px]"
+                                        >
+                                          Mark Resolved
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                ))}
+
+                                {merchantReports.length === 0 && (
+                                  <div className="bg-slate-50 rounded-2xl border border-dashed border-slate-200 p-8 text-center text-slate-400 text-xs">
+                                    <span className="material-symbols-outlined text-[32px] block text-slate-300 mb-1">chat</span>
+                                    No dealer messages logged yet.
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ══════════════════════════════════════
                           TAB: FEATURED ADS (allDeals)
                       ══════════════════════════════════════ */}
                       {moderatorTab === 'coupons' && (
@@ -10752,6 +11017,7 @@ export default function App() {
                     {[
                       { key: 'overview', label: 'Overview', icon: 'dashboard' },
                       { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
+                      { key: 'community_deals', label: 'Community deals', icon: 'storefront' },
                       { key: 'community', label: 'Manage coupons', icon: 'sell' },
                       { key: 'coupons', label: 'Featured ads', icon: 'ads_click' },
                       { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
@@ -12306,6 +12572,104 @@ export default function App() {
               >
                 {editingFeaturedAdIndex === -1 ? '✓ Create Featured Ad' : '✓ Save Campaign Details'}
               </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* --- Merchant Report Modal --- */}
+      {reportModalOpen && (
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
+          onClick={() => setReportModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-lg bg-[#0d0d0d] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative my-8 animate-in zoom-in-95 duration-200 text-left text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setReportModalOpen(false)}
+              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent"
+            >
+              <span className="material-symbols-outlined text-[20px]">close</span>
+            </button>
+
+            {/* Title */}
+            <div>
+              <h3 className="font-headline font-black text-lg text-white flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-primary text-[20px]">chat</span>
+                Report Campaign to Brand Dealer
+              </h3>
+              <p className="text-[10px] text-white/50 tracking-wider uppercase font-bold mt-0.5">
+                Send warning message or inquiry directly to registered merchant owners
+              </p>
+            </div>
+
+            {/* Recipient Details */}
+            <div className="p-4 bg-[#141414] border border-white/5 rounded-2xl space-y-2">
+              <div>
+                <span className="text-[9px] text-white/40 uppercase tracking-wider block font-bold">RECIPIENT BRAND DEALER</span>
+                <span className="text-xs font-bold text-white block mt-0.5">{reportRecipient}</span>
+              </div>
+              <div>
+                <span className="text-[9px] text-white/40 uppercase tracking-wider block font-bold">CONCERNING CAMPAIGN</span>
+                <span className="text-xs font-bold text-[#fdc800] block mt-0.5 truncate">{reportingDeal?.title}</span>
+              </div>
+            </div>
+
+            {/* Input Message Form */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!reportMessage.trim()) {
+                  triggerToast('⚠️ Please write a message to the brand owner!', 'warning');
+                  return;
+                }
+
+                const newReport = {
+                  id: `rep_${Date.now()}`,
+                  brand: reportRecipient,
+                  title: reportingDeal?.title || 'General Store Campaign',
+                  message: reportMessage.trim(),
+                  date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                  status: 'Pending Merchant Reply'
+                };
+
+                setMerchantReports(prev => [newReport, ...prev]);
+                triggerToast('✓ Report dispatched directly to Brand Dealer backend dashboard!', 'success');
+                setReportModalOpen(false);
+              }}
+              className="space-y-4"
+            >
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Report / Inquiries Message</label>
+                <textarea
+                  rows="6"
+                  required
+                  placeholder="Type specific guidance, warnings, or correction notes to the brand owner here..."
+                  value={reportMessage}
+                  onChange={(e) => setReportMessage(e.target.value)}
+                  className="w-full bg-[#141414] text-white placeholder-white/30 p-3.5 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-sans leading-relaxed resize-none no-scrollbar"
+                />
+              </div>
+
+              {/* Submit Action */}
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setReportModalOpen(false)}
+                  className="flex-1 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold text-xs border-none cursor-pointer transition-colors uppercase tracking-wider"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-3 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-black text-xs shadow-md shadow-[#047c1f]/10 cursor-pointer border-none transition-colors uppercase tracking-wider"
+                >
+                  Send Report
+                </button>
+              </div>
             </form>
           </div>
         </div>
