@@ -13459,11 +13459,11 @@ export default function App() {
       {/* --- Manage Coupon Ticker Modal --- */}
       {couponModalOpen && (
         <div
-          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200"
+          className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
           onClick={() => setCouponModalOpen(false)}
         >
           <div
-            className="w-full max-w-md bg-[#0d0d0d] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200 text-left text-white"
+            className="w-full max-w-md bg-[#0d0d0d] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200 text-left text-white max-h-[90vh] overflow-y-auto no-scrollbar"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -14392,7 +14392,7 @@ export default function App() {
       {communityPanelOpen && (
         <div
           className="fixed inset-0 z-[2000] flex 
-            items-center justify-center p-4 sm:p-6
+            items-center justify-center p-0 sm:p-6
             bg-slate-900/70 backdrop-blur-sm 
             animate-in fade-in duration-200"
           onClick={(e) => {
@@ -14404,12 +14404,12 @@ export default function App() {
           }}
         >
           <div
-            className="bg-[#f6f7f8] rounded-2xl
-              border border-[#e8e8e8] 
+            className="bg-[#f6f7f8] rounded-none sm:rounded-2xl
+              border-0 sm:border border-[#e8e8e8] 
               shadow-2xl flex overflow-hidden 
               animate-in zoom-in-95 duration-300
-              w-full max-w-[920px] h-[80vh] sm:h-[660px] 
-              max-h-[calc(100vh-32px)]"
+              w-full max-w-[920px] h-full sm:h-[660px] 
+              max-h-screen sm:max-h-[calc(100vh-32px)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* ── LEFT COLUMN: existing feed content ── */}
@@ -14417,10 +14417,10 @@ export default function App() {
 
               {/* ── PANEL HEADER ── */}
               <div className="bg-white border-b 
-              border-[#e8e8e8] px-4 py-3 
+              border-[#e8e8e8] px-3 sm:px-4 py-3 
               flex items-center justify-between 
               shrink-0 select-none">
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
                   {expandedPost && (
                     <button
                       onClick={() => {
@@ -14432,11 +14432,11 @@ export default function App() {
                       <ChevronLeft className="w-4 h-4 text-slate-650" />
                     </button>
                   )}
-                  <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-inner">
-                    <MessageSquare className="w-4.5 h-4.5 text-[#047c1f]" />
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-inner shrink-0">
+                    <MessageSquare className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#047c1f]" />
                   </div>
-                  <div>
-                    <h2 className="font-extrabold text-[15px] text-slate-900 leading-tight">
+                  <div className="min-w-0">
+                    <h2 className="font-extrabold text-[13px] sm:text-[15px] text-slate-900 leading-tight truncate max-w-[110px] min-[360px]:max-w-[150px] sm:max-w-none">
                       {expandedPost
                         ? expandedPost.title.substring(0, 35) + '...'
                         : showCreatePost
@@ -14444,13 +14444,13 @@ export default function App() {
                           : 'r/7deals Community 🇦🇺'}
                     </h2>
                     {!expandedPost && !showCreatePost && (
-                      <p className="text-[10px] text-slate-400 font-bold tracking-wide">
-                        {communityDeals.length} posts · Australian bargain hunters
+                      <p className="text-[9px] sm:text-[10px] text-slate-400 font-bold tracking-wide truncate">
+                        {communityDeals.length} posts · Bargains
                       </p>
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                   {!expandedPost && !showCreatePost && (
                     <button
                       onClick={() => {
@@ -14462,10 +14462,10 @@ export default function App() {
                         }
                         setShowCreatePost(true);
                       }}
-                      className="flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#fdc800] hover:bg-[#e0b000] active:scale-95 text-[#0d0d0d] font-black text-[12px] cursor-pointer transition-all shadow-sm"
+                      className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3.5 sm:py-1.5 rounded-full bg-[#fdc800] hover:bg-[#e0b000] active:scale-95 text-[#0d0d0d] font-black text-[11px] sm:text-[12px] cursor-pointer transition-all shadow-sm"
                     >
                       <Plus className="w-3.5 h-3.5" />
-                      Post
+                      <span className="hidden min-[360px]:inline">Post</span>
                     </button>
                   )}
                   <button
@@ -14474,10 +14474,10 @@ export default function App() {
                       setExpandedPost(null);
                       setShowCreatePost(false);
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 hover:bg-red-50 hover:text-red-550 active:scale-95 text-slate-500 border border-slate-200 hover:border-red-200 transition-all duration-150 cursor-pointer font-bold text-[12px]"
+                    className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full bg-slate-50 hover:bg-red-50 hover:text-red-550 active:scale-95 text-slate-500 border border-slate-200 hover:border-red-200 transition-all duration-150 cursor-pointer font-bold text-[11px] sm:text-[12px]"
                   >
                     <X className="w-3.5 h-3.5" />
-                    Close
+                    <span className="hidden min-[360px]:inline">Close</span>
                   </button>
                 </div>
               </div>
