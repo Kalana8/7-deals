@@ -588,7 +588,7 @@ const DealCard = ({
   const targetDateRef = React.useRef(null);
   if (!targetDateRef.current) {
     const target = new Date();
-    const daysToAdd = deal.expiry === 0 ? 0.5 : (deal.expiry || 1);
+    const daysToAdd = deal.expiry === 0 ? -0.1 : (deal.expiry || 1);
     targetDateRef.current = target.getTime() + daysToAdd * 24 * 60 * 60 * 1000;
   }
 
@@ -630,7 +630,7 @@ const DealCard = ({
           window.location.hash = `#deal/${deal.id}`;
         }
       }}
-      className={`bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(4,124,31,0.12)] transition-all duration-300 border border-slate-200/50 flex flex-col justify-between group cursor-pointer ${isExpired ? 'opacity-50 pointer-events-none' : ''}`}
+      className={`bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_24px_rgba(4,124,31,0.12)] transition-all duration-300 border border-slate-200/50 flex flex-col justify-between group cursor-pointer ${isExpired ? 'opacity-25 pointer-events-none' : ''}`}
     >
       {/* Card Top Block / Image Container */}
       <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
@@ -1223,7 +1223,7 @@ export default function App() {
   // --- Dynamic Operations ---
   const [communityDeals, setCommunityDeals] = useState(INITIAL_COMMUNITY_DEALS);
   const [upvotedPosts, setUpvotedPosts] = useState(new Set());
-  const [savedDeals, setSavedDeals] = useState(new Set());
+  const [savedDeals, setSavedDeals] = useState(new Set(['d1', 'd3', 'd5']));
 
   const [communityPanelOpen, setCommunityPanelOpen] =
     useState(false);
@@ -1462,6 +1462,27 @@ export default function App() {
     duration: '7 days',
   });
 
+  // Executive Banner Ad request state
+  const [executiveBannerRequests, setExecutiveBannerRequests] = useState([
+    {
+      id: 'ebr1',
+      dealTitle: 'Sony WH-1000XM5 headphones discount',
+      requestedDate: '24 May 2025',
+      status: 'Pending',
+      bannerText: '🔥 Executive Special: Sony ANC Headphones deal! 🔥',
+      budget: '$150 AUD',
+      duration: '7 days'
+    }
+  ]);
+  const [showExecutiveBannerRequest, setShowExecutiveBannerRequest] = useState(false);
+  const [executiveRequestForm, setExecutiveRequestForm] = useState({
+    dealTitle: '',
+    bannerText: '',
+    budget: '',
+    duration: '7 days',
+    placementNotes: ''
+  });
+
   // Retailer profile edit state
   const [editingProfile, setEditingProfile] = useState(false);
   const [retailerProfile, setRetailerProfile] = useState({
@@ -1679,7 +1700,6 @@ export default function App() {
 
   // Category management
   const [adminCategories, setAdminCategories] = useState([
-    { id: 'ac1', label: 'All Deals', value: 'All', emoji: '🏷️', active: true, dealCount: 24 },
     { id: 'ac2', label: 'F&D', value: 'F&D', emoji: '🍔', active: true, dealCount: 6 },
     { id: 'ac3', label: 'Tech', value: 'Tech', emoji: '💻', active: true, dealCount: 5 },
     { id: 'ac4', label: 'Fashion', value: 'Fashion', emoji: '👗', active: true, dealCount: 4 },
@@ -5584,10 +5604,16 @@ export default function App() {
                         Array.from(savedDeals).map((dealId) => {
                           const deal = allDeals.find(d => d.id === dealId);
                           if (!deal) return null;
+                          const isExpired = deal.expiry === 0;
                           return (
-                            <div key={deal.id} className="bg-white border border-[#e8e8e8] rounded-3xl p-5 shadow-sm space-y-4 flex flex-col justify-between">
+                            <div key={deal.id} className={`bg-white border border-[#e8e8e8] rounded-3xl p-5 shadow-sm space-y-4 flex flex-col justify-between transition-all duration-300 ${isExpired ? 'opacity-25 pointer-events-none select-none' : ''}`}>
                               <div className="space-y-2 text-left">
-                                <span className="px-2.5 py-1 text-[9px] font-extrabold bg-[#e6f2e8] text-[#047c1f] rounded-full uppercase tracking-wider">{deal.category}</span>
+                                <div className="flex items-center justify-between">
+                                  <span className="px-2.5 py-1 text-[9px] font-extrabold bg-[#e6f2e8] text-[#047c1f] rounded-full uppercase tracking-wider">{deal.category}</span>
+                                  {isExpired && (
+                                    <span className="px-2 py-0.5 text-[8px] font-black bg-red-600 text-white rounded uppercase tracking-wider select-none">Expired</span>
+                                  )}
+                                </div>
                                 <h4 className="font-bold text-slate-800 text-base leading-snug pt-1">{deal.title}</h4>
                                 {deal.description && (
                                   <p className="text-xs text-slate-500 line-clamp-2 text-left leading-normal">
@@ -5980,6 +6006,7 @@ export default function App() {
                         { key: 'stock', label: 'Stock Monitor', icon: 'monitoring' },
                         { key: 'deals', label: 'Deals & Coupons', icon: 'local_offer' },
                         { key: 'featured', label: 'Featured Requests', icon: 'campaign' },
+                        { key: 'executive_banner', label: 'Executive Banner', icon: 'star' },
                       ].map((tab) => (
                         <button
                           key={tab.key}
@@ -6065,6 +6092,7 @@ export default function App() {
                             { key: 'stock', label: 'Stock Monitor', icon: 'monitoring' },
                             { key: 'deals', label: 'Deals & Coupons', icon: 'local_offer' },
                             { key: 'featured', label: 'Featured Requests', icon: 'campaign' },
+                            { key: 'executive_banner', label: 'Executive Banner', icon: 'star' },
                           ].map((tab) => (
                             <button
                               key={tab.key}
@@ -7757,6 +7785,275 @@ export default function App() {
                         </div>
                       )}
 
+                      {/* ══════════════════════════════════════
+                          TAB: EXECUTIVE BANNER REQUESTS
+                      ══════════════════════════════════════ */}
+                      {retailerTab === 'executive_banner' && (
+                        <div className="space-y-6 animate-in fade-in duration-300 text-left">
+
+                          {/* Top Actions Panel */}
+                          <div className="flex items-center justify-between flex-wrap gap-4">
+                            <div>
+                              <h3 className="font-headline font-bold text-xl text-on-surface">⭐ Executive Banner Placements</h3>
+                              <p className="text-xs text-on-surface-variant mt-0.5">Advertise your campaigns directly in the high-impact landing page header dynamic ticker billboard</p>
+                            </div>
+                            <button
+                              onClick={() => {
+                                if (retailerDeals.length === 0) {
+                                  triggerToast('Create an active campaign before requesting executive banner placements!', 'warning');
+                                  return;
+                                }
+                                setShowExecutiveBannerRequest(true);
+                              }}
+                              className="px-5 py-2.5 rounded-xl bg-primary hover:opacity-90 text-white font-bold text-xs flex items-center gap-2 cursor-pointer transition-opacity border-none shadow-sm"
+                            >
+                              <span className="material-symbols-outlined text-sm">star</span>
+                              Request Executive Banner Ad
+                            </button>
+                          </div>
+
+                          {/* Add Executive Banner Request Modal */}
+                          {showExecutiveBannerRequest && (
+                            <div className="bg-white border-2 border-primary/30 rounded-2xl p-6 shadow-sm space-y-6 animate-in slide-in-from-top duration-300">
+                              <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+                                <h4 className="font-headline font-bold text-lg text-on-surface">⭐ Request Executive Header Billboard Ad</h4>
+                                <button
+                                  onClick={() => {
+                                    setShowExecutiveBannerRequest(false);
+                                    setExecutiveRequestForm({ dealTitle: '', bannerText: '', budget: '', duration: '7 days', placementNotes: '' });
+                                  }}
+                                  className="p-1.5 rounded-full hover:bg-surface-container text-on-surface-variant cursor-pointer border-none bg-transparent"
+                                >
+                                  <span className="material-symbols-outlined">close</span>
+                                </button>
+                              </div>
+
+                              <div className="space-y-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                  <div className="sm:col-span-2 space-y-1.5 flex flex-col">
+                                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Select Target Deal *</label>
+                                    <select
+                                      value={executiveRequestForm.dealTitle || (retailerDeals[0]?.title || '')}
+                                      onChange={(e) => setExecutiveRequestForm(prev => ({ ...prev, dealTitle: e.target.value }))}
+                                      className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-sm font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                    >
+                                      {retailerDeals.map(d => (
+                                        <option key={d.id} value={d.title}>{d.title} ({d.code})</option>
+                                      ))}
+                                    </select>
+                                  </div>
+
+                                  <div className="sm:col-span-2 space-y-1.5 flex flex-col">
+                                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Banner Display Text (Ad Copy) *</label>
+                                    <input
+                                      type="text"
+                                      placeholder="e.g. 🔥 FLASH SALE: 20% Off at OzTech Deals this weekend! Use code OZTECH20 🦘"
+                                      value={executiveRequestForm.bannerText}
+                                      onChange={(e) => setExecutiveRequestForm(prev => ({ ...prev, bannerText: e.target.value }))}
+                                      className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-sm font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                    />
+                                  </div>
+
+                                  <div className="space-y-1.5 flex flex-col">
+                                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Daily Placement Budget (AUD) *</label>
+                                    <input
+                                      type="text"
+                                      placeholder="e.g. 150"
+                                      value={executiveRequestForm.budget}
+                                      onChange={(e) => setExecutiveRequestForm(prev => ({ ...prev, budget: e.target.value }))}
+                                      className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-sm font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                    />
+                                  </div>
+
+                                  <div className="space-y-1.5 flex flex-col">
+                                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Campaign Duration</label>
+                                    <select
+                                      value={executiveRequestForm.duration}
+                                      onChange={(e) => setExecutiveRequestForm(prev => ({ ...prev, duration: e.target.value }))}
+                                      className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-sm font-semibold text-on-surface focus:outline-none focus:ring-2"
+                                    >
+                                      {['3 days', '7 days', '14 days', '30 days'].map(dur => (
+                                        <option key={dur}>{dur}</option>
+                                      ))}
+                                    </select>
+                                  </div>
+
+                                  <div className="sm:col-span-2 space-y-1.5 flex flex-col">
+                                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Placement Details & Notes</label>
+                                    <textarea
+                                      placeholder="Provide background context, background/text hex colors requested, or custom landing page URLs..."
+                                      value={executiveRequestForm.placementNotes}
+                                      onChange={(e) => setExecutiveRequestForm(prev => ({ ...prev, placementNotes: e.target.value }))}
+                                      rows={2}
+                                      className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-sm font-semibold text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="flex gap-3 pt-4 border-t border-outline-variant/20">
+                                <button
+                                  onClick={() => {
+                                    if (!executiveRequestForm.bannerText || !executiveRequestForm.budget) {
+                                      triggerToast('Ad banner copy and daily budget fields are required.', 'error');
+                                      return;
+                                    }
+                                    const defaultDeal = retailerDeals[0]?.title || '';
+                                    const selectedTitle = executiveRequestForm.dealTitle || defaultDeal;
+
+                                    const req = {
+                                      id: 'ebr' + Date.now(),
+                                      dealTitle: selectedTitle,
+                                      bannerText: executiveRequestForm.bannerText,
+                                      requestedDate: new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }),
+                                      status: 'Pending',
+                                      placementNotes: executiveRequestForm.placementNotes || 'Standard executive banner ad request.',
+                                      budget: executiveRequestForm.budget.startsWith('$') ? executiveRequestForm.budget : `$${executiveRequestForm.budget} AUD`,
+                                      duration: executiveRequestForm.duration,
+                                    };
+
+                                    setExecutiveBannerRequests(prev => [req, ...prev]);
+                                    setShowExecutiveBannerRequest(false);
+                                    setExecutiveRequestForm({ dealTitle: '', bannerText: '', budget: '', duration: '7 days', placementNotes: '' });
+                                    triggerToast('✓ Executive Header Banner ad request submitted for admin review!', 'success');
+                                  }}
+                                  className="px-6 py-2.5 rounded-xl bg-primary hover:opacity-90 text-white font-bold text-xs cursor-pointer border-none shadow-sm"
+                                >
+                                  Submit Ad Request
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setShowExecutiveBannerRequest(false);
+                                    setExecutiveRequestForm({ dealTitle: '', bannerText: '', budget: '', duration: '7 days', placementNotes: '' });
+                                  }}
+                                  className="px-6 py-2.5 rounded-xl bg-surface-container hover:bg-surface-variant text-on-surface font-bold text-xs border border-outline-variant/30 cursor-pointer border-none"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Executive Banner Placements submission list */}
+                          <div className="bg-white border border-outline-variant/30 rounded-2xl p-6 shadow-sm space-y-4 text-left">
+                            <div className="border-b border-outline-variant/20 pb-4">
+                              <h4 className="font-headline font-bold text-lg text-on-surface">📈 Premium Billboard Campaign Logs</h4>
+                              <p className="text-xs text-on-surface-variant mt-0.5">Monitor review process status for your header ticker billboard placement bids</p>
+                            </div>
+
+                            <div className="overflow-x-auto">
+                              <table className="hidden md:table w-full text-xs font-semibold text-on-surface border-collapse text-left">
+                                <thead>
+                                  <tr className="border-b border-outline-variant text-[10px] uppercase text-on-surface-variant tracking-wider">
+                                    <th className="py-3 px-4">Deal Target</th>
+                                    <th className="py-3 px-4">Banner Text / Ad Copy</th>
+                                    <th className="py-3 px-4">Daily Budget</th>
+                                    <th className="py-3 px-4">Duration</th>
+                                    <th className="py-3 px-4">Submission Date</th>
+                                    <th className="py-3 px-4">Status</th>
+                                    <th className="py-3 px-4 text-right">Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {executiveBannerRequests.map(ebr => (
+                                    <tr key={ebr.id} className="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+                                      <td className="py-4 px-4 font-bold text-on-surface">{ebr.dealTitle}</td>
+                                      <td className="py-4 px-4 font-mono text-[11px] text-slate-600 max-w-[200px] truncate" title={ebr.bannerText}>{ebr.bannerText}</td>
+                                      <td className="py-4 px-4 text-primary font-bold">{ebr.budget}</td>
+                                      <td className="py-4 px-4 font-bold">{ebr.duration || '7 days'}</td>
+                                      <td className="py-4 px-4 font-medium text-on-surface-variant/80">{ebr.requestedDate}</td>
+                                      <td className="py-4 px-4">
+                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase border tracking-wider shadow-sm ${ebr.status === 'Approved'
+                                          ? 'bg-primary/10 text-primary border-primary/20'
+                                          : ebr.status === 'Declined'
+                                            ? 'bg-error/10 text-error border-error/20'
+                                            : 'bg-surface-variant text-on-surface-variant border-outline-variant/30 animate-pulse'
+                                          }`}>
+                                          {ebr.status === 'Approved' ? '✓ Approved' : ebr.status === 'Declined' ? '✕ Declined' : '⏳ Pending'}
+                                        </span>
+                                      </td>
+                                      <td className="py-4 px-4 text-right">
+                                        <button
+                                          onClick={() => {
+                                            setExecutiveBannerRequests(prev => prev.filter(r => r.id !== ebr.id));
+                                            triggerToast('✓ Executive ad campaign bid request cancelled.', 'warning');
+                                          }}
+                                          className="text-error font-bold hover:underline cursor-pointer border-none bg-transparent p-0"
+                                        >
+                                          Cancel Request
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                  {executiveBannerRequests.length === 0 && (
+                                    <tr>
+                                      <td colSpan={7} className="py-8 text-center text-on-surface-variant/60 font-bold">
+                                        No executive billboard requests logged.
+                                      </td>
+                                    </tr>
+                                  )}
+                                </tbody>
+                              </table>
+
+                              {/* Mobile Card Layout */}
+                              <div className="block md:hidden divide-y divide-outline-variant/20 bg-white">
+                                  {executiveBannerRequests.map(ebr => (
+                                    <div key={ebr.id} className="p-4 space-y-3.5 text-left text-xs font-semibold">
+                                      <div className="flex justify-between items-start gap-2">
+                                        <div className="space-y-1">
+                                          <h4 className="font-bold text-on-surface text-sm max-w-[200px]">{ebr.dealTitle}</h4>
+                                          <p className="text-[10px] text-slate-500 font-mono italic truncate max-w-[180px]">{ebr.bannerText}</p>
+                                        </div>
+                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase border tracking-wider shadow-sm ${ebr.status === 'Approved'
+                                          ? 'bg-primary/10 text-primary border-primary/20'
+                                          : ebr.status === 'Declined'
+                                            ? 'bg-error/10 text-[#B71C1C] border-[#B71C1C]/20 shadow-sm shadow-[#B71C1C]/5 font-black uppercase'
+                                            : 'bg-surface-variant text-on-surface-variant border-outline-variant/30 animate-pulse'
+                                          }`}>
+                                          {ebr.status === 'Approved' ? '✓ Approved' : ebr.status === 'Declined' ? '✕ Declined' : '⏳ Pending'}
+                                        </span>
+                                      </div>
+
+                                      <div className="grid grid-cols-3 gap-2 py-1 text-center font-bold text-[10px] text-slate-500">
+                                        <div className="bg-slate-50 p-2 rounded-lg border border-slate-100">
+                                          <p className="text-[9px] text-slate-400 font-bold uppercase">Budget</p>
+                                          <p className="text-[#047c1f] font-black text-xs mt-0.5">{ebr.budget}</p>
+                                        </div>
+                                        <div className="bg-slate-50 p-2 rounded-lg border border-slate-100">
+                                          <p className="text-[9px] text-slate-400 font-bold uppercase">Duration</p>
+                                          <p className="text-slate-800 font-black text-xs mt-0.5">{ebr.duration || '7 days'}</p>
+                                        </div>
+                                        <div className="bg-slate-50 p-2 rounded-lg border border-slate-100">
+                                          <p className="text-[9px] text-slate-400 font-bold uppercase">Requested</p>
+                                          <p className="text-slate-700 mt-0.5">{ebr.requestedDate}</p>
+                                        </div>
+                                      </div>
+
+                                      <div className="flex justify-end pt-1">
+                                        <button
+                                          onClick={() => {
+                                            setExecutiveBannerRequests(prev => prev.filter(r => r.id !== ebr.id));
+                                            triggerToast('✓ Executive ad campaign bid request cancelled.', 'warning');
+                                          }}
+                                          className="px-3.5 py-2 rounded-xl bg-error/10 text-error font-extrabold text-[10px] hover:bg-error hover:text-white transition-all cursor-pointer border-none"
+                                        >
+                                          Cancel Request
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ))}
+                                  {executiveBannerRequests.length === 0 && (
+                                    <div className="py-8 text-center text-on-surface-variant/60 font-bold text-xs italic">
+                                      No executive billboard requests logged.
+                                    </div>
+                                  )}
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      )}
+
                     </section>
                   </main>
 
@@ -7802,14 +8099,12 @@ export default function App() {
                         { key: 'banner', label: 'Top Banner', icon: 'campaign' },
                         { key: 'featured', label: 'Exclusive Banner', icon: 'star' },
                         { key: 'categories', label: 'Categories', icon: 'sell' },
-                        { key: 'deals', label: 'All Deals', icon: 'payments' },
                         { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
                         { key: 'notifications', label: 'Notifications', icon: 'notifications' },
                         { key: 'community_deals', label: 'Community Deals', icon: 'storefront' },
                         { key: 'community', label: 'Manage Coupons', icon: 'sell' },
                         { key: 'coupons', label: 'Featured Ads', icon: 'ads_click' },
                         { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
-                        { key: 'billboard', label: 'Billboard Notice', icon: 'campaign' },
                       ].map((tab) => (
                         <button
                           key={tab.key}
@@ -7906,14 +8201,12 @@ export default function App() {
                             { key: 'banner', label: 'Top Banner', icon: 'campaign' },
                             { key: 'featured', label: 'Exclusive Banner', icon: 'star' },
                             { key: 'categories', label: 'Categories', icon: 'sell' },
-                            { key: 'deals', label: 'All Deals', icon: 'payments' },
                             { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
                             { key: 'notifications', label: 'Notifications', icon: 'notifications' },
                             { key: 'community_deals', label: 'Community Deals', icon: 'storefront' },
                             { key: 'community', label: 'Manage Coupons', icon: 'sell' },
                             { key: 'coupons', label: 'Featured Ads', icon: 'ads_click' },
                             { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
-                            { key: 'billboard', label: 'Billboard Notice', icon: 'campaign' },
                           ].map((tab) => (
                             <button
                               key={tab.key}
@@ -11409,14 +11702,12 @@ export default function App() {
                       { key: 'banner', label: 'Top Banner', icon: 'campaign' },
                       { key: 'featured', label: 'Exclusive Banner', icon: 'star' },
                       { key: 'categories', label: 'Categories', icon: 'sell' },
-                      { key: 'deals', label: 'All Deals', icon: 'payments' },
                       { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
                       { key: 'notifications', label: 'Notifications', icon: 'notifications' },
                       { key: 'community_deals', label: 'Community Deals', icon: 'storefront' },
                       { key: 'community', label: 'Manage Coupons', icon: 'sell' },
                       { key: 'coupons', label: 'Featured Ads', icon: 'ads_click' },
                       { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
-                      { key: 'billboard', label: 'Billboard Notice', icon: 'campaign' },
                     ].map((tab) => {
                       const isActive = adminTab === tab.key;
                       return (
@@ -11472,7 +11763,7 @@ export default function App() {
                         { key: 'community', label: 'Manage coupons', icon: 'sell' },
                         { key: 'coupons', label: 'Featured ads', icon: 'ads_click' },
                         { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
-                        { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
+                        { key: 'banner', label: 'Top Banner', icon: 'campaign' },
                       ].map((tab) => (
                         <button
                           key={tab.key}
@@ -12480,7 +12771,7 @@ export default function App() {
                       { key: 'community', label: 'Manage coupons', icon: 'sell' },
                       { key: 'coupons', label: 'Featured ads', icon: 'ads_click' },
                       { key: 'flagged', label: 'Flagged Queue', icon: 'warning' },
-                      { key: 'banner', label: 'Billboard Notices', icon: 'campaign' },
+                      { key: 'banner', label: 'Top Banner', icon: 'campaign' },
                     ].map((tab) => {
                       const isActive = moderatorTab === tab.key;
                       return (
