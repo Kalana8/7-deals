@@ -11974,7 +11974,7 @@ export default function App() {
           onClick={() => setFeaturedAdModalOpen(false)}
         >
           <div
-            className="w-full max-w-lg bg-[#0d0d0d] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative my-8 animate-in zoom-in-95 duration-200 text-left text-white"
+            className="w-full max-w-lg bg-[#0d0d0d] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative my-8 animate-in zoom-in-95 duration-200 text-left text-white max-h-[90vh] overflow-y-auto no-scrollbar"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -12081,7 +12081,7 @@ export default function App() {
 
                 setFeaturedAdModalOpen(false);
               }}
-              className="space-y-4 max-h-[40vh] overflow-y-auto pr-2 no-scrollbar"
+              className="space-y-4 pr-1"
             >
               <div className="grid grid-cols-2 gap-4">
                 {/* Brand Name */}
