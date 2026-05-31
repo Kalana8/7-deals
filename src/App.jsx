@@ -3923,6 +3923,20 @@ export default function App() {
                         }}
                       >
 
+                        {(currentUser?.role === 'admin' || currentUser?.role === 'moderator') && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setEditingBannerSlide(activeFeatured);
+                              setBannerSlideModalOpen(true);
+                            }}
+                            className="absolute top-4 right-4 z-[20] w-9 h-9 rounded-full bg-black/60 hover:bg-[#00c853] text-white flex items-center justify-center border border-white/20 cursor-pointer shadow-lg transition-all scale-100 hover:scale-105 active:scale-95 flex-none"
+                            title="Edit Exclusive Banner Style & Content"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">palette</span>
+                          </button>
+                        )}
+
                         <div className="w-full">
 
                           {/* Main Text & CTAs */}
@@ -14745,6 +14759,352 @@ export default function App() {
           </span>
           Community
         </button>
+      )}
+
+      {/* DETAILED EXCLUSIVE BANNER EDIT MODAL */}
+      {bannerSlideModalOpen && editingBannerSlide && (
+        <div className="fixed inset-0 z-[2200] flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            onClick={() => {
+              setBannerSlideModalOpen(false);
+              setEditingBannerSlide(null);
+            }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity animate-none cursor-pointer"
+          />
+
+          {/* Form Container */}
+          <div className="relative bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-outline-variant/30 overflow-hidden z-10 flex flex-col max-h-[90vh] animate-none text-left">
+            
+            {/* Header */}
+            <div className="p-6 bg-[#047c1f] text-white flex items-center justify-between">
+              <div>
+                <h3 className="font-headline font-black text-xl leading-none">Studio Banner Customizer</h3>
+                <p className="text-xs text-white/80 mt-1.5 font-medium">Design active spotlight text, original pricing details, backgrounds, custom fonts, and glassmorphic colors</p>
+              </div>
+              <button
+                onClick={() => {
+                  setBannerSlideModalOpen(false);
+                  setEditingBannerSlide(null);
+                }}
+                className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white border-none cursor-pointer transition-colors"
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+
+            {/* Body (Two Columns: Form & Visual Preview) */}
+            <div className="p-6 overflow-y-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6">
+              
+              {/* Left: Styling Form (7 Cols) */}
+              <div className="lg:col-span-7 space-y-4">
+                
+                {/* Text Content Details */}
+                <div className="bg-surface-container/30 p-4 rounded-xl border border-outline-variant/20 space-y-3">
+                  <h4 className="font-headline font-bold text-xs uppercase text-[#047c1f] tracking-wider select-none">1. Spotlight Copywriting</h4>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Brand Partner</label>
+                      <input
+                        type="text"
+                        value={editingBannerSlide.brand}
+                        onChange={e => setEditingBannerSlide(prev => ({ ...prev, brand: e.target.value }))}
+                        className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Promo Coupon Code</label>
+                      <input
+                        type="text"
+                        value={editingBannerSlide.code}
+                        onChange={e => setEditingBannerSlide(prev => ({ ...prev, code: e.target.value.toUpperCase() }))}
+                        className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Exclusive Deal Title</label>
+                    <input
+                      type="text"
+                      value={editingBannerSlide.title}
+                      onChange={e => setEditingBannerSlide(prev => ({ ...prev, title: e.target.value }))}
+                      className="w-full bg-white border border-outline-variant/30 rounded-lg px-3 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Description Sub-Text</label>
+                    <textarea
+                      value={editingBannerSlide.description}
+                      onChange={e => setEditingBannerSlide(prev => ({ ...prev, description: e.target.value }))}
+                      rows={2}
+                      className="w-full bg-white border border-outline-variant/30 rounded-lg px-3 py-1.5 text-xs font-medium text-on-surface focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Pricing & Expiry Details */}
+                <div className="bg-surface-container/30 p-4 rounded-xl border border-outline-variant/20 space-y-3">
+                  <h4 className="font-headline font-bold text-xs uppercase text-[#047c1f] tracking-wider select-none">2. Deal Value & Expiry</h4>
+                  
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Original Price ($)</label>
+                      <input
+                        type="number"
+                        value={editingBannerSlide.originalPrice}
+                        onChange={e => setEditingBannerSlide(prev => ({ ...prev, originalPrice: parseFloat(e.target.value) || 0 }))}
+                        className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Sale Price ($)</label>
+                      <input
+                        type="number"
+                        value={editingBannerSlide.salePrice}
+                        onChange={e => setEditingBannerSlide(prev => ({ ...prev, salePrice: parseFloat(e.target.value) || 0 }))}
+                        className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Discount Label</label>
+                      <input
+                        type="text"
+                        value={editingBannerSlide.discount}
+                        onChange={e => setEditingBannerSlide(prev => ({ ...prev, discount: e.target.value }))}
+                        placeholder="50% OFF"
+                        className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Category</label>
+                      <select
+                        value={editingBannerSlide.category}
+                        onChange={e => setEditingBannerSlide(prev => ({ ...prev, category: e.target.value }))}
+                        className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer animate-none"
+                      >
+                        {['Tech', 'Home', 'Groceries', 'Travel', 'Fashion', 'F&D', 'Outdoors'].map(cat => (
+                          <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Countdown Duration (Days)</label>
+                      <input
+                        type="number"
+                        value={editingBannerSlide.expiryDays || 3}
+                        onChange={e => setEditingBannerSlide(prev => ({ ...prev, expiryDays: parseInt(e.target.value) || 3, expiry: parseInt(e.target.value) || 3 }))}
+                        className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 🎨 VISUAL THEME AND IMAGES */}
+                <div className="bg-surface-container/30 p-4 rounded-xl border border-outline-variant/20 space-y-3.5">
+                  <h4 className="font-headline font-bold text-xs uppercase text-[#047c1f] tracking-wider select-none">3. Style Studio Customization</h4>
+                  
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Spotlight Background Image URL</label>
+                    <input
+                      type="text"
+                      value={editingBannerSlide.image}
+                      onChange={e => setEditingBannerSlide(prev => ({ ...prev, image: e.target.value }))}
+                      placeholder="https://picsum.photos/seed/..."
+                      className="w-full bg-white border border-outline-variant/30 rounded-lg px-3 py-1.5 text-xs font-semibold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary animate-none"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    
+                    {/* Background preset choices */}
+                    <div className="space-y-1.5 text-left">
+                      <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Card Blur Background Color</label>
+                      <div className="flex flex-wrap gap-1.5 select-none">
+                        {[
+                          { label: 'Emerald', bg: 'rgba(0, 110, 42, 0.45)' },
+                          { label: 'Indigo', bg: 'rgba(26, 35, 126, 0.45)' },
+                          { label: 'Amber', bg: 'rgba(235, 157, 0, 0.45)' },
+                          { label: 'Crimson', bg: 'rgba(198, 40, 40, 0.45)' },
+                          { label: 'Frost', bg: 'rgba(255, 255, 255, 0.15)' },
+                          { label: 'Charcoal', bg: 'rgba(26, 26, 46, 0.65)' }
+                        ].map((colorObj) => (
+                          <button
+                            key={colorObj.label}
+                            type="button"
+                            onClick={() => setEditingBannerSlide(prev => ({ ...prev, bannerBg: colorObj.bg }))}
+                            className={`w-6 h-6 rounded-full border border-outline-variant/30 cursor-pointer shadow-sm relative flex items-center justify-center`}
+                            style={{ backgroundColor: colorObj.bg }}
+                            title={colorObj.label}
+                          >
+                            {editingBannerSlide.bannerBg === colorObj.bg && (
+                              <span className="material-symbols-outlined text-[10px] text-white font-bold select-none leading-none">check</span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                      <input
+                        type="text"
+                        value={editingBannerSlide.bannerBg || ''}
+                        placeholder="rgba(0,0,0,0.5)"
+                        onChange={e => setEditingBannerSlide(prev => ({ ...prev, bannerBg: e.target.value }))}
+                        className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1 text-[11px] font-semibold mt-1"
+                      />
+                    </div>
+
+                    {/* Text Presets */}
+                    <div className="space-y-1.5 text-left">
+                      <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Spotlight Title Text Color</label>
+                      <div className="flex flex-wrap gap-1.5 select-none">
+                        {[
+                          { label: 'White', color: '#ffffff' },
+                          { label: 'Amber', color: '#ffd100' },
+                          { label: 'Green', color: '#00c853' },
+                          { label: 'Cyan', color: '#00e5ff' }
+                        ].map((txtColor) => (
+                          <button
+                            key={txtColor.label}
+                            type="button"
+                            onClick={() => setEditingBannerSlide(prev => ({ ...prev, textColor: txtColor.color }))}
+                            className={`w-6 h-6 rounded-full border border-outline-variant/30 cursor-pointer shadow-sm relative flex items-center justify-center`}
+                            style={{ backgroundColor: txtColor.color }}
+                            title={txtColor.label}
+                          >
+                            {editingBannerSlide.textColor === txtColor.color && (
+                              <span className="material-symbols-outlined text-[10px] text-black font-bold select-none leading-none">check</span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                      <input
+                        type="text"
+                        value={editingBannerSlide.textColor || ''}
+                        placeholder="#ffffff"
+                        onChange={e => setEditingBannerSlide(prev => ({ ...prev, textColor: e.target.value }))}
+                        className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1 text-[11px] font-semibold mt-1"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Typography Google Font Selection */}
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Custom Header Font Family</label>
+                    <select
+                      value={editingBannerSlide.fontFamily || 'inherit'}
+                      onChange={e => setEditingBannerSlide(prev => ({ ...prev, fontFamily: e.target.value }))}
+                      className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer animate-none"
+                    >
+                      <option value="inherit">Default Sans (System UI)</option>
+                      <option value="Outfit">Outfit (Round & Modern)</option>
+                      <option value="Space Grotesk">Space Grotesk (Tech Geometric)</option>
+                      <option value="Playfair Display">Playfair Display (Premium Serif)</option>
+                      <option value="Cinzel">Cinzel (Luxury Classical)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Live Interactive Card Preview Studio (5 Cols) */}
+              <div className="lg:col-span-5 space-y-4 flex flex-col justify-start">
+                <div className="flex justify-between items-center select-none">
+                  <h4 className="font-headline font-bold text-xs uppercase text-on-surface-variant tracking-wider">Live Preview Studio</h4>
+                  <span className="text-[9px] font-bold text-[#047c1f] bg-[#e6f2e8] px-2 py-0.5 rounded-full select-none">WYSIWYG Mode</span>
+                </div>
+
+                {/* The Realistic Banner Preview Block */}
+                <div className="relative w-full rounded-2xl overflow-hidden aspect-[16/10] bg-slate-950 flex flex-col justify-end p-4 shadow-xl border border-outline-variant/30 select-none">
+                  {/* Image Background */}
+                  <div className="absolute inset-0 z-0 w-full h-full">
+                    <img
+                      src={editingBannerSlide.image}
+                      alt="Preview"
+                      className="w-full h-full object-cover opacity-60"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-transparent"></div>
+                  </div>
+
+                  {/* Glassmorphic Overlay Preview Card */}
+                  <div
+                    className="relative z-10 w-full backdrop-blur-md rounded-xl p-3.5 border border-white/20 transition-all text-left"
+                    style={{
+                      backgroundColor: editingBannerSlide.bannerBg || 'rgba(255, 255, 255, 0.1)',
+                      borderColor: editingBannerSlide.bannerBorder || 'rgba(255, 255, 255, 0.2)',
+                      fontFamily: editingBannerSlide.fontFamily || 'inherit'
+                    }}
+                  >
+                    <div className="flex justify-between items-center select-none gap-2">
+                      <span className="bg-[#eb9d00] text-black px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider">
+                        ★ {editingBannerSlide.category} Spotlight
+                      </span>
+                      <span className="text-[8px] text-white/50 font-bold font-mono">Ends in 03d : 12h</span>
+                    </div>
+
+                    <h3
+                      className="font-black text-xs sm:text-sm mt-1.5 leading-tight tracking-tight line-clamp-2"
+                      style={{ color: editingBannerSlide.textColor || '#ffffff' }}
+                    >
+                      {editingBannerSlide.title || 'Spotlight Header Title'}
+                    </h3>
+                    <p
+                      className="text-[9px] leading-relaxed mt-1 line-clamp-2 font-medium"
+                      style={{ color: editingBannerSlide.textColor ? `${editingBannerSlide.textColor}cc` : 'rgba(255,255,255,0.7)' }}
+                    >
+                      {editingBannerSlide.description || 'Slide description details...'}
+                    </p>
+
+                    {/* Code & Price preview row */}
+                    <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-white/10">
+                      <div className="text-left font-black text-white text-[11px] leading-none shrink-0">
+                        ${editingBannerSlide.salePrice.toFixed(2)}
+                      </div>
+                      
+                      <div className="flex items-center gap-1.5 scale-90 origin-right">
+                        <span className="font-mono text-[9px] text-[#fdc800] bg-white/10 px-1.5 py-0.5 rounded font-black border border-white/10">
+                          {editingBannerSlide.code || 'CODE'}
+                        </span>
+                        <span className="bg-[#006e2a] text-white text-[8px] font-black px-2 py-0.5 rounded">
+                          Grab
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="text-xs text-on-surface-variant/80 font-medium leading-relaxed bg-surface-container-low border border-dashed border-outline-variant/30 p-3.5 rounded-xl text-left select-none">
+                  <p className="flex items-start gap-1">
+                    <span className="material-symbols-outlined text-[15px] text-primary shrink-0">info</span>
+                    <span>Designing custom background transparency values (e.g. <code>rgba(26, 35, 126, 0.45)</code>) ensures smooth readability overlays over any visual backdrop imagery.</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer buttons */}
+            <div className="p-4 bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-end gap-3">
+              <button
+                onClick={() => {
+                  setBannerSlideModalOpen(false);
+                  setEditingBannerSlide(null);
+                }}
+                className="px-4 py-2 border border-outline-variant/60 hover:bg-surface-container text-on-surface font-bold text-xs rounded-xl cursor-pointer bg-transparent transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleSaveBannerSlide(editingBannerSlide)}
+                className="px-5 py-2 bg-[#047c1f] hover:bg-[#047c1f]/95 text-white font-extrabold text-xs rounded-xl cursor-pointer border-none shadow-md shadow-[#047c1f]/20 transition-all flex items-center gap-1"
+              >
+                <span className="material-symbols-outlined text-[15px]">check_circle</span>
+                Apply Live Spotlights
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Toast alert overlay */}
