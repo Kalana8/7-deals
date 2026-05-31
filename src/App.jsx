@@ -1148,6 +1148,7 @@ export default function App() {
   const [couponFormCode, setCouponFormCode] = useState('');
   const [couponFormDiscount, setCouponFormDiscount] = useState('');
   const [couponFormExpiryDays, setCouponFormExpiryDays] = useState(3);
+  const [couponFormBg, setCouponFormBg] = useState('');
 
   // --- Interface & Data State ---
   const [activeFilter, setActiveFilter] = useState('All');
@@ -3667,7 +3668,7 @@ export default function App() {
                           onClick={(e) => handleCopyCode(pill.code, e)}
                           className="flex items-center gap-1.5 px-2.5 py-1 sm:px-4 sm:py-1.5 rounded-full border transition-colors shadow-sm cursor-pointer whitespace-nowrap hover:brightness-110 hover:scale-[1.02]"
                           style={{
-                            backgroundColor: (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                            backgroundColor: pill.bg || (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
                             borderColor: "rgba(255,255,255,0.2)",
                             opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
                           }}
@@ -3687,7 +3688,7 @@ export default function App() {
                           onClick={(e) => handleCopyCode(pill.code, e)}
                           className="flex items-center gap-1.5 px-2.5 py-1 sm:px-4 sm:py-1.5 rounded-full border transition-colors shadow-sm cursor-pointer whitespace-nowrap hover:brightness-110 hover:scale-[1.02]"
                           style={{
-                            backgroundColor: (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                            backgroundColor: pill.bg || (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
                             borderColor: "rgba(255,255,255,0.2)",
                             opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
                           }}
@@ -3713,7 +3714,7 @@ export default function App() {
                           onClick={(e) => handleCopyCode(pill.code, e)}
                           className="flex items-center gap-1.5 px-2.5 py-1 sm:px-4 sm:py-1.5 rounded-full border transition-colors shadow-sm cursor-pointer whitespace-nowrap hover:brightness-110 hover:scale-[1.02]"
                           style={{
-                            backgroundColor: (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                            backgroundColor: pill.bg || (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
                             borderColor: "rgba(255,255,255,0.2)",
                             opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
                           }}
@@ -3733,7 +3734,7 @@ export default function App() {
                           onClick={(e) => handleCopyCode(pill.code, e)}
                           className="flex items-center gap-1.5 px-2.5 py-1 sm:px-4 sm:py-1.5 rounded-full border transition-colors shadow-sm cursor-pointer whitespace-nowrap hover:brightness-110 hover:scale-[1.02]"
                           style={{
-                            backgroundColor: (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                            backgroundColor: pill.bg || (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
                             borderColor: "rgba(255,255,255,0.2)",
                             opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
                           }}
@@ -10369,6 +10370,7 @@ export default function App() {
                                 setCouponFormCode('');
                                 setCouponFormDiscount('');
                                 setCouponFormExpiryDays(3);
+                                setCouponFormBg('');
                                 setCouponModalOpen(true);
                               }}
                               className="px-4 py-2 rounded-xl bg-[#047c1f] hover:bg-[#035a16] text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-[#047c1f]/10 cursor-pointer border-none transition-colors"
@@ -10391,7 +10393,7 @@ export default function App() {
                                     <div
                                       className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border shadow-sm select-none"
                                       style={{
-                                        backgroundColor: (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                                        backgroundColor: pill.bg || (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
                                         borderColor: "rgba(255,255,255,0.2)",
                                         opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
                                       }}
@@ -10417,6 +10419,7 @@ export default function App() {
                                         setCouponFormCode(pill.code);
                                         setCouponFormDiscount(pill.discount);
                                         setCouponFormExpiryDays(pill.expiryDays || 3);
+                                        setCouponFormBg(pill.bg || '');
                                         setCouponModalOpen(true);
                                       }}
                                       className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] cursor-pointer border-none transition-colors"
@@ -10454,7 +10457,7 @@ export default function App() {
                                     <div
                                       className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border shadow-sm select-none"
                                       style={{
-                                        backgroundColor: (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
+                                        backgroundColor: pill.bg || (BRAND_PILL_COLORS[pill.brand] || DEFAULT_PILL_COLOR).bg,
                                         borderColor: "rgba(255,255,255,0.2)",
                                         opacity: Date.now() > PILL_EXPIRY_TIMESTAMPS[pill.code] ? 0.5 : 1,
                                       }}
@@ -10480,6 +10483,7 @@ export default function App() {
                                         setCouponFormCode(pill.code);
                                         setCouponFormDiscount(pill.discount);
                                         setCouponFormExpiryDays(pill.expiryDays || 3);
+                                        setCouponFormBg(pill.bg || '');
                                         setCouponModalOpen(true);
                                       }}
                                       className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] cursor-pointer border-none transition-colors"
@@ -11732,7 +11736,7 @@ export default function App() {
                 <div
                   className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border shadow-sm select-none transition-all duration-300"
                   style={{
-                    backgroundColor: (BRAND_PILL_COLORS[couponFormBrand] || DEFAULT_PILL_COLOR).bg,
+                    backgroundColor: couponFormBg || (BRAND_PILL_COLORS[couponFormBrand] || DEFAULT_PILL_COLOR).bg,
                     borderColor: "rgba(255,255,255,0.2)",
                   }}
                 >
@@ -11767,7 +11771,8 @@ export default function App() {
                   brand: couponFormBrand.trim(),
                   code: couponFormCode.trim().toUpperCase(),
                   discount: couponFormDiscount.trim(),
-                  expiryDays: parseInt(couponFormExpiryDays) || 3
+                  expiryDays: parseInt(couponFormExpiryDays) || 3,
+                  bg: couponFormBg.trim()
                 };
 
                 if (editingCouponIndex === -1) {
@@ -11826,6 +11831,69 @@ export default function App() {
                   onChange={(e) => setCouponFormDiscount(e.target.value)}
                   className="w-full bg-[#141414] text-white placeholder-white/30 p-3 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-semibold"
                 />
+              </div>
+
+              {/* Background Color picker & presets */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-white/60 uppercase tracking-wider block">Background Color</label>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { name: 'Woolies Green', bg: '#006B3C' },
+                    { name: 'Navy', bg: '#1A1A2E' },
+                    { name: 'Charcoal', bg: '#1c1c1c' },
+                    { name: 'Crimson', bg: '#B71C1C' },
+                    { name: 'Royal Blue', bg: '#1565C0' },
+                    { name: 'Orange', bg: '#D84315' },
+                    { name: 'Purple', bg: '#4A148C' }
+                  ].map((color) => {
+                    const isSelected = couponFormBg === color.bg;
+                    return (
+                      <button
+                        key={color.bg}
+                        type="button"
+                        onClick={() => setCouponFormBg(color.bg)}
+                        title={color.name}
+                        className="w-6 h-6 rounded-full cursor-pointer relative border border-white/20 hover:scale-105 active:scale-95 transition-transform"
+                        style={{ backgroundColor: color.bg }}
+                      >
+                        {isSelected && (
+                          <span className="absolute inset-0 flex items-center justify-center text-white text-[10px] font-bold">
+                            ✓
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                  {/* Reset back to brand default */}
+                  <button
+                    type="button"
+                    onClick={() => setCouponFormBg('')}
+                    className={`px-2.5 py-0.5 rounded-md text-[9px] font-bold cursor-pointer border hover:bg-white/10 transition-colors uppercase ${
+                      couponFormBg === '' ? 'border-[#047c1f] text-[#047c1f]' : 'border-white/10 text-white/60'
+                    }`}
+                  >
+                    Default
+                  </button>
+                </div>
+
+                {/* Custom Color Input */}
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-white/20">
+                    <input
+                      type="color"
+                      value={couponFormBg || '#000000'}
+                      onChange={(e) => setCouponFormBg(e.target.value)}
+                      className="absolute inset-0 w-full h-full p-0 border-0 cursor-pointer scale-150"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Custom Hex Code (e.g., #007837)"
+                    value={couponFormBg}
+                    onChange={(e) => setCouponFormBg(e.target.value)}
+                    className="flex-1 bg-[#141414] text-white placeholder-white/30 p-2 text-xs border border-white/10 rounded-xl focus:outline-none focus:border-[#047c1f] focus:ring-2 focus:ring-[#047c1f]/20 transition-all font-mono font-bold"
+                  />
+                </div>
               </div>
 
               {/* Grid of Expiry & Row choice */}
