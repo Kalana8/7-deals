@@ -7677,7 +7677,7 @@ export default function App() {
                         { key: 'users', label: 'Partner Accounts', icon: 'store' },
                         { key: 'moderators', label: 'Moderators', icon: 'shield' },
                         { key: 'banner', label: 'Top Banner', icon: 'campaign' },
-                        { key: 'featured', label: 'Featured Cards', icon: 'star' },
+                        { key: 'featured', label: 'Exclusive Banner', icon: 'star' },
                         { key: 'categories', label: 'Categories', icon: 'sell' },
                         { key: 'deals', label: 'All Deals', icon: 'payments' },
                         { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
@@ -7765,7 +7765,7 @@ export default function App() {
                             { key: 'users', label: 'Partner Accounts', icon: 'store' },
                             { key: 'moderators', label: 'Moderators', icon: 'shield' },
                             { key: 'banner', label: 'Top Banner', icon: 'campaign' },
-                            { key: 'featured', label: 'Featured Cards', icon: 'star' },
+                            { key: 'featured', label: 'Exclusive Banner', icon: 'star' },
                             { key: 'categories', label: 'Categories', icon: 'sell' },
                             { key: 'deals', label: 'All Deals', icon: 'payments' },
                             { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
@@ -7850,7 +7850,7 @@ export default function App() {
                                 adminTab === 'users' ? 'Partners' :
                                   adminTab === 'moderators' ? 'Mods' :
                                     adminTab === 'banner' ? 'Banner' :
-                                      adminTab === 'featured' ? 'Featured' :
+                                      adminTab === 'featured' ? 'Exclusive Banner' :
                                         adminTab === 'categories' ? 'Categories' :
                                           adminTab === 'deals' ? 'All Deals' :
                                             adminTab === 'stock' ? 'Stock' :
@@ -9216,7 +9216,7 @@ export default function App() {
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
 
                           <div className="border-b border-outline-variant/20 pb-4">
-                            <h3 className="font-black text-2xl text-on-surface font-headline">Featured Card Placements</h3>
+                            <h3 className="font-black text-2xl text-on-surface font-headline">Exclusive Banner Placements</h3>
                             <p className="text-[12px] text-on-surface-variant font-medium mt-1">Approve or audit homepage advertisement spotlights</p>
                           </div>
 
@@ -9952,7 +9952,7 @@ export default function App() {
                       { key: 'users', label: 'Store Accounts', icon: 'store' },
                       { key: 'moderators', label: 'Moderators', icon: 'shield' },
                       { key: 'banner', label: 'Top Banner', icon: 'campaign' },
-                      { key: 'featured', label: 'Featured Cards', icon: 'star' },
+                      { key: 'featured', label: 'Exclusive Banner', icon: 'star' },
                       { key: 'categories', label: 'Categories', icon: 'sell' },
                       { key: 'deals', label: 'All Deals', icon: 'payments' },
                       { key: 'stock', label: 'Stock Manager', icon: 'inventory' },
