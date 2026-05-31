@@ -8952,7 +8952,7 @@ export default function App() {
                         <div className="space-y-6 animate-in fade-in duration-300 text-left">
                           
                           {/* Overview Stats */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div className="bg-white p-4 rounded-xl border border-outline-variant/30 shadow-sm flex items-center gap-4">
                               <div className="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
                                 <span className="material-symbols-outlined text-2xl">people</span>
@@ -8986,24 +8986,12 @@ export default function App() {
                                 </h4>
                               </div>
                             </div>
-
-                            <div className="bg-white p-4 rounded-xl border border-outline-variant/30 shadow-sm flex items-center gap-4">
-                              <div className="w-12 h-12 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center">
-                                <span className="material-symbols-outlined text-2xl">military_tech</span>
-                              </div>
-                              <div>
-                                <p className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider">Total Loyalty Points</p>
-                                <h4 className="text-xl font-bold text-on-surface mt-0.5">
-                                  {consumerUsers.reduce((sum, u) => sum + u.loyaltyPoints, 0)} pts
-                                </h4>
-                              </div>
-                            </div>
                           </div>
 
                           <div className="flex items-center justify-between flex-wrap gap-4 border-b border-outline-variant/20 pb-4">
                             <div>
                               <h3 className="font-headline font-bold text-xl text-on-surface">Manage Consumer Users</h3>
-                              <p className="text-xs text-on-surface-variant font-semibold mt-1">Audit profile saved items, order history, status, and award points</p>
+                              <p className="text-xs text-on-surface-variant font-semibold mt-1">Audit profile saved items, order history, and account status</p>
                             </div>
                           </div>
 
@@ -9013,7 +9001,7 @@ export default function App() {
                               <table className="w-full text-[13px] text-left border-collapse">
                                 <thead className="bg-surface-container-low border-b border-outline-variant/30">
                                   <tr>
-                                    {['User Details', 'Location & Joined', 'Membership Tier', 'Total Orders', 'Saved Deals', 'Status', 'Actions'].map(h => (
+                                    {['User Details', 'Location & Joined', 'Total Orders', 'Saved Deals', 'Status', 'Actions'].map(h => (
                                       <th key={h} className="px-4 py-3.5 font-black text-[11px] text-on-surface-variant uppercase tracking-wider">{h}</th>
                                     ))}
                                   </tr>
@@ -9038,18 +9026,6 @@ export default function App() {
                                       <td className="px-4 py-4.5 text-xs text-on-surface-variant">
                                         <div>{u.location}</div>
                                         <div className="font-medium text-[10px] mt-0.5">Joined: {u.joined}</div>
-                                      </td>
-
-                                      {/* Membership Tier */}
-                                      <td className="px-4 py-4.5">
-                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black tracking-wide uppercase ${
-                                          u.tier.includes('Elite') || u.tier.includes('VIP')
-                                            ? 'bg-amber-100 text-amber-800 border border-amber-300'
-                                            : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                                        }`}>
-                                          <span className="material-symbols-outlined text-[12px]">workspace_premium</span>
-                                          {u.tier}
-                                        </span>
                                       </td>
 
                                       {/* Total Orders */}
@@ -9142,9 +9118,6 @@ export default function App() {
                                     <div>
                                       <div className="flex items-center gap-2.5">
                                         <h3 className="font-headline font-black text-xl leading-none">{selectedConsumerUser.name}</h3>
-                                        <span className="bg-white/20 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                                          {selectedConsumerUser.tier}
-                                        </span>
                                       </div>
                                       <p className="text-[12px] text-white/80 font-medium mt-1.5 flex items-center gap-1.5">
                                         <span className="material-symbols-outlined text-sm">mail</span> {selectedConsumerUser.email}
@@ -9171,11 +9144,7 @@ export default function App() {
                                 <div className="p-6 overflow-y-auto flex-1 space-y-6">
                                   
                                   {/* Stats Row */}
-                                  <div className="grid grid-cols-3 gap-4">
-                                    <div className="bg-emerald-50 border border-emerald-100 p-3.5 rounded-xl text-center">
-                                      <p className="text-[10px] font-black text-emerald-800 uppercase tracking-wider">Loyalty Balance</p>
-                                      <h5 className="text-lg font-black text-emerald-900 mt-1">{selectedConsumerUser.loyaltyPoints} pts</h5>
-                                    </div>
+                                  <div className="grid grid-cols-2 gap-4">
                                     <div className="bg-indigo-50 border border-indigo-100 p-3.5 rounded-xl text-center">
                                       <p className="text-[10px] font-black text-indigo-800 uppercase tracking-wider">Purchased Vouchers</p>
                                       <h5 className="text-lg font-black text-indigo-900 mt-1">{selectedConsumerUser.orderHistory.length} Deals</h5>
@@ -9284,35 +9253,7 @@ export default function App() {
                                       Administrator Quick Console
                                     </h4>
                                     
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                      {/* Points Awarder */}
-                                      <div className="space-y-1">
-                                        <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-wider">Award Bonus Points</label>
-                                        <div className="flex gap-2">
-                                          <input
-                                            type="number"
-                                            placeholder="+250"
-                                            id="pointsAwardInput"
-                                            className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent animate-none"
-                                          />
-                                          <button
-                                            onClick={() => {
-                                              const val = parseInt(document.getElementById('pointsAwardInput')?.value || '0');
-                                              if (val <= 0 || isNaN(val)) {
-                                                triggerToast('Please enter a valid points amount', 'error');
-                                                return;
-                                              }
-                                              setConsumerUsers(prev => prev.map(x => x.id === selectedConsumerUser.id ? { ...x, loyaltyPoints: x.loyaltyPoints + val } : x));
-                                              setSelectedConsumerUser(prev => ({ ...prev, loyaltyPoints: prev.loyaltyPoints + val }));
-                                              triggerToast(`Rewarded ${val} loyalty points to ${selectedConsumerUser.name} successfully`, 'success');
-                                              document.getElementById('pointsAwardInput').value = '';
-                                            }}
-                                            className="px-3 py-1.5 bg-[#047c1f] text-white hover:bg-[#047c1f]/90 text-xs font-bold rounded-lg border-none cursor-pointer"
-                                          >
-                                            Reward
-                                          </button>
-                                        </div>
-                                      </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                                       {/* Account Status Switch */}
                                       <div className="space-y-1">
