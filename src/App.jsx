@@ -257,8 +257,8 @@ const HERO_DEALS = [
   { id: 'd2', brand: 'JB Hi-Fi', logo: 'JB', logoBg: 'bg-[#FFD100] text-black', title: 'Samsung 65" QLED 4K Smart TV', code: 'JBHIFI20', originalPrice: 2499.00, salePrice: 1699.00, discount: '$800 OFF', saving: "Save $800", expiry: 1, expiryDays: 1, category: 'Tech', state: 'National', image: 'https://picsum.photos/seed/tv/800/500', description: 'Massive display markdown. Cinema quality for your living room.', featured: true, brandColor: "#1A1A2E", peopleGrabbed: 847, freeShipping: true },
   { id: 'd3', brand: 'The Iconic', logo: 'TI', logoBg: 'bg-black text-white', title: '15% Off Selected Autumn Denim & Jackets', code: 'ICONIC15', originalPrice: 150.00, salePrice: 127.50, discount: '15% OFF', expiry: 5, category: 'Fashion', state: 'National', image: 'https://picsum.photos/seed/fashion/400/200', description: 'Refresh your winter wardrobe with designer coats, boots, and classic rigid denim. Express shipping across Australia.' },
   { id: 'd4', brand: 'Chemist Warehouse', logo: 'CW', logoBg: 'bg-[#003B80] text-white', title: 'Swinburne Multivitamins Range 50% Off', code: 'CHEMMIE25', originalPrice: 40.00, salePrice: 20.00, discount: '50% OFF', expiry: 2, category: 'Health & Beauty', state: 'National', image: 'https://picsum.photos/seed/pharmacy/400/200', description: 'Top brand vitamins and wellness minerals at half price. Limit of 3 bottles per transaction.' },
-  { id: 'd5', brand: 'Menulog', logo: 'ML', logoBg: 'bg-[#FF8000] text-white', title: '$10 Off All Orders Over $40', code: 'MENULOG5', originalPrice: 45.00, salePrice: 35.00, discount: '$10 OFF', expiry: 0, category: 'F&D', state: 'NSW', image: 'https://picsum.photos/seed/fooddelivery/400/200', description: 'Save on your weekend takeaway! Valid for NSW users only. Minimum spend of $40 applies.' },
-  { id: 'd6', brand: 'Hungry Jack\'s', logo: 'HJ', logoBg: 'bg-[#E31837] text-white', title: 'Whopper Meal Voucher for $5.90', code: 'HJWHOPOP', originalPrice: 11.90, salePrice: 5.90, discount: '$6.00 OFF', expiry: 4, category: 'F&D', state: 'QLD', image: 'https://picsum.photos/seed/burger/400/200', description: 'Ripper value at Hungry Jack\'s. Get a classic flame-grilled Whopper, small chips, and drink for under six bucks.' },
+  { id: 'd5', brand: 'Menulog', logo: 'ML', logoBg: 'bg-[#FF8000] text-white', title: '$10 Off All Orders Over $40', code: 'MENULOG5', originalPrice: 45.00, salePrice: 35.00, discount: '$10 OFF', expiry: 0, category: 'F&B', state: 'NSW', image: 'https://picsum.photos/seed/fooddelivery/400/200', description: 'Save on your weekend takeaway! Valid for NSW users only. Minimum spend of $40 applies.' },
+  { id: 'd6', brand: 'Hungry Jack\'s', logo: 'HJ', logoBg: 'bg-[#E31837] text-white', title: 'Whopper Meal Voucher for $5.90', code: 'HJWHOPOP', originalPrice: 11.90, salePrice: 5.90, discount: '$6.00 OFF', expiry: 4, category: 'F&B', state: 'QLD', image: 'https://picsum.photos/seed/burger/400/200', description: 'Ripper value at Hungry Jack\'s. Get a classic flame-grilled Whopper, small chips, and drink for under six bucks.' },
   { id: 'd7', brand: 'Qantas', logo: 'QF', logoBg: 'bg-[#E31837] text-white', title: 'Return Flights Sydney to Bali — $299 pp', code: 'FLYQF50', originalPrice: 599.00, salePrice: 299.00, discount: '$300 OFF', saving: "Save $300", expiry: 3, expiryDays: 3, category: 'Travel', state: 'National', image: 'https://picsum.photos/seed/bali/800/500', description: 'Flash holiday deal. Pack your boardshorts, Bali is calling!', featured: true, brandColor: "#C62828", peopleGrabbed: 1203, freeShipping: false },
   { id: 'd8', brand: 'Bunnings Warehouse', logo: 'BW', logoBg: 'bg-[#002e5b] text-white', title: 'Ryobi ONE+ 18V Brushless Drill Kit', code: 'BUNNINGS30', originalPrice: 199.00, salePrice: 139.00, discount: '$60 OFF', expiry: 3, category: 'Home & Garden', state: 'National', image: 'https://picsum.photos/seed/hardware/400/200', description: 'Perfect tools upgrade for the weekend garage project. Drill, charger, and 4.0Ah battery included.' },
   { id: 'd9', brand: 'Coles', logo: 'CL', logoBg: 'bg-[#E31837] text-white', title: 'Half Price Coca-Cola 24-Packs', code: 'COLES24', originalPrice: 38.00, salePrice: 19.00, discount: '50% OFF', expiry: 2, category: 'Groceries', state: 'VIC', image: 'https://picsum.photos/seed/supermarket/400/200', description: 'Coles special buy: 24-packs of Coca-Cola cans at half price. Limit of 2 boxes per customer.' },
@@ -268,12 +268,12 @@ const HERO_DEALS = [
 
   // ROW 2: Retailers & Outdoors
   { id: 'd13', brand: 'OzTech Deals', logo: 'OT', logoBg: 'bg-slate-900 text-white', title: 'Sony WH-1000XM5 headphones discount', code: 'OZTECH15', originalPrice: 399.00, salePrice: 339.15, discount: '15% OFF', expiry: 3, category: 'Tech', state: 'NSW', image: 'https://picsum.photos/seed/electronics/400/200', description: "G'day from OzTech! Crackin' 15% discount on top-tier Sony ANC headphones." },
-  { id: 'd14', brand: 'Aussie Bites Bakery', logo: 'AB', logoBg: 'bg-amber-600 text-white', title: 'Fresh Gourmet Meat Pies (Dozen Pack)', code: 'AUSSIEBITES', originalPrice: 45.00, salePrice: 36.00, discount: '20% OFF', expiry: 1, category: 'F&D', state: 'VIC', image: 'https://picsum.photos/seed/fooddelivery/400/200', description: 'A dozen traditional meat pies, slow-cooked beef chuck filling. Perfect for family gatherings!' },
+  { id: 'd14', brand: 'Aussie Bites Bakery', logo: 'AB', logoBg: 'bg-amber-600 text-white', title: 'Fresh Gourmet Meat Pies (Dozen Pack)', code: 'AUSSIEBITES', originalPrice: 45.00, salePrice: 36.00, discount: '20% OFF', expiry: 1, category: 'F&B', state: 'VIC', image: 'https://picsum.photos/seed/fooddelivery/400/200', description: 'A dozen traditional meat pies, slow-cooked beef chuck filling. Perfect for family gatherings!' },
   { id: 'd15', brand: 'DownUnder Fashion', logo: 'DF', logoBg: 'bg-rose-700 text-white', title: 'RM Williams Craftsman Boots Markdown', code: 'DOWNUNDER', originalPrice: 450.00, salePrice: 399.00, discount: '$51 OFF', expiry: 10, category: 'Fashion', state: 'QLD', image: 'https://picsum.photos/seed/fashion/400/200', description: 'Rare savings on signature leather craftsman boots. Handcrafted in Australia.' },
   { id: 'd16', brand: 'David Jones', logo: 'DJ', logoBg: 'bg-black text-white', title: 'Designer Handbags Clearance — Save 25%', code: 'DJSAVE25', originalPrice: 400.00, salePrice: 300.00, discount: '25% OFF', expiry: 2, category: 'Fashion', state: 'NSW', image: 'https://picsum.photos/seed/shopping/400/200', description: 'Premium brands clearance in-store and online at David Jones. Selected styles only.' },
   { id: 'd17', brand: 'Myer', logo: 'MY', logoBg: 'bg-neutral-900 text-white', title: 'Sheridan Luxury Towel Sets 40% Off', code: 'MYERSHER', originalPrice: 120.00, salePrice: 72.00, discount: '40% OFF', expiry: 5, category: 'Home & Garden', state: 'National', image: 'https://picsum.photos/seed/furniture/400/200', description: 'Upgrade your bathroom linens with plush Sheridan cotton towel sets at Myer.' },
-  { id: 'd18', brand: 'Dan Murphy\'s', logo: 'DM', logoBg: 'bg-[#183018] text-white', title: 'Asahi Super Dry Beer Carton $10 Off', code: 'DANMURPHYS', originalPrice: 62.00, salePrice: 52.00, discount: '$10 OFF', expiry: 3, category: 'F&D', state: 'National', image: 'https://picsum.photos/seed/wine/400/200', description: 'Carton of 24 bottles of Asahi beer. Pick up in-store or select contactless drive-through.' },
-  { id: 'd19', brand: 'Uber Eats', logo: 'UE', logoBg: 'bg-black text-white', title: '$15 Off First 3 Local Grocery Deliveries', code: 'EATSGROCERY', originalPrice: 50.00, salePrice: 35.00, discount: '$15 OFF', expiry: 14, category: 'F&D', state: 'National', image: 'https://picsum.photos/seed/fooddelivery/400/200', description: 'Skip the supermarket queues and get your groceries delivered to your door in 30 mins.' },
+  { id: 'd18', brand: 'Dan Murphy\'s', logo: 'DM', logoBg: 'bg-[#183018] text-white', title: 'Asahi Super Dry Beer Carton $10 Off', code: 'DANMURPHYS', originalPrice: 62.00, salePrice: 52.00, discount: '$10 OFF', expiry: 3, category: 'F&B', state: 'National', image: 'https://picsum.photos/seed/wine/400/200', description: 'Carton of 24 bottles of Asahi beer. Pick up in-store or select contactless drive-through.' },
+  { id: 'd19', brand: 'Uber Eats', logo: 'UE', logoBg: 'bg-black text-white', title: '$15 Off First 3 Local Grocery Deliveries', code: 'EATSGROCERY', originalPrice: 50.00, salePrice: 35.00, discount: '$15 OFF', expiry: 14, category: 'F&B', state: 'National', image: 'https://picsum.photos/seed/fooddelivery/400/200', description: 'Skip the supermarket queues and get your groceries delivered to your door in 30 mins.' },
   { id: 'd20', brand: 'Officeworks', logo: 'OW', logoBg: 'bg-[#E31837] text-white', title: 'Logitech MX Master 3S Mouse 20% Off', code: 'OFFICE20', originalPrice: 169.00, salePrice: 135.00, discount: '20% OFF', expiry: 7, category: 'Tech', state: 'National', image: 'https://picsum.photos/seed/electronics/400/200', description: 'Increase your workstation productivity. Ergonomic design with silent clicks.' },
   { id: 'd21', brand: 'Rebel Sport', logo: 'RS', logoBg: 'bg-black text-white', title: 'Under Armour Running Shoes 30% Off', code: 'REBEL30', originalPrice: 180.00, salePrice: 126.00, discount: '30% OFF', expiry: 4, category: 'Sports', state: 'WA', image: 'https://picsum.photos/seed/clothing/400/200', description: 'High-comfort runners for training and road runs. Available online and in WA stores.' },
   { id: 'd22', brand: 'BCF', logo: 'BC', logoBg: 'bg-[#004B87] text-white', title: 'Wanderer Double Dome Tent 40% Off', code: 'BCFTENT', originalPrice: 250.00, salePrice: 150.00, discount: '40% OFF', expiry: 8, category: 'Outdoors', state: 'QLD', image: 'https://picsum.photos/seed/hardware/400/200', description: 'Perfect camping tent for family getaways. High-grade weather resistance.' },
@@ -285,14 +285,14 @@ const HERO_DEALS = [
 const INITIAL_COMMUNITY_DEALS = [
   { id: 'cd1', user: 'OzBargainKing', avatar: 'OB', userColor: 'bg-green-700', title: 'Woolies half price chips this week - Kettle and Red Rock Deli', store: 'Woolworths', discount: '50%', upvotes: 94, comments: [{ user: 'BlakeyB', comment: 'Grabbed 4 packets from my local Woolies in St Kilda, heaps good!' }], time: '2 hours ago', category: 'Groceries', state: 'NSW', body: 'Red Rock Deli and Kettle chips are half price this week at Woolies. Checked my local at St Kilda and they have plenty of stock. Great time to stock up for the weekend!' },
   { id: 'cd2', user: 'NSWTechGuy', avatar: 'NT', userColor: 'bg-blue-500', title: 'JB Hi-Fi Samsung TV $400 off + extra coupon code active', store: 'JB Hi-Fi', discount: '$400 OFF', upvotes: 68, comments: [], time: '4 hours ago', category: 'Tech', state: 'NSW', body: 'Samsung 65" 4K Smart TV is marked down by $400. Use coupon code JBEXTRA50 at checkout for an additional $50 off. Click and collect is free.' },
-  { id: 'cd3', user: 'MelbFoodie', avatar: 'MF', userColor: 'bg-amber-600', title: 'Guzman y Gomez BOGO burrito Tuesday - Brisbane stores', store: 'Guzman y Gomez', discount: 'BOGO', upvotes: 112, comments: [], time: '5 hours ago', category: 'F&D', state: 'QLD', body: 'Guzman y Gomez BOGO Burritos are back for Tuesday only at selected Brisbane outlets. Make sure to scan your GYG app to claim the buy-one-get-one-free offer.' },
+  { id: 'cd3', user: 'MelbFoodie', avatar: 'MF', userColor: 'bg-amber-600', title: 'Guzman y Gomez BOGO burrito Tuesday - Brisbane stores', store: 'Guzman y Gomez', discount: 'BOGO', upvotes: 112, comments: [], time: '5 hours ago', category: 'F&B', state: 'QLD', body: 'Guzman y Gomez BOGO Burritos are back for Tuesday only at selected Brisbane outlets. Make sure to scan your GYG app to claim the buy-one-get-one-free offer.' },
   { id: 'cd4', user: 'TashFromPerth', avatar: 'TP', userColor: 'bg-purple-500', title: 'Chemist Warehouse 40% off Swisse vitamins and protein powders', store: 'Chemist Warehouse', discount: '40% OFF', upvotes: 49, comments: [], time: '1 day ago', category: 'Health & Beauty', state: 'WA', body: 'Huge range of Swisse vitamins, supplements, and protein powders are 40% off. Online order with free shipping over $50, or click and collect at Chemist Warehouse.' },
   { id: 'cd5', user: 'BrisbaneBargains', avatar: 'BB', userColor: 'bg-rose-500', title: 'Flight Centre $200 off Bali travel packages with code FLYQF50', store: 'Flight Centre', discount: '$200 OFF', upvotes: 38, comments: [], time: '1 day ago', category: 'Travel', state: 'QLD', body: 'Book Bali packages today with Flight Centre and get $200 off using coupon code FLYQF50. Valid for flights and accommodation booked together before the end of the month.' },
   { id: 'cd6', user: 'PerthSaver', avatar: 'PS', userColor: 'bg-teal-500', title: 'Bunnings garden tools & potting mix clearance - local warehouses', store: 'Bunnings', discount: 'Clearance', upvotes: 56, comments: [], time: '2 days ago', category: 'Home & Garden', state: 'WA', body: 'Spotted clearance prices on garden hand tools, soil mix, and select outdoor pots at Bunnings. Stock varies by store but definitely worth a look if you are near one.' },
   { id: 'cd7', user: 'AdelaideDealz', avatar: 'AD', userColor: 'bg-indigo-500', title: 'Woolworths 4c/L fuel voucher discount when spending $30', store: 'Woolworths', discount: '4c / Litre', upvotes: 27, comments: [], time: '2 days ago', category: 'Auto', state: 'SA', body: 'Get a 4c per litre fuel voucher when you spend $30 or more in a single transaction at Woolworths. Can be redeemed at participating Ampol or EG Ampol service stations.' },
   { id: 'cd8', user: 'AussieShopaholic', avatar: 'AS', userColor: 'bg-pink-500', title: 'Bonds underwear pack 40% discount at Myer online store', store: 'Myer', discount: '40% OFF', upvotes: 82, comments: [], time: '3 days ago', category: 'Fashion', state: 'VIC', body: 'Bonds mens and womens underwear packs are discounted by 40% on Myer online. Stackable with free shipping for Myer One members on orders over $99.' },
   { id: 'cd9', user: 'QLDMum', avatar: 'QM', userColor: 'bg-orange-500', title: 'Rip Curl wetsuits and rashies clearance sale at BCF QLD', store: 'BCF', discount: '30% OFF', upvotes: 19, comments: [], time: '3 days ago', category: 'Outdoors', state: 'QLD', body: 'Rip Curl springsuits, steamers, and rash vests are cleared out at BCF Queensland stores. Savings up to 30% off original retail price. Check online stock first.' },
-  { id: 'cd10', user: 'VICFashionista', avatar: 'VF', userColor: 'bg-purple-600', title: 'McDonalds loose change menu update - $2 cheeseburgers', store: 'McDonald\'s', discount: '$2 Cheeseburger', upvotes: 41, comments: [], time: '4 days ago', category: 'F&D', state: 'VIC', body: 'McDonalds has updated their loose change menu items. Cheeseburgers are back to $2 on the app for a limited time. Good cheap snack option.' },
+  { id: 'cd10', user: 'VICFashionista', avatar: 'VF', userColor: 'bg-purple-600', title: 'McDonalds loose change menu update - $2 cheeseburgers', store: 'McDonald\'s', discount: '$2 Cheeseburger', upvotes: 41, comments: [], time: '4 days ago', category: 'F&B', state: 'VIC', body: 'McDonalds has updated their loose change menu items. Cheeseburgers are back to $2 on the app for a limited time. Good cheap snack option.' },
   { id: 'cd11', user: 'SAGardenGuru', avatar: 'SG', userColor: 'bg-emerald-600', title: 'Officeworks student discount on iPads & MacBooks active', store: 'Officeworks', discount: '10% OFF', upvotes: 33, comments: [], time: '4 days ago', category: 'Tech', state: 'SA', body: 'Officeworks has launched their Back to Uni deals. iPads, MacBooks, and select student tech accessories are discounted. Show your student card or sign up online.' },
   { id: 'cd12', user: 'WASurfer', avatar: 'WS', userColor: 'bg-sky-600', title: 'Qantas reward seats Sydney to Queenstown winter holidays', store: 'Qantas', discount: 'Reward seats', upvotes: 75, comments: [], time: '5 days ago', category: 'Travel', state: 'TAS', body: 'Qantas has opened up reward seats for Sydney to Queenstown route for winter holidays. Grab them before they are gone, great value for points!' }
 ];
@@ -373,7 +373,7 @@ const TICKER_BRAND_COLORS = {
 };
 
 const CATEGORY_NAMES = [
-  'Tech', 'Auto', 'Fashion', 'F&D', 'Groceries',
+  'Tech', 'Auto', 'Fashion', 'F&B', 'Groceries',
   'Health & Beauty', 'Home & Garden', 'Outdoors', 'Pets',
   'Travel', 'Insurance', 'Finance', 'Rental', 'Sports'
 ];
@@ -382,7 +382,7 @@ const COMMUNITY_CATEGORY_EMOJIS = {
   'Tech': '💻',
   'Auto': '🚗',
   'Fashion': '👗',
-  'F&D': '🍔',
+  'F&B': '🍔',
   'Groceries': '🛒',
   'Health & Beauty': '💊',
   'Home & Garden': '🏠',
@@ -495,7 +495,7 @@ const AUSTRALIAN_SUBURBS = [
 ];
 
 const CATEGORY_BORDER_COLORS = {
-  'F&D': '#D84315',
+  'F&B': '#D84315',
   'Tech': '#1565C0',
   'Fashion': '#AD1457',
   'Travel': '#00695C',
@@ -970,7 +970,7 @@ const TickerCountdown = ({ expiryTs }) => {
 
 const CATEGORY_EMOJIS = {
   'All Categories': '🏷️',
-  'F&D': '🍔',
+  'F&B': '🍔',
   'Tech': '💻',
   'Fashion': '👗',
   'Travel': '✈️',
@@ -989,7 +989,7 @@ const CATEGORY_EMOJIS = {
 const categoryOptions = [
   '🏷️ All Categories',
   'divider',
-  '🍔 F&D',
+  '🍔 F&B',
   '💻 Tech',
   '👗 Fashion',
   '✈️ Travel',
@@ -1540,7 +1540,7 @@ export default function App() {
       color: 'bg-amber-600',
       location: 'Melbourne, VIC',
       dealsCount: 6,
-      category: 'F&D',
+      category: 'F&B',
       verified: true,
     },
     {
@@ -1700,7 +1700,7 @@ export default function App() {
 
   // Category management
   const [adminCategories, setAdminCategories] = useState([
-    { id: 'ac2', label: 'F&D', value: 'F&D', emoji: '🍔', active: true, dealCount: 6 },
+    { id: 'ac2', label: 'F&B', value: 'F&B', emoji: '🍔', active: true, dealCount: 6 },
     { id: 'ac3', label: 'Tech', value: 'Tech', emoji: '💻', active: true, dealCount: 5 },
     { id: 'ac4', label: 'Fashion', value: 'Fashion', emoji: '👗', active: true, dealCount: 4 },
     { id: 'ac5', label: 'Travel', value: 'Travel', emoji: '✈️', active: true, dealCount: 3 },
@@ -1937,7 +1937,7 @@ export default function App() {
   const allProducts = useMemo(() => {
     return Object.values(STORES).flatMap(store => {
       let category = 'Tech';
-      if (store.id === 'aussie-bites') category = 'F&D';
+      if (store.id === 'aussie-bites') category = 'F&B';
       if (store.id === 'downunder-fashion') category = 'Fashion';
 
       return store.products.map(p => ({
@@ -3909,10 +3909,10 @@ export default function App() {
                       <img
                         src={activeFeatured.image}
                         alt={activeFeatured.title}
-                        className="w-full h-full object-cover opacity-60 transition-transform duration-1000 group-hover:scale-105"
+                        className="w-full h-full object-cover opacity-95 transition-transform duration-1000 group-hover:scale-105"
                       />
-                      {/* Dark gradient overlay for text contrast */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                      {/* Responsive dark gradient overlay for text contrast and maximum image visibility */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-transparent md:bg-gradient-to-r md:from-black/95 md:via-black/35 md:to-transparent z-10"></div>
                     </div>
 
                     {/* In-image prev/next controls */}
@@ -3932,11 +3932,11 @@ export default function App() {
                     </div>
 
                     {/* 2. Content Overlay with Blur Bar */}
-                    <div className="relative z-10 p-4 sm:p-8 md:p-10 w-full">
+                    <div className="relative z-20 p-4 sm:p-6 md:p-8 w-full flex justify-start">
 
-                      {/* Glassmorphic Blur Bar wrapper */}
+                      {/* Glassmorphic Blur Bar wrapper - max width capped on desktop to reduce empty space & expose background image */}
                       <div
-                        className="w-full backdrop-blur-md border rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-7 shadow-2xl relative transition-all"
+                        className="w-full md:max-w-[620px] backdrop-blur-md border rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-5 shadow-2xl relative transition-all mr-auto"
                         style={{
                           backgroundColor: activeFeatured.bannerBg || 'rgba(255, 255, 255, 0.1)',
                           borderColor: activeFeatured.bannerBorder || 'rgba(255, 255, 255, 0.2)'
@@ -3960,7 +3960,7 @@ export default function App() {
                         <div className="w-full">
 
                           {/* Main Text & CTAs */}
-                          <div className="space-y-3 sm:space-y-4">
+                          <div className="space-y-2.5 sm:space-y-3.5">
 
                             {/* Top Row: Badges & Expiry countdown */}
                             <div className="flex flex-wrap items-center gap-2 select-none">
@@ -3976,13 +3976,13 @@ export default function App() {
                             {/* Title & Description */}
                             <div style={{ fontFamily: activeFeatured.fontFamily || 'inherit' }}>
                               <h2
-                                className="font-black text-lg sm:text-xl md:text-2xl lg:text-[28px] mb-2 leading-tight tracking-tight drop-shadow-md transition-all"
+                                className="font-black text-lg sm:text-xl md:text-2xl lg:text-[28px] mb-1.5 leading-tight tracking-tight drop-shadow-md transition-all"
                                 style={{ color: activeFeatured.textColor || '#ffffff' }}
                               >
                                 {activeFeatured.title}
                               </h2>
                               <p
-                                className="text-xs sm:text-sm mb-4 max-w-2xl font-medium drop-shadow leading-relaxed transition-all"
+                                className="text-xs sm:text-sm mb-3 max-w-2xl font-medium drop-shadow leading-relaxed transition-all"
                                 style={{ color: activeFeatured.textColor ? `${activeFeatured.textColor}dd` : 'rgba(255, 255, 255, 0.8)' }}
                               >
                                 {activeFeatured.description}
@@ -4144,150 +4144,19 @@ export default function App() {
                 ========================================== */}
                 <div id="deals-grid-section" className="space-y-6 scroll-mt-[160px]">
 
-                  {/* Header details */}
-                  <div className="flex flex-col gap-3 border-b border-[#e8e8e8] 
-                    pb-4" style={{ marginBottom: '12px' }}>
-
-                    {/* Top row: title + count */}
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-2xl font-display font-extrabold 
-                        text-[#0d0d0d]">🔥 Trending Deals</h2>
-                      <span className="text-[13px] text-[#047c1f] font-semibold">
+                  {/* Unified Trending Deals Header & Filter Bar */}
+                  <div className="filter-bar-container bg-white border border-[#e8e8e8] rounded-[16px] p-3.5 sm:p-4 flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] mb-5 select-none relative z-50">
+                    
+                    {/* Left: Title & Count */}
+                    <div className="flex items-center gap-3 shrink-0">
+                      <h2 className="text-xl sm:text-2xl font-display font-extrabold text-[#0d0d0d] tracking-tight">🔥 Trending Deals</h2>
+                      <span className="bg-[#e6f2e8] text-[#047c1f] text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
                         {filteredDeals.length} deals available
                       </span>
                     </div>
 
-                    {/* Bottom row: postcode/suburb search — right aligned */}
-                    <div className="hidden sm:flex items-center justify-end gap-2">
-
-                      {/* Active suburb badge */}
-                      {selectedSuburb && (
-                        <div className="flex items-center gap-1.5 bg-[#e6f2e8] 
-                          border border-[#047c1f]/30 text-[#047c1f] 
-                          text-[12px] font-bold px-3 py-1.5 rounded-full">
-                          <MapPin className="w-3.5 h-3.5 text-[#047c1f]" />
-                          <span>{selectedSuburb.suburb}</span>
-                          <span className="font-mono text-[11px] 
-                            text-[#047c1f]/70">{selectedSuburb.postcode}</span>
-                          <button
-                            onClick={() => {
-                              setSelectedSuburb(null);
-                              setPostcodeInput('');
-                            }}
-                            className="ml-0.5 hover:text-red-500 
-                              cursor-pointer font-black"
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      )}
-
-                      {/* Postcode search input with live dropdown */}
-                      <div className="relative" ref={suburbSearchRef}>
-                        <div className="flex items-center gap-2 bg-white 
-                          border border-[#e8e8e8] hover:border-[#047c1f] 
-                          rounded-full px-3 py-1.5 transition-colors 
-                          focus-within:border-[#047c1f] 
-                          focus-within:ring-2 focus-within:ring-[#047c1f]/20">
-                          <MapPin className="w-3.5 h-3.5 text-[#047c1f] shrink-0" />
-                          <input
-                            type="text"
-                            placeholder="Filter by postcode or suburb..."
-                            value={postcodeInput}
-                            onChange={(e) => setPostcodeInput(e.target.value)}
-                            className="bg-transparent border-none outline-none 
-                              text-[12px] font-medium text-slate-700 
-                              placeholder-slate-400 w-[200px]"
-                            autoComplete="off"
-                          />
-                          {postcodeInput && (
-                            <button
-                              onClick={() => setPostcodeInput('')}
-                              className="text-slate-400 hover:text-slate-600 
-                                cursor-pointer"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
-                          )}
-                        </div>
-
-                        {/* Use PortalDropdown so it renders above all cards */}
-                        <PortalDropdown
-                          anchorRef={suburbSearchRef}
-                          isOpen={postcodeInput.length >= 2}
-                          alignRight={true}
-                        >
-                          <div className="min-w-[240px]">
-                            {(() => {
-                              const q = postcodeInput.toLowerCase();
-                              const matches = AUSTRALIAN_SUBURBS.filter(s =>
-                                s.postcode.startsWith(q) ||
-                                s.suburb.toLowerCase().includes(q)
-                              ).slice(0, 6);
-
-                              if (matches.length === 0) return (
-                                <div className="px-3 py-2 text-[11px] 
-                                  text-slate-400 font-medium">
-                                  No suburbs found for "{postcodeInput}"
-                                </div>
-                              );
-
-                              return matches.map(s => (
-                                <div
-                                  key={s.postcode}
-                                  onClick={() => {
-                                    setSelectedSuburb(s);
-                                    setSelectedState(s.state);
-                                    setStateFilter(s.state);
-                                    setSelectedCity(`${s.suburb}, ${s.state}`);
-                                    setDetectedLocation(
-                                      `${s.suburb} ${s.postcode}`
-                                    );
-                                    setPostcodeInput('');
-                                    triggerToast(
-                                      `📍 Filtered: ${s.suburb} (${s.postcode})`
-                                    );
-                                  }}
-                                  className="flex items-center justify-between 
-                                    px-3 py-2 rounded-[6px] cursor-pointer 
-                                    hover:bg-[#f0faf2] transition-colors group"
-                                >
-                                  <div className="flex items-center gap-2">
-                                    <MapPin className="w-3 h-3 text-slate-400 
-                                      group-hover:text-[#047c1f] shrink-0" />
-                                    <div>
-                                      <span className="text-[12px] font-semibold 
-                                        text-slate-800 
-                                        group-hover:text-[#047c1f]">
-                                        {s.suburb}
-                                      </span>
-                                      <span className="text-[11px] 
-                                        text-slate-400 ml-1">
-                                        {s.state}, Australia
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <span className="text-[10px] font-mono 
-                                    font-bold text-slate-500 bg-slate-100 
-                                    px-1.5 py-0.5 rounded 
-                                    group-hover:bg-[#047c1f]/10 
-                                    group-hover:text-[#047c1f]">
-                                    {s.postcode}
-                                  </span>
-                                </div>
-                              ));
-                            })()}
-                          </div>
-                        </PortalDropdown>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Redesigned Filter Bar */}
-                  <div className="filter-bar-container bg-white border border-[#e8e8e8] rounded-[12px] p-3 md:py-3 md:px-4 flex flex-col md:flex-row justify-end items-stretch md:items-center gap-4 shadow-[0_2px_8px_rgba(0,0,0,0.06)] mb-5 select-none relative z-50">
-
-                    {/* RIGHT SIDE — DEAL FILTERS */}
-                    <div className="flex-1 relative overflow-hidden md:overflow-visible">
+                    {/* Right: Filters scroll container */}
+                    <div className="flex-1 relative overflow-hidden md:overflow-visible flex justify-end">
                       {/* Mobile horizontal scroll end gradient fade indicator */}
                       <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none z-10 md:hidden"></div>
 
@@ -4434,7 +4303,6 @@ export default function App() {
 
                       </div>
                     </div>
-
                   </div>
 
                   {/* ACTIVE FILTER CHIPS ROW */}
@@ -5111,7 +4979,7 @@ export default function App() {
                         <div className="space-y-2 text-left">
                           <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Category</label>
                           <div className="flex flex-col gap-1.5">
-                            {['All', 'Tech', 'F&D', 'Fashion', 'Insurance', 'Finance', 'Rental', 'Sports'].map(cat => (
+                            {['All', 'Tech', 'F&B', 'Fashion', 'Insurance', 'Finance', 'Rental', 'Sports'].map(cat => (
                               <button
                                 key={`cat-filt-${cat}`}
                                 onClick={() => {
@@ -5249,7 +5117,7 @@ export default function App() {
                             // Category-based premium HSL gradient styles
                             let gradientStyle = 'from-violet-500/10 to-indigo-600/10 text-indigo-600';
                             let emoji = '💻';
-                            if (p.category === 'F&D') {
+                            if (p.category === 'F&B') {
                               gradientStyle = 'from-amber-500/10 to-orange-600/10 text-orange-600';
                               emoji = '🍔';
                             } else if (p.category === 'Fashion') {
@@ -14264,7 +14132,7 @@ export default function App() {
                     <option value="Groceries">Groceries</option>
                     <option value="Tech">Tech</option>
                     <option value="Fashion">Fashion</option>
-                    <option value="F&D">Food & Drink</option>
+                    <option value="F&B">Food & Drink</option>
                     <option value="Travel">Travel</option>
                     <option value="Home">Home & Garden</option>
                     <option value="Sports">Sports</option>
@@ -14699,7 +14567,7 @@ export default function App() {
               border border-[#e8e8e8] 
               shadow-2xl flex overflow-hidden 
               animate-in zoom-in-95 duration-300
-              w-full max-w-[920px] h-[82vh] sm:h-[660px] 
+              w-full max-w-[960px] h-[82vh] sm:h-[660px] 
               max-h-[calc(100vh-32px)]"
             onClick={(e) => e.stopPropagation()}
           >
@@ -15426,30 +15294,56 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Horizontal Scrollable Categories Line */}
-                  <div className="bg-white border-b border-[#e8e8e8] px-3 sm:px-4 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0 select-none">
-                    {CATEGORY_NAMES.map((c) => {
-                      const emoji = COMMUNITY_CATEGORY_EMOJIS[c] || '🏷️';
-                      const isSelected = communityCategoryFilter === c;
-                      return (
-                        <button
-                          key={c}
-                          onClick={() => setCommunityCategoryFilter(isSelected ? 'All' : c)}
-                          className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all duration-150 cursor-pointer border flex items-center gap-1.5 whitespace-nowrap ${isSelected
-                            ? 'bg-[#047c1f] border-[#047c1f] text-white shadow-sm font-extrabold'
-                            : 'bg-slate-50 hover:bg-slate-105 border-slate-200 text-slate-600'
-                            }`}
-                        >
-                          <span className="text-[12px]">{emoji}</span>
-                          <span>{c}</span>
-                          {isSelected && (
-                            <span className="ml-0.5 hover:text-white/80 p-0.5 rounded-full bg-white/20">
-                              <X className="w-2.5 h-2.5" />
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
+                  {/* Two-Line Categories Filter */}
+                  <div className="bg-white border-b border-[#e8e8e8] px-3 sm:px-4 py-2 flex flex-col gap-1.5 shrink-0 select-none">
+                    <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5 flex-nowrap">
+                      {CATEGORY_NAMES.slice(0, Math.ceil(CATEGORY_NAMES.length / 2)).map((c) => {
+                        const emoji = COMMUNITY_CATEGORY_EMOJIS[c] || '🏷️';
+                        const isSelected = communityCategoryFilter === c;
+                        return (
+                          <button
+                            key={c}
+                            onClick={() => setCommunityCategoryFilter(isSelected ? 'All' : c)}
+                            className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all duration-150 cursor-pointer border flex items-center gap-1.5 whitespace-nowrap ${isSelected
+                              ? 'bg-[#047c1f] border-[#047c1f] text-white shadow-sm font-extrabold'
+                              : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                              }`}
+                          >
+                            <span className="text-[12px]">{emoji}</span>
+                            <span>{c}</span>
+                            {isSelected && (
+                              <span className="ml-0.5 hover:text-white/80 p-0.5 rounded-full bg-white/20">
+                                <X className="w-2.5 h-2.5" />
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5 flex-nowrap">
+                      {CATEGORY_NAMES.slice(Math.ceil(CATEGORY_NAMES.length / 2)).map((c) => {
+                        const emoji = COMMUNITY_CATEGORY_EMOJIS[c] || '🏷️';
+                        const isSelected = communityCategoryFilter === c;
+                        return (
+                          <button
+                            key={c}
+                            onClick={() => setCommunityCategoryFilter(isSelected ? 'All' : c)}
+                            className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all duration-150 cursor-pointer border flex items-center gap-1.5 whitespace-nowrap ${isSelected
+                              ? 'bg-[#047c1f] border-[#047c1f] text-white shadow-sm font-extrabold'
+                              : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
+                              }`}
+                          >
+                            <span className="text-[12px]">{emoji}</span>
+                            <span>{c}</span>
+                            {isSelected && (
+                              <span className="ml-0.5 hover:text-white/80 p-0.5 rounded-full bg-white/20">
+                                <X className="w-2.5 h-2.5" />
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
 
                   {/* Filter status row */}
@@ -15511,26 +15405,26 @@ export default function App() {
                         return (
                           <div
                             key={post.id}
-                            className="bg-white rounded-2xl 
+                            className="bg-white rounded-xl 
                             border border-[#e8e8e8] 
                             hover:border-[#047c1f]/35 
                             hover:shadow-[0_8px_30px_rgba(0,0,0,0.05)]
                             transition-all duration-300 
-                            overflow-hidden p-3.5 sm:p-4 cursor-pointer"
+                            overflow-hidden p-2.5 sm:p-3 cursor-pointer"
                             onClick={() => setExpandedPost(post)}
                             style={{
                               borderLeft: post.upvotes > 50
-                                ? '3.5px solid #fdc800'
-                                : '3.5px solid transparent',
+                                ? '3px solid #fdc800'
+                                : '3px solid transparent',
                             }}
                           >
-                            <div className="flex gap-4 items-start">
+                            <div className="flex gap-3 items-start">
                               {/* ── LEFT: CONTENT ── */}
-                              <div className="flex-1 min-w-0 space-y-2.5">
+                              <div className="flex-1 min-w-0 space-y-1.5">
                                 {/* Meta row */}
                                 <div className="flex items-center gap-2 
                                 text-[10px] sm:text-[11px] text-slate-400 font-bold 
-                                mb-1 flex-wrap">
+                                mb-0.5 flex-wrap">
                                   <div className={`w-5.5 h-5.5 rounded-full 
                                   ${post.userColor} text-white font-bold 
                                   text-[9px] flex items-center 
@@ -15558,20 +15452,20 @@ export default function App() {
                                   )}
                                 </div>
                                 {/* Title & snippet */}
-                                <div className="space-y-1">
-                                  <h4 className="text-[14px] sm:text-[15px] font-extrabold 
+                                <div className="space-y-0.5">
+                                  <h4 className="text-[12px] sm:text-[13px] font-extrabold 
                                   text-slate-900 leading-snug 
                                   hover:text-[#047c1f] transition-colors">
                                     {post.title}
                                   </h4>
                                   {post.body && (
-                                    <p className="text-[11px] sm:text-[12px] text-slate-500 line-clamp-2 leading-relaxed font-medium">
+                                    <p className="text-[10px] sm:text-[11px] text-slate-500 line-clamp-1 leading-relaxed font-medium">
                                       {post.body}
                                     </p>
                                   )}
                                 </div>
                                 {/* Store, discount and category badges + Actions row */}
-                                <div className="flex items-center justify-between gap-3 pt-1 mt-2.5 flex-wrap w-full">
+                                <div className="flex items-center justify-between gap-3 pt-0.5 mt-1.5 flex-wrap w-full">
                                   {/* Badges (Left) */}
                                   <div className="flex gap-1.5 flex-wrap">
                                     {post.store && (
@@ -15616,7 +15510,7 @@ export default function App() {
                                         e.stopPropagation();
                                         setExpandedPost(post);
                                       }}
-                                      className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200/60 text-[11px] text-slate-555 hover:text-[#047c1f] hover:border-[#047c1f]/20 hover:bg-[#e6f2e8]/20 transition-all font-extrabold cursor-pointer h-[26px]"
+                                      className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200/60 text-[11px] text-slate-555 hover:text-[#047c1f]/20 hover:border-[#047c1f]/20 hover:bg-[#e6f2e8]/20 transition-all font-extrabold cursor-pointer h-[26px]"
                                     >
                                       <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
                                       <span className="ml-0.5">{post.comments.length}</span>
@@ -15641,15 +15535,15 @@ export default function App() {
 
                               {/* ── RIGHT: IMAGE THUMBNAIL (if exists) ── */}
                               {getCommunityPostImage(post) && (
-                                <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden relative border border-slate-150 shadow-sm bg-slate-50">
+                                <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-xl overflow-hidden relative border border-slate-150 shadow-sm bg-slate-50">
                                   <img
                                     src={getCommunityPostImage(post)}
                                     alt={post.title}
                                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                   />
                                   {/* Category overlay pill */}
-                                  <div className="absolute bottom-1 right-1">
-                                    <span className="text-[8px] font-black bg-black/60 text-white px-1.5 py-0.5 rounded-full backdrop-blur-sm">
+                                  <div className="absolute bottom-0.5 right-0.5">
+                                    <span className="text-[7px] font-black bg-black/60 text-white px-1 py-0.25 rounded-full backdrop-blur-sm">
                                       {post.category}
                                     </span>
                                   </div>
@@ -15902,7 +15796,7 @@ export default function App() {
                         onChange={e => setEditingBannerSlide(prev => ({ ...prev, category: e.target.value }))}
                         className="w-full bg-white border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer animate-none"
                       >
-                        {['Tech', 'Home', 'Groceries', 'Travel', 'Fashion', 'F&D', 'Outdoors'].map(cat => (
+                        {['Tech', 'Home', 'Groceries', 'Travel', 'Fashion', 'F&B', 'Outdoors'].map(cat => (
                           <option key={cat} value={cat}>{cat}</option>
                         ))}
                       </select>
